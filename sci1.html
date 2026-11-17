@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="חלק א׳ · מדעי יסוד">
+<title>כימיה, דם, נשימה ועצבים · מדעי יסוד</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&family=Miriam+Libre:wght@400;700&family=Suez+One&display=swap">
+<style>
+/* Layout: one reading column (~68ch) with wide breakouts for tables and figures; a colour-tape rail
+   (one colour zone per chapter) runs down the inline-end edge as navigation, and becomes a thin
+   sticky strip on phones. Highlight system: lime marker = must know, magenta = red flag, slate
+   chart-paper in Miriam Libre = hospital-level knowledge, teal = what the paramedic does in the field. */
+:root {
+  --paper: #F6F8FA;
+  --card: #FFFFFF;
+  --ink: #142030;
+  --ink-2: #4B5969;
+  --ink-3: #7A8796;
+  --rule: #D8DFE7;
+  --hl: #E4FF3F;
+  --hl-ink: #182000;
+  --alarm: #D90F64;
+  --alarm-bg: #FFE6F0;
+  --field: #0A7A72;
+  --field-bg: #E1F3F1;
+  --hosp: #56688A;
+  --hosp-bg: #EEF1F7;
+  --hosp-grid: rgba(86,104,138,.10);
+  --z-grey: #8E959C;
+  --z-pink: #F08DBA;
+  --z-red: #E0312C;
+  --z-purple: #8A4FBF;
+  --z-yellow: #F2C200;
+  --z-white: #E6EAEE;
+  --z-blue: #2C78DD;
+  --z-orange: #F0832A;
+  --z-green: #2BA14D;
+  --zone: var(--z-grey);
+
+  --f-display: "Suez One", "Frank Ruhl Libre", serif;
+  --f-body: "Frank Ruhl Libre", "David", "Times New Roman", serif;
+  --f-ui: "IBM Plex Sans Hebrew", "Segoe UI", Arial, sans-serif;
+  --f-hosp: "Miriam Libre", "IBM Plex Sans Hebrew", Arial, sans-serif;
+
+  --t-xs: .78rem; --t-sm: .9rem; --t-base: 1.1rem; --t-md: 1.3rem; --t-lg: 1.65rem; --t-xl: 2.3rem; --t-xxl: clamp(2.6rem, 7vw, 4.6rem);
+  --col: 44rem;
+  --wide: 62rem;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0D131A; --card: #141C26; --ink: #E5ECF4; --ink-2: #A6B3C3; --ink-3: #7D8B9C; --rule: #283443;
+  --alarm: #FF4C93; --alarm-bg: #3A1126; --field: #45CFC2; --field-bg: #0E2A29;
+  --hosp: #9DACCB; --hosp-bg: #18202E; --hosp-grid: rgba(157,172,203,.08);
+  --z-white: #D9DFE6; --z-grey: #9AA2AA; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #0D131A; --card: #141C26; --ink: #E5ECF4; --ink-2: #A6B3C3; --ink-3: #7D8B9C; --rule: #283443;
+  --alarm: #FF4C93; --alarm-bg: #3A1126; --field: #45CFC2; --field-bg: #0E2A29;
+  --hosp: #9DACCB; --hosp-bg: #18202E; --hosp-grid: rgba(157,172,203,.08);
+  --z-white: #D9DFE6; --z-grey: #9AA2AA; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 1.5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--f-body); font-size: var(--t-base); line-height: 1.75;
+  direction: rtl; text-align: start;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+[data-zone="grey"]{--zone:var(--z-grey)} [data-zone="pink"]{--zone:var(--z-pink)} [data-zone="red"]{--zone:var(--z-red)}
+[data-zone="purple"]{--zone:var(--z-purple)} [data-zone="yellow"]{--zone:var(--z-yellow)} [data-zone="white"]{--zone:var(--z-white)}
+[data-zone="blue"]{--zone:var(--z-blue)} [data-zone="orange"]{--zone:var(--z-orange)} [data-zone="green"]{--zone:var(--z-green)}
+
+.page { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+@media (min-width: 1100px) { .page { padding-left: max(96px, env(safe-area-inset-left, 0px)); } }
+.flow { max-width: var(--col); margin-inline: auto; }
+.flow > * + * { margin-block-start: 1em; }
+.flow > .wide, .flow > figure, .flow > .tbl-wrap, .flow > .compare, .flow > .doses {
+  --bw: min(var(--wide), calc(100vw - 200px));
+  width: var(--bw); max-width: none; margin-inline: calc((100% - var(--bw)) / 2);
+}
+@media (max-width: 1000px) { .flow > .wide, .flow > figure, .flow > .tbl-wrap, .flow > .compare, .flow > .doses { width: 100%; margin-inline: 0; } }
+
+a { color: inherit; text-decoration-color: var(--zone); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--field); outline-offset: 2px; border-radius: 4px; }
+h2, h3, h4 { text-wrap: balance; line-height: 1.25; }
+h3 { font-family: var(--f-ui); font-weight: 700; font-size: var(--t-lg); margin-block-start: 2.4em; letter-spacing: -.01em; }
+h3::before { content: ""; display: inline-block; width: .55em; height: .55em; background: var(--zone); border-radius: 2px; margin-inline-end: .45em; vertical-align: .12em; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
+h4 { font-family: var(--f-ui); font-weight: 600; font-size: var(--t-md); margin-block-start: 1.8em; color: var(--ink); }
+p, li { text-wrap: pretty; }
+ul, ol { padding-inline-start: 1.3em; }
+li + li { margin-block-start: .3em; }
+li::marker { color: var(--ink-3); }
+strong, b { font-weight: 700; }
+abbr, .en { font-family: var(--f-ui); font-size: .92em; direction: ltr; unicode-bidi: isolate; }
+.num { font-family: var(--f-ui); font-variant-numeric: tabular-nums; font-weight: 600; unicode-bidi: isolate; }
+
+/* ---------- highlight system ---------- */
+mark { background: linear-gradient(transparent 12%, var(--hl) 12%, var(--hl) 88%, transparent 88%); color: var(--hl-ink); padding-inline: .15em; border-radius: 2px; font-weight: 600; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.alarm-t { color: var(--alarm); font-weight: 700; }
+
+.callout { border-radius: var(--r); padding: 1rem 1.15rem 1.05rem; position: relative; }
+.callout > .tag { display: inline-flex; align-items: center; gap: .4em; font-family: var(--f-ui); font-size: var(--t-xs); font-weight: 700; letter-spacing: .06em; padding: .2em .65em; border-radius: 99px; margin-block-end: .5rem; }
+.callout > :last-child { margin-block-end: 0; }
+.callout p { margin: .35em 0; }
+.callout ul, .callout ol { margin: .35em 0; }
+.tag svg { width: 1.05em; height: 1.05em; }
+
+.must { background: var(--hl); color: var(--hl-ink); }
+.must > .tag { background: var(--hl-ink); color: var(--hl); }
+.must mark { background: var(--hl-ink); color: var(--hl); }
+
+.redflag { background: var(--alarm-bg); border: 2px solid var(--alarm); }
+.redflag > .tag { background: var(--alarm); color: #fff; }
+
+.field { background: var(--field-bg); border-inline-start: 5px solid var(--field); border-radius: 4px var(--r) var(--r) 4px; }
+.field > .tag { background: var(--field); color: var(--card); }
+
+.hosp, .hosp-i { font-family: var(--f-hosp); color: var(--hosp); }
+.hosp { font-size: .9rem; line-height: 1.7; background-color: var(--hosp-bg);
+  background-image: linear-gradient(var(--hosp-grid) 1px, transparent 1px), linear-gradient(90deg, var(--hosp-grid) 1px, transparent 1px);
+  background-size: 14px 14px; border: 1px dashed var(--hosp); border-radius: 6px; }
+.hosp > .tag { background: transparent; color: var(--hosp); border: 1px solid var(--hosp); font-family: var(--f-hosp); }
+.hosp-i { font-size: .92em; background: var(--hosp-bg); padding: .05em .4em; border-radius: 4px; border: 1px dashed var(--hosp); }
+
+.note-src { background: transparent; border: 1px solid var(--rule); font-family: var(--f-ui); font-size: var(--t-sm); color: var(--ink-2); }
+.note-src > .tag { background: var(--ink-2); color: var(--paper); }
+
+.recap { background: var(--card); border: 1px solid var(--rule); border-top: 6px solid var(--zone); border-radius: var(--r); padding: 1.1rem 1.3rem; }
+.recap > .tag { background: var(--ink); color: var(--paper); }
+.exam-link { margin-block: 1.4rem 0; font-family: var(--f-ui); font-weight: 700; }
+.exam-link a { color: var(--ink); text-decoration: none; padding: .45rem 1rem; border-radius: 99px; box-shadow: inset 0 0 0 1.5px var(--ink-3); display: inline-block; }
+.exam-link a:hover { background: var(--ink); color: var(--paper); box-shadow: none; }
+.recap ol, .recap ul { font-family: var(--f-ui); font-size: .98rem; }
+
+/* ---------- check-yourself question at the end of each topic; the answer opens on click ---------- */
+.check { --chk: #5B45C2; background: color-mix(in srgb, var(--chk) 7%, var(--card)); border: 1px solid color-mix(in srgb, var(--chk) 35%, var(--rule)); border-inline-start: 5px solid var(--chk); border-radius: 4px var(--r) var(--r) 4px; margin-block: 2rem 1rem; }
+:root[data-theme="dark"] .check { --chk: #A996FF; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .check { --chk: #A996FF; } }
+.check > .tag { background: var(--chk); color: var(--card); }
+.check .q { font-weight: 600; }
+.check details { margin-block-start: .6rem; }
+.check summary { display: inline-flex; align-items: center; gap: .4em; cursor: pointer; list-style: none; font-family: var(--f-ui); font-size: var(--t-sm); font-weight: 600; color: var(--chk); padding: .3em .9em; border-radius: 99px; box-shadow: inset 0 0 0 1.5px var(--chk); user-select: none; }
+.check summary::-webkit-details-marker { display: none; }
+.check summary::after { content: "הצג תשובה"; }
+.check details[open] summary::after { content: "הסתר תשובה"; }
+.check summary:hover, .check details[open] summary { background: var(--chk); color: var(--card); }
+.check summary:focus-visible { outline: 2px solid var(--chk); outline-offset: 2px; }
+.check .a { margin-block-start: .7rem; padding-block-start: .6rem; border-block-start: 1px dashed color-mix(in srgb, var(--chk) 45%, var(--rule)); }
+.check .a > :first-child { margin-block-start: 0; }
+
+/* ---------- steps (real sequences only) ---------- */
+ol.steps { list-style: none; padding: 0; counter-reset: s; display: grid; gap: .55rem; font-family: var(--f-ui); font-size: 1rem; line-height: 1.6; }
+ol.steps > li { counter-increment: s; display: grid; grid-template-columns: 2rem 1fr; gap: .7rem; align-items: start; margin: 0; }
+ol.steps > li::before { content: counter(s); width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center; background: var(--field); color: var(--card); font-weight: 700; font-variant-numeric: tabular-nums; }
+ol.steps > li > * { min-width: 0; }
+
+/* ---------- definitions ---------- */
+dl.kv { display: grid; grid-template-columns: minmax(7rem, max-content) 1fr; gap: .45rem 1.1rem; margin: 0; }
+dl.kv dt { font-family: var(--f-ui); font-weight: 700; }
+dl.kv dd { margin: 0; min-width: 0; }
+@media (max-width: 520px) { dl.kv { grid-template-columns: 1fr; } dl.kv dd { margin-block-end: .5rem; } }
+
+/* ---------- tables ---------- */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: var(--r); background: var(--card); }
+table.data { border-collapse: collapse; width: 100%; font-family: var(--f-ui); font-size: .95rem; line-height: 1.5; font-variant-numeric: tabular-nums; }
+table.data caption { caption-side: top; text-align: start; padding: .8rem 1rem .4rem; font-weight: 700; font-size: var(--t-sm); color: var(--ink-2); letter-spacing: .02em; }
+table.data th, table.data td { padding: .6rem .9rem; text-align: start; vertical-align: top; border-block-end: 1px solid var(--rule); }
+table.data thead th { background: color-mix(in srgb, var(--zone) 18%, var(--card)); font-weight: 700; white-space: nowrap; }
+table.data tbody th { font-weight: 600; background: color-mix(in srgb, var(--ink) 3%, var(--card)); }
+table.data tbody tr:last-child > * { border-block-end: 0; }
+table.data td.hl { background: var(--hl); color: var(--hl-ink); font-weight: 700; }
+table.data td.hosp-c { font-family: var(--f-hosp); color: var(--hosp); font-size: .88rem; }
+
+/* ---------- compare ---------- */
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
+.compare > div { min-width: 0; background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); padding: 1rem 1.15rem; }
+.compare > div > h5 { margin: 0 0 .5rem; font-family: var(--f-ui); font-size: var(--t-md); font-weight: 700; padding-block-end: .45rem; border-block-end: 3px solid var(--zone); }
+.compare ul { margin: 0; font-size: 1rem; }
+
+/* ---------- dose cards ---------- */
+.doses { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1rem; }
+.dose { min-width: 0; background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; display: flex; flex-direction: column; }
+.dose > header { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; padding: .7rem 1rem; background: color-mix(in srgb, var(--zone) 14%, var(--card)); border-block-end: 1px solid var(--rule); }
+.dose > header h5 { margin: 0; font-family: var(--f-ui); font-size: 1.1rem; font-weight: 700; }
+.dose > header .ind { font-family: var(--f-ui); font-size: var(--t-xs); color: var(--ink-2); text-align: end; }
+.dose .big { font-family: var(--f-ui); font-variant-numeric: tabular-nums; font-size: 1.5rem; font-weight: 700; padding: .7rem 1rem .1rem; line-height: 1.3; }
+.dose .big small { font-size: .9rem; font-weight: 500; color: var(--ink-2); }
+.dose dl { margin: 0; padding: .4rem 1rem .9rem; display: grid; grid-template-columns: max-content 1fr; gap: .25rem .8rem; font-family: var(--f-ui); font-size: .92rem; line-height: 1.45; }
+.dose dt { color: var(--ink-3); }
+.dose dd { margin: 0; min-width: 0; }
+.dose .calc { margin-top: auto; border-block-start: 1px dashed var(--rule); padding: .6rem 1rem; font-family: var(--f-ui); font-size: .9rem; background: color-mix(in srgb, var(--ink) 3%, var(--card)); }
+.dose .calc::before { content: "דוגמה · "; font-weight: 700; color: var(--field); }
+
+/* ---------- mnemonic ---------- */
+.mnemonic { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; list-style: none; font-family: var(--f-ui); }
+.mnemonic li { margin: 0; flex: 1 1 9rem; min-width: 0; background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); padding: .6rem .8rem; font-size: .92rem; line-height: 1.45; }
+.mnemonic li b { display: block; font-family: var(--f-display); font-weight: 400; font-size: 1.7rem; line-height: 1; color: var(--ink); margin-block-end: .25rem; }
+
+/* ---------- figures / svg ---------- */
+figure { margin-block: 1.6rem; background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); padding: 1rem; }
+figure > .svg-box { overflow-x: auto; }
+figure svg { display: block; width: 100%; height: auto; max-width: 100%; margin-inline: auto; }
+figure.narrow svg { max-width: 30rem; }
+figcaption { font-family: var(--f-ui); font-size: var(--t-sm); color: var(--ink-2); margin-block-start: .7rem; line-height: 1.55; }
+figcaption b { color: var(--ink); }
+svg text { font-family: var(--f-ui); fill: var(--ink); font-size: 14px; }
+svg .t-sm { font-size: 12px; fill: var(--ink-2); }
+svg .t-b { font-weight: 700; }
+svg .t-alarm { fill: var(--alarm); font-weight: 700; }
+svg .t-field { fill: var(--field); font-weight: 700; }
+svg .t-hosp { font-family: var(--f-hosp); fill: var(--hosp); }
+svg .ln { stroke: var(--ink); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+svg .ln-soft { stroke: var(--ink-3); stroke-width: 1.5; fill: none; stroke-linecap: round; }
+svg .ln-dash { stroke: var(--ink-3); stroke-width: 1.5; fill: none; stroke-dasharray: 5 5; }
+svg .f-card { fill: var(--card); stroke: var(--rule); stroke-width: 1.5; }
+svg .f-soft { fill: color-mix(in srgb, var(--ink) 7%, var(--card)); }
+svg .f-zone { fill: var(--zone); }
+svg .f-zone-soft { fill: color-mix(in srgb, var(--zone) 25%, var(--card)); }
+svg .f-hl { fill: var(--hl); }
+svg .f-alarm { fill: var(--alarm); }
+svg .f-alarm-soft { fill: var(--alarm-bg); stroke: var(--alarm); stroke-width: 1.5; }
+svg .f-field { fill: var(--field); }
+svg .f-field-soft { fill: var(--field-bg); stroke: var(--field); stroke-width: 1.5; }
+svg .f-hosp-soft { fill: var(--hosp-bg); stroke: var(--hosp); stroke-width: 1.2; stroke-dasharray: 4 3; }
+svg .s-alarm { stroke: var(--alarm); stroke-width: 2.5; fill: none; }
+svg .s-field { stroke: var(--field); stroke-width: 2.5; fill: none; }
+svg .s-zone { stroke: var(--zone); stroke-width: 3; fill: none; }
+svg .f-blood-o { fill: #D7263D; } svg .f-blood-d { fill: #5B5BD6; }
+svg .f-skin { fill: color-mix(in srgb, #E8B897 70%, var(--card)); }
+
+/* ---------- chapter frame ---------- */
+.chapter { padding-block: 4rem 2rem; border-block-start: 1px solid var(--rule); }
+.ch-head { max-width: var(--col); margin-inline: auto; margin-block-end: 2rem; }
+.ch-zone { display: flex; align-items: center; gap: .7rem; font-family: var(--f-ui); font-size: var(--t-xs); font-weight: 700; letter-spacing: .1em; color: var(--ink-2); }
+.ch-zone::before { content: ""; width: 3.2rem; height: .9rem; background: var(--zone); border-radius: 3px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+.ch-head h2 { font-family: var(--f-display); font-weight: 400; font-size: var(--t-xl); margin: .5rem 0 .6rem; letter-spacing: -.005em; }
+.ch-lede { font-size: 1.22rem; color: var(--ink-2); margin: 0; line-height: 1.6; }
+.ch-src { margin-block-start: .9rem; font-family: var(--f-ui); font-size: var(--t-xs); color: var(--ink-3); }
+
+/* ---------- hero ---------- */
+.hero { padding-block: 3.5rem 2.5rem; }
+.hero-in { max-width: var(--wide); margin-inline: auto; }
+.eyebrow { font-family: var(--f-ui); font-size: var(--t-xs); letter-spacing: .14em; font-weight: 700; color: var(--ink-2); }
+.hero h1 { font-family: var(--f-display); font-weight: 400; font-size: var(--t-xxl); line-height: 1.02; margin: .6rem 0 1rem; letter-spacing: -.01em; }
+.hero h1 .w { display: block; color: var(--ink-2); font-size: .42em; line-height: 1.3; margin-block-start: .5rem; font-family: var(--f-body); font-weight: 500; }
+.tape { display: grid; grid-template-columns: repeat(var(--n, 9), minmax(0, 1fr)); border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 1px var(--rule); margin-block: 2rem 1.2rem; }
+.tape a { display: flex; flex-direction: column; justify-content: space-between; gap: .9rem; padding: .7rem .6rem .75rem; background: var(--zone); color: #10161E; text-decoration: none; min-height: 8.5rem; min-width: 0; font-family: var(--f-ui); position: relative; transition: filter .15s; }
+.tape a:hover { filter: brightness(1.06) saturate(1.1); }
+.tape a[data-zone="purple"], .tape a[data-zone="red"], .tape a[data-zone="blue"], .tape a[data-zone="green"], .tape a[data-zone="grey"] { color: #fff; }
+.tape a::after { content: ""; position: absolute; inset: 0 auto auto 0; width: 100%; height: 9px; background: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 10px); opacity: .45; }
+.tape .n { font-family: var(--f-display); font-size: 1.9rem; line-height: 1; margin-block-start: .5rem; }
+.tape .l { font-size: .82rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+@media (max-width: 860px) { .tape { grid-template-columns: repeat(3, 1fr); } .tape a { min-height: 6rem; } }
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: .8rem; font-family: var(--f-ui); font-size: .92rem; line-height: 1.5; }
+.legend > div { min-width: 0; display: flex; flex-direction: column; gap: .35rem; }
+.legend .sw { font-weight: 700; }
+.legend .callout { padding: .7rem .85rem; }
+.hero-note { font-family: var(--f-ui); font-size: var(--t-sm); color: var(--ink-3); margin-block-start: 1.4rem; max-width: 52rem; }
+
+/* ---------- rail nav ---------- */
+.rail { display: none; }
+@media (min-width: 1100px) {
+  .rail { display: flex; flex-direction: column; position: fixed; left: max(24px, env(safe-area-inset-left, 0px)); top: 50%; transform: translateY(-50%); z-index: 5; border-radius: 5px; overflow: visible; box-shadow: 0 0 0 1px var(--rule); }
+  .rail a { width: 34px; height: 46px; background: var(--zone); display: grid; place-items: center; font-family: var(--f-ui); font-size: .78rem; font-weight: 700; color: rgba(16,22,30,.75); text-decoration: none; position: relative; transition: width .18s; }
+  .rail a:first-child { border-radius: 5px 5px 0 0; } .rail a:last-child { border-radius: 0 0 5px 5px; }
+  .rail a.on { width: 50px; box-shadow: 0 0 0 2px var(--ink); z-index: 1; color: #10161E; }
+  .rail a .lbl { position: absolute; left: calc(100% + 10px); white-space: nowrap; background: var(--ink); color: var(--paper); padding: .25rem .6rem; border-radius: 5px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .15s; }
+  .rail a:hover .lbl, .rail a:focus-visible .lbl { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .rail a, .tape a { transition: none; } }
+.strip { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 6; display: grid; grid-template-columns: repeat(var(--n, 9), minmax(0, 1fr)); height: 7px; }
+.strip a { background: var(--zone); opacity: .55; }
+.strip a.on { opacity: 1; }
+@media (min-width: 1100px) { .strip { display: none; } }
+
+/* ---------- volume bar (multi-page course guide) ---------- */
+.vols { display: flex; flex-wrap: wrap; gap: .35rem .5rem; align-items: center; max-width: var(--wide); margin: 0 auto; padding: 1rem 0 0; font-family: var(--f-ui); font-size: var(--t-xs); }
+.vols a { color: var(--ink-2); text-decoration: none; padding: .25rem .65rem; border-radius: 99px; box-shadow: inset 0 0 0 1px var(--rule); white-space: nowrap; }
+.vols a:hover { color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink-3); }
+.vols a.home { font-weight: 700; color: var(--ink); }
+.vols a.on, .vols a.home.on { background: var(--ink); color: var(--paper); box-shadow: none; }
+.vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1rem; margin-block: 2rem; }
+.vcard { display: flex; flex-direction: column; background: var(--card); border-radius: 8px; box-shadow: 0 0 0 1px var(--rule); overflow: hidden; color: var(--ink); text-decoration: none; transition: box-shadow .15s; }
+.vcard:hover { box-shadow: 0 0 0 2px var(--ink-3); }
+.vcard .bar { display: grid; grid-auto-flow: column; height: 10px; }
+.vcard .bar span { background: var(--zone); }
+.vcard .in { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: .4rem; }
+.vcard .k { font-family: var(--f-ui); font-size: var(--t-xs); font-weight: 700; letter-spacing: .08em; color: var(--ink-3); }
+.vcard h2 { font-family: var(--f-display); font-weight: 400; font-size: 1.6rem; line-height: 1.15; margin: 0; }
+.vcard ol { margin: .3rem 0 0; padding-inline-start: 1.2rem; font-family: var(--f-ui); font-size: .9rem; line-height: 1.5; color: var(--ink-2); }
+@media (prefers-reduced-motion: reduce) { .vcard { transition: none; } }
+
+footer.end { padding-block: 3rem 4rem; text-align: center; font-family: var(--f-ui); font-size: var(--t-sm); color: var(--ink-3); border-block-start: 1px solid var(--rule); }
+body{margin:0}
+</style>
+<script data-goatcounter="https://zivgabel.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</head>
+<body>
+<nav class="strip" aria-hidden="true" style="--n:1"><a href="#ch1" data-zone="purple" tabindex="-1"></a></nav>
+<nav class="rail" aria-label="פרקים"><a href="#ch1" data-zone="purple">1<span class="lbl">מבוא לכימיה: אטומים, יונים ומעבר חומרים</span></a></nav>
+
+<div class="page">
+<nav class="vols" aria-label="חלקי הסיכום"><a class="home" href="index.html">דף הבית</a><a class="on" href="sci1.html">כימיה, דם, נשימה ועצבים</a><a href="sci2.html">שלד, בטן, כליות ומונחים</a><a href="maps.html">מפות אנטומיות</a><a class="home" href="exam.html">מבחן תרגול ←</a></nav>
+<header class="hero">
+  <div class="hero-in">
+    <div class="eyebrow">קורס פרמדיקים מד"א · חלק א׳ · מדעי יסוד</div>
+    <h1>כימיה, דם, נשימה ועצבים<span class="w">1 פרקים · מבוסס על חומרי הקורס</span></h1>
+    <nav class="tape" aria-label="תוכן העניינים" style="--n:1"><a href="#ch1" data-zone="purple"><span class="n">1</span><span class="l">מבוא לכימיה: אטומים, יונים ומעבר חומרים</span></a></nav>
+    <div class="legend" aria-label="מקרא">
+      <div><span class="sw">מרקר = חובה לדעת</span><div class="callout must" style="padding:.55rem .8rem">ערך, סף או מינון <mark>שנשאלים במבחן</mark></div></div>
+      <div><span class="sw">ורוד = דגל אדום</span><div class="callout redflag" style="padding:.55rem .8rem">סימן סכנה שמחייב פעולה מיידית</div></div>
+      <div><span class="sw">טורקיז = מה עושים בשטח</span><div class="callout field" style="padding:.55rem .8rem">פעולות הפרמדיק, לפי הסדר</div></div>
+      <div><span class="sw">נייר מילימטרי = בית חולים</span><div class="callout hosp" style="padding:.55rem .8rem">בירור וטיפול בבית החולים, לידיעה כללית</div></div>
+    </div>
+    <p class="hero-note">הסיכום מבוסס על חוברת "מדעי יסוד 2024" ועל "מפות אנטומיות לקורס פרמדיקים" של בית הספר לפרמדיקים של מד"א. כשהחומר סותר את עצמו או נראה שגוי, זה מסומן במסגרת "שימו לב למקור".</p>
+  </div>
+</header>
+
+<main>
+<section class="chapter" id="ch1" data-zone="purple">
+  <header class="ch-head">
+    <div class="ch-zone">חלק א׳ · מדעי יסוד · פרק 1</div>
+    <h2>מבוא לכימיה: אטומים, יונים ומעבר חומרים</h2>
+    <p class="ch-lede">מהאטום ועד הקרום של התא: מה הם יסוד, מולקולה ויון, אילו יונים חשובים בגוף, ואיך מים וחומרים עוברים ממקום למקום בדיפוזיה ובאוסמוזה. זה הבסיס להבנת אלקטרוליטים, נוזלים ופעילות הלב.</p>
+    <div class="ch-src">מקור: מדעי יסוד 2024, עמ' 1–2</div>
+  </header>
+  <div class="flow">
+
+    <h3>אטום, יסוד ומולקולה</h3>
+    <p>כל החומרים שאנחנו מכירים, כולל גוף האדם, בנויים מאותן "לבנים" קטנות. כדי לדבר על אלקטרוליטים, על נוזלים ועל חמצן בדם צריך קודם שלושה מושגי יסוד.</p>
+    <dl class="kv">
+      <dt>אטום</dt>
+      <dd>היחידה הבסיסית של החומר, "לבנת הבניה". האטומים בונים את כל החומרים המוכרים לנו. <mark>מאפייני האטום קובעים את תכונות היסוד (החומר).</mark> האטום מורכב משלושה תתי־חלקיקים: פרוטונים, נויטרונים ואלקטרונים.</dd>
+      <dt>יסוד</dt>
+      <dd>חומר המורכב מאטומים מסוג אחד בלבד.</dd>
+      <dt>מולקולה</dt>
+      <dd>שני יסודות (או יותר) המחוברים יחד בקשרים כימיים. המולקולה מהווה את יחידת הבסיס של החומר שהתקבל מחיבור היסודות.</dd>
+    </dl>
+
+    <h4>ארבעת היסודות של הגוף</h4>
+    <p><mark>99% מגופנו מורכב מ־4 יסודות</mark>:</p>
+    <div class="tbl-wrap"><table class="data"><caption>ארבעת היסודות העיקריים בגוף</caption>
+      <thead><tr><th>סימן</th><th>שם בעברית</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">H</span></th><td>מימן</td></tr>
+        <tr><th><span class="en">C</span></th><td>פחמן</td></tr>
+        <tr><th><span class="en">O</span></th><td>חמצן</td></tr>
+        <tr><th><span class="en">N</span></th><td>חנקן</td></tr>
+      </tbody></table></div>
+    <p>יסודות נוספים נמצאים בגופנו בכמות מזערית, אך הם בעלי חשיבות רבה. דוגמה טובה: נתרן, אשלגן וסידן, שיופיעו בהמשך הפרק כיונים שבלעדיהם הלב והשרירים לא עובדים.</p>
+
+    <h4>הטבלה המחזורית</h4>
+    <p>היסודות מסודרים על גבי <b>טבלת היסודות</b> לפי גודלם, משקלם, הרכבם ותכונות נוספות. זו <b>הטבלה המחזורית</b>. לכל יסוד יש:</p>
+    <ul>
+      <li><b>סימן</b> המורכב מאותיות באנגלית, לרוב תחילת שמו (למשל <span class="en">H</span>, <span class="en">O</span>, <span class="en">C</span>).</li>
+      <li><b>מספר</b> המייצג את מספר הפרוטונים בו.</li>
+    </ul>
+
+    <h4>סוגי מולקולות</h4>
+    <p>מולקולה יכולה להיות בנויה מאטומים זהים או מאטומים שונים, ומגודל קטן מאוד ועד ענק:</p>
+    <div class="tbl-wrap"><table class="data"><caption>דוגמאות למולקולות מהמקור</caption>
+      <thead><tr><th>סוג</th><th>דוגמה</th><th>הרכב</th></tr></thead>
+      <tbody>
+        <tr><th>אטומים זהים</th><td>מולקולת חמצן <span class="en">O₂</span></td><td>שני אטומי חמצן</td></tr>
+        <tr><th>אטומים שונים</th><td>מולקולת מים <span class="en">H₂O</span></td><td>שני אטומי מימן ואטום חמצן</td></tr>
+        <tr><th>עשרות אטומים</th><td>מולקולת סוכר</td><td>עשרות אטומים</td></tr>
+        <tr><th>מיליוני אטומים</th><td>מולקולת <span class="en">DNA</span></td><td>מיליוני אטומים</td></tr>
+      </tbody></table></div>
+
+    <h3>מבנה האטום</h3>
+    <p>האטום מורכב מ<b>גרעין</b>, וסביבו חלקיקים החגים במסלולים שונים.</p>
+    <ul>
+      <li>בגרעין נמצאים <b>פרוטונים</b> ו<b>נויטרונים</b>.</li>
+      <li>החלקיקים החגים סביב הגרעין נקראים <b>אלקטרונים</b>.</li>
+    </ul>
+    <p>כל האטומים בנויים באותה צורה, אך נבדלים זה מזה במספר הפרוטונים והנויטרונים שבגרעין ובמספר האלקטרונים המקיפים אותו. <mark>מספר הפרוטונים הוא שקובע את תכונות היסוד</mark>: אטום עם 1 פרוטון הוא תמיד מימן, ואטום עם 8 פרוטונים הוא תמיד חמצן. לרוב, מספר הפרוטונים בגרעין שווה למספר האלקטרונים שסובבים אותו ולמספר הנויטרונים שמוצמדים לו.</p>
+
+    <div class="tbl-wrap"><table class="data"><caption>שלושת החלקיקים שבאטום ומטענם החשמלי</caption>
+      <thead><tr><th>חלקיק</th><th>מיקום</th><th>מטען</th></tr></thead>
+      <tbody>
+        <tr><th>פרוטון</th><td>בגרעין</td><td class="hl">חיובי (+)</td></tr>
+        <tr><th>נויטרון</th><td>בגרעין</td><td class="hl">ללא מטען חשמלי</td></tr>
+        <tr><th>אלקטרון</th><td>סביב הגרעין, במסלולים</td><td class="hl">שלילי (−)</td></tr>
+      </tbody></table></div>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 640 300" role="img" aria-label="מבנה האטום: גרעין עם פרוטונים ונויטרונים ואלקטרונים במסלולים סביבו">
+      <circle cx="220" cy="155" r="115" class="ln-soft" fill="none"/>
+      <circle cx="220" cy="155" r="65" class="ln-soft" fill="none"/>
+      <circle cx="220" cy="155" r="36" class="f-zone-soft"/>
+      <circle cx="200" cy="145" r="9" class="f-alarm"/>
+      <circle cx="220" cy="145" r="9" class="f-card"/>
+      <circle cx="240" cy="145" r="9" class="f-alarm"/>
+      <circle cx="200" cy="165" r="9" class="f-card"/>
+      <circle cx="220" cy="165" r="9" class="f-alarm"/>
+      <circle cx="240" cy="165" r="9" class="f-card"/>
+      <circle cx="285" cy="155" r="8" class="f-field"/>
+      <circle cx="155" cy="155" r="8" class="f-field"/>
+      <circle cx="220" cy="40" r="8" class="f-field"/>
+      <text x="320" y="38" text-anchor="middle" direction="rtl" class="t-sm">מסלולי אלקטרונים</text>
+      <circle cx="610" cy="70" r="9" class="f-alarm"/>
+      <text x="592" y="75" text-anchor="start" direction="rtl">פרוטון · מטען חיובי (+)</text>
+      <circle cx="610" cy="110" r="9" class="f-card"/>
+      <text x="592" y="115" text-anchor="start" direction="rtl">נויטרון · ללא מטען</text>
+      <circle cx="610" cy="150" r="8" class="f-field"/>
+      <text x="592" y="155" text-anchor="start" direction="rtl">אלקטרון · מטען שלילי (−)</text>
+      <line x1="400" y1="185" x2="620" y2="185" class="ln-soft"/>
+      <text x="620" y="215" text-anchor="start" direction="rtl" class="t-b">גרעין = פרוטונים + נויטרונים</text>
+      <text x="620" y="245" text-anchor="start" direction="rtl">כאן: 3 פרוטונים, 3 אלקטרונים</text>
+      <text x="620" y="272" text-anchor="start" direction="rtl" class="t-field">מטען כולל 0: אטום נייטרלי</text>
+    </svg></div>
+      <figcaption><b>מבנה האטום (סכמטי).</b> בגרעין פרוטונים (אדום) ונויטרונים (לבן); סביבו אלקטרונים (ירוק) במסלולים. כשמספר הפרוטונים שווה למספר האלקטרונים, המטענים מתקזזים והאטום נייטרלי.</figcaption></figure>
+
+    <div class="callout note-src"><span class="tag">שימו לב למקור</span>
+      <p>בעמ' 1 נכתב שלרוב מספר הפרוטונים שווה גם למספר הנויטרונים. זה נכון בקירוב רק ליסודות הקלים (למשל פחמן, חמצן, חנקן). באטום מימן הנפוץ אין נויטרון בכלל, וביסודות כבדים יש יותר נויטרונים מפרוטונים. מה שקובע את זהות היסוד הוא <b>מספר הפרוטונים</b> בלבד.</p>
+    </div>
+
+    <h3>יונים: קטיון ואניון</h3>
+    <p>במצב הרגיל מספר האלקטרונים שווה למספר הפרוטונים, ולכן האטום <b>מאוזן מבחינה חשמלית</b> (מטען 0). אטום שבו <b>אין שוויון</b> בין מספר האלקטרונים למספר הפרוטונים יהיה בעל מטען חשמלי, שלילי או חיובי בהתאם להפרש, ויקרא <b>יון</b>.</p>
+    <div class="callout must"><span class="tag">חובה לזכור</span>
+      <p><b>יון</b> = אטום בעל מטען חשמלי. האטום מקבל או מאבד אלקטרונים; מספר הפרוטונים לא משתנה.</p>
+      <ul>
+        <li><b>אניון</b> <span class="en">(Anion)</span>: יון בעל מטען <b>שלילי</b>. כמות האלקטרונים גדולה מכמות הפרוטונים.</li>
+        <li><b>קטיון</b> <span class="en">(Cation)</span>: יון בעל מטען <b>חיובי</b>. כמות הפרוטונים גדולה מכמות האלקטרונים.</li>
+      </ul>
+    </div>
+    <p>טריק לזיכרון: אלקטרון הוא שלילי, ולכן מי ש<b>מאבד</b> אלקטרון נשאר "עם עודף פלוס" ‏←‏ קטיון; מי ש<b>מקבל</b> אלקטרון נעשה שלילי ‏←‏ אניון.</p>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 680 310" role="img" aria-label="יצירת יונים: נתרן מאבד אלקטרון והופך לקטיון, כלור קולט אלקטרון והופך לאניון">
+      <defs><marker id="ch1-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-zone"/></marker></defs>
+      <circle cx="570" cy="70" r="38" class="f-card"/>
+      <text x="570" y="77" text-anchor="middle" direction="ltr" class="t-b">Na</text>
+      <text x="570" y="128" text-anchor="middle" direction="ltr" class="t-sm">11p · 11e</text>
+      <text x="570" y="148" text-anchor="middle" direction="rtl" class="t-sm">אטום נייטרלי</text>
+      <line x1="505" y1="70" x2="185" y2="70" class="s-zone" marker-end="url(#ch1-arr)"/>
+      <text x="345" y="55" text-anchor="middle" direction="rtl" class="t-b">מאבד אלקטרון אחד</text>
+      <text x="345" y="95" text-anchor="middle" direction="rtl" class="t-sm">יותר פרוטונים מאלקטרונים</text>
+      <circle cx="120" cy="70" r="38" class="f-alarm-soft"/>
+      <text x="120" y="77" text-anchor="middle" direction="ltr" class="t-b">Na⁺</text>
+      <text x="120" y="128" text-anchor="middle" direction="ltr" class="t-sm">11p · 10e</text>
+      <text x="120" y="148" text-anchor="middle" direction="rtl" class="t-alarm">קטיון · מטען +</text>
+      <circle cx="570" cy="215" r="38" class="f-card"/>
+      <text x="570" y="222" text-anchor="middle" direction="ltr" class="t-b">Cl</text>
+      <text x="570" y="273" text-anchor="middle" direction="ltr" class="t-sm">17p · 17e</text>
+      <text x="570" y="293" text-anchor="middle" direction="rtl" class="t-sm">אטום נייטרלי</text>
+      <line x1="505" y1="215" x2="185" y2="215" class="s-zone" marker-end="url(#ch1-arr)"/>
+      <text x="345" y="200" text-anchor="middle" direction="rtl" class="t-b">קולט אלקטרון אחד</text>
+      <text x="345" y="240" text-anchor="middle" direction="rtl" class="t-sm">יותר אלקטרונים מפרוטונים</text>
+      <circle cx="120" cy="215" r="38" class="f-field-soft"/>
+      <text x="120" y="222" text-anchor="middle" direction="ltr" class="t-b">Cl⁻</text>
+      <text x="120" y="273" text-anchor="middle" direction="ltr" class="t-sm">17p · 18e</text>
+      <text x="120" y="293" text-anchor="middle" direction="rtl" class="t-field">אניון · מטען −</text>
+    </svg></div>
+      <figcaption><b>איך נוצרים יונים.</b> p = פרוטונים, e = אלקטרונים. נתרן מאבד אלקטרון והופך לקטיון <span class="en">Na⁺</span>; כלור קולט אלקטרון והופך לאניון <span class="en">Cl⁻</span>. מספר הפרוטונים לא משתנה. הקטיון והאניון נמשכים זה לזה ויוצרים מלח בישול <span class="en">NaCl</span>.</figcaption></figure>
+
+    <p><b>משיכה חשמלית חזקה</b> בין יונים חיוביים ליונים שליליים גורמת ליצירת חומרים ושפעול תהליכים. כך, למשל, נתרן חיובי וכלור שלילי נצמדים ויוצרים את מלח הבישול.</p>
+
+    <h3>תרכובת ותערובת</h3>
+    <p>חשוב להבחין בין חומר שנוצר מקשר כימי לבין סתם ערבוב של חומרים:</p>
+    <div class="compare">
+      <div><h5>תרכובת</h5><ul>
+        <li>חומר הבנוי משני יסודות או יותר, <b>הקשורים</b> ביניהם בקשר כימי.</li>
+        <li>לתרכובת הרכב קבוע ומוגדר.</li>
+        <li>לתרכובת תכונות כימיות משל עצמה, <b>השונות</b> מתכונות מרכיביה לחוד.</li>
+        <li>דוגמה: <span class="en">NaCl</span> (מלח בישול), תרכובת של נתרן וכלור.</li>
+      </ul></div>
+      <div><h5>תערובת</h5><ul>
+        <li>יש בה חומרים אחדים יחדיו, <b>ללא</b> קשר כימי ביניהם.</li>
+        <li>כל חומר שומר על תכונותיו הכימיות.</li>
+      </ul></div>
+    </div>
+    <p>תוצאה מעשית: נתרן הוא מתכת מגיבה, וכלור הוא גז רעיל, אבל מלח הבישול שנוצר מהם הוא חומר שאנחנו אוכלים. זה בדיוק ההבדל: לתרכובת תכונות חדשות משלה.</p>
+
+    <h3>תמיסה, ריכוז ואלקטרוליטים</h3>
+    <dl class="kv">
+      <dt>תמיסה</dt>
+      <dd>שני חומרים משולבים: חומר (במצב צבירה מוצק, נוזל או גז), הקרוי <b>מומס</b>, ואשר חלקיקיו מוקפים בנוזל, הקרוי <b>ממס</b>.</dd>
+      <dt>ממס בגוף</dt>
+      <dd><mark>מים הם הממס הנפוץ בגופנו.</mark> על מנת שחומר יתמוסס במים עליו להימשך חשמלית למולקולות המים.</dd>
+      <dt>ריכוז</dt>
+      <dd>אחוז המומס בתוך התמיסה. ככל שבתמיסה יש יותר חלקיקים, התמיסה נחשבת למרוכזת יותר.</dd>
+      <dt>אלקטרוליט</dt>
+      <dd>יונים חופשיים בתמיסה מימית המוליכים חשמל כאשר מומסים במים (אלקטרוליטים יוצרים תמיסה בעלת מוליכות חשמלית).</dd>
+    </dl>
+    <p>דוגמה: כשמלח <span class="en">NaCl</span> מתמוסס במים, הנתרן והכלור מתפרדים ליונים <span class="en">Na⁺</span> ו־<span class="en">Cl⁻</span>, ולכן התמיסה מוליכה חשמל. היונים החופשיים הם נושאי המטען.</p>
+    <div class="callout must"><span class="tag">חובה לזכור</span>
+      <p>דוגמאות לאלקטרוליטים עיקריים בגוף: <b>נתרן</b> <span class="en">Na</span>, <b>אשלגן</b> <span class="en">K</span>, <b>סידן</b> <span class="en">Ca</span>.</p>
+    </div>
+    <p>למה זה חשוב: אותות העצבים והתכווצות השריר, כולל שריר הלב, הם זרמים חשמליים שנוצרים מתנועת יונים. לכן שינוי ברמת האלקטרוליטים יכול להתבטא בחולשה, בהפרעות קצב ובשינויים באק"ג.</p>
+
+    <h3>יונים עיקריים בגוף</h3>
+    <p>המקור מחלק את היונים החשובים לפי סוג המטען:</p>
+    <div class="tbl-wrap"><table class="data"><caption>קטיונים (Cations) – בעלי מטען חיובי</caption>
+      <thead><tr><th>יון</th><th>סימן</th><th>תפקיד</th></tr></thead>
+      <tbody>
+        <tr><th>נתרן</th><td><span class="en">Na⁺</span></td><td>המרכיב העיקרי <b>בלחץ האוסמוטי החוץ־תאי</b>. הנתרן מושך אליו מים.</td></tr>
+        <tr><th>אשלגן</th><td><span class="en">K⁺</span></td><td>הכרחי בכמות נכונה לפעילותם של השרירים והעצבים, לרבות הלב. <mark>שריר הלב רגיש במיוחד לשינויים ברמת האשלגן.</mark></td></tr>
+        <tr><th>סידן</th><td><span class="en">Ca²⁺</span></td><td>דרוש לבניין העצמות. רמתו בפלזמה משפיעה על סף הגירוי של העצבים והשרירים, לרבות שריר הלב, ובמיוחד קשור לכוח ההתכווצות של השריר (טונוס).</td></tr>
+        <tr><th>מגנזיום</th><td><span class="en">Mg²⁺</span></td><td>מהווה חלק חיוני של מספר אנזימים. גם הוא משפיע על פעילות הלב.</td></tr>
+      </tbody></table></div>
+    <div class="tbl-wrap"><table class="data"><caption>אניונים (Anions) – בעלי מטען שלילי</caption>
+      <thead><tr><th>יון</th><th>סימן</th><th>תפקיד</th></tr></thead>
+      <tbody>
+        <tr><th>ביקרבונט</th><td><span class="en">HCO₃⁻</span></td><td>תפקידו לנטר את מאזן החומצה־בסיס הקיים בגוף. משמש <b>כבופר</b> ומנטרל חומציות.</td></tr>
+        <tr><th>כלור</th><td><span class="en">Cl⁻</span></td><td>נוטל גם הוא חלק במאזן חומצה־בסיס בגוף ובמאזן הנוזלים בגוף.</td></tr>
+      </tbody></table></div>
+
+    <div class="callout redflag"><span class="tag">דגל אדום</span>
+      <p>מתוך ארבעת הקטיונים, <b>שלושה משפיעים ישירות על הלב</b>: אשלגן, סידן ומגנזיום. <span class="alarm-t">שריר הלב רגיש במיוחד לשינויים ברמת האשלגן</span>, ולכן מטופל עם הפרעת אלקטרוליטים הוא מטופל בסיכון להפרעות קצב.</p>
+    </div>
+    <div class="callout field"><span class="tag">בשטח</span>
+      <p>כשמטופל מגיע עם חולשה או הפרעת קצב לא מוסברת, חשבו גם על יונים: הקאות ושלשולים ממושכים, מחלת כליות או תרופות משתנות יכולים לשנות את רמות האלקטרוליטים. החיבור בין הכימיה לבין מה שרואים במוניטור מתחיל כאן.</p>
+    </div>
+    <p>טריק לזיכרון: "נתרן מושך מים" ‏←‏ איפה שיש נתרן, לשם הולכים המים. זה הגשר לחלק הבא, על אוסמוזה.</p>
+
+    <h3>השוואת ריכוזים: דיפוזיה ואוסמוזה</h3>
+    <p>קיימת <b>שאיפה מתמדת להשגת שוויון</b> בין שתי תמיסות סמוכות בעלות ריכוז מומסים שונה. שאיפה זו מושגת בעזרת שני תהליכים:</p>
+
+    <h4>דיפוזיה (פעפוע)</h4>
+    <p><b>דיפוזיה</b> <span class="en">(Diffusion)</span> היא <mark>מעבר של חומר מריכוז גבוה לריכוז נמוך</mark>, עד להשגת מצב של שוויון ריכוזים. החומר עצמו (המומס) הוא שזז. בדוגמה מהמקור: מכניסים יוד למים, ואין קרום בין היוד למים; כעבור זמן מה, ריכוז היוד והמים זהה בכל המיכל.</p>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 680 270" role="img" aria-label="דיפוזיה: טיפת יוד מתפזרת במים עד ריכוז אחיד בכל המיכל">
+      <defs><marker id="ch1-arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-zone"/></marker></defs>
+      <rect x="502" y="70" width="116" height="108" class="f-soft"/>
+      <path d="M500,45 L500,180 L620,180 L620,45" class="ln" fill="none"/>
+      <circle cx="536" cy="80" r="4.5" class="f-zone"/><circle cx="546" cy="78" r="4.5" class="f-zone"/><circle cx="556" cy="82" r="4.5" class="f-zone"/><circle cx="566" cy="80" r="4.5" class="f-zone"/>
+      <circle cx="540" cy="90" r="4.5" class="f-zone"/><circle cx="550" cy="92" r="4.5" class="f-zone"/><circle cx="560" cy="90" r="4.5" class="f-zone"/><circle cx="570" cy="92" r="4.5" class="f-zone"/>
+      <circle cx="544" cy="101" r="4.5" class="f-zone"/><circle cx="554" cy="103" r="4.5" class="f-zone"/><circle cx="564" cy="100" r="4.5" class="f-zone"/><circle cx="552" cy="113" r="4.5" class="f-zone"/>
+      <line x1="485" y1="125" x2="415" y2="125" class="s-zone" marker-end="url(#ch1-arr2)"/>
+      <rect x="282" y="70" width="116" height="108" class="f-soft"/>
+      <path d="M280,45 L280,180 L400,180 L400,45" class="ln" fill="none"/>
+      <circle cx="320" cy="98" r="4.5" class="f-zone"/><circle cx="342" cy="92" r="4.5" class="f-zone"/><circle cx="362" cy="104" r="4.5" class="f-zone"/><circle cx="300" cy="112" r="4.5" class="f-zone"/>
+      <circle cx="332" cy="118" r="4.5" class="f-zone"/><circle cx="352" cy="124" r="4.5" class="f-zone"/><circle cx="374" cy="130" r="4.5" class="f-zone"/><circle cx="312" cy="134" r="4.5" class="f-zone"/>
+      <circle cx="340" cy="144" r="4.5" class="f-zone"/><circle cx="362" cy="152" r="4.5" class="f-zone"/><circle cx="322" cy="154" r="4.5" class="f-zone"/><circle cx="346" cy="166" r="4.5" class="f-zone"/>
+      <line x1="265" y1="125" x2="195" y2="125" class="s-zone" marker-end="url(#ch1-arr2)"/>
+      <rect x="62" y="70" width="116" height="108" class="f-soft"/>
+      <path d="M60,45 L60,180 L180,180 L180,45" class="ln" fill="none"/>
+      <circle cx="78" cy="88" r="4.5" class="f-zone"/><circle cx="106" cy="88" r="4.5" class="f-zone"/><circle cx="134" cy="88" r="4.5" class="f-zone"/><circle cx="162" cy="88" r="4.5" class="f-zone"/>
+      <circle cx="78" cy="124" r="4.5" class="f-zone"/><circle cx="106" cy="124" r="4.5" class="f-zone"/><circle cx="134" cy="124" r="4.5" class="f-zone"/><circle cx="162" cy="124" r="4.5" class="f-zone"/>
+      <circle cx="78" cy="160" r="4.5" class="f-zone"/><circle cx="106" cy="160" r="4.5" class="f-zone"/><circle cx="134" cy="160" r="4.5" class="f-zone"/><circle cx="162" cy="160" r="4.5" class="f-zone"/>
+      <text x="560" y="208" text-anchor="middle" direction="rtl" class="t-b">הכנסת יוד</text>
+      <text x="560" y="228" text-anchor="middle" direction="rtl" class="t-sm">ריכוז גבוה במקום אחד</text>
+      <text x="340" y="208" text-anchor="middle" direction="rtl" class="t-b">היוד מתפזר</text>
+      <text x="340" y="228" text-anchor="middle" direction="rtl" class="t-sm">מגבוה לנמוך</text>
+      <text x="120" y="208" text-anchor="middle" direction="rtl" class="t-b">שוויון ריכוזים</text>
+      <text x="120" y="228" text-anchor="middle" direction="rtl" class="t-sm">ריכוז זהה בכל המיכל</text>
+      <text x="340" y="25" text-anchor="middle" direction="rtl" class="t-sm">הזמן עובר ‏←‏ (אין קרום)</text>
+    </svg></div>
+      <figcaption><b>דיפוזיה.</b> המומס (סגול) נע מאזור שבו ריכוזו גבוה לאזור שבו ריכוזו נמוך, עד שהריכוז אחיד בכל המיכל. כאן אין קרום, והחומר עצמו הוא שמתפזר.</figcaption></figure>
+
+    <h4>אוסמוזה</h4>
+    <p><b>אוסמוזה</b> <span class="en">(Osmosis)</span> היא <mark>מעבר של הממס (מים) דרך קרום ברררני</mark> (חדיר למחצה), המאפשר מעבר לממס בלבד אך לא למומסים. מעבר המים יתרחש מהתמיסה בה ריכוז המים גבוה יותר (ריכוז מומסים נמוך) אל התמיסה בה ריכוז המומסים גבוה יותר (ריכוז מים נמוך), עד ליצירת איזון בין ריכוזי המומסים משני צדי הקרום.</p>
+    <p>בדוגמה מהמקור: בצד השמאלי ריכוז המים גבוה וריכוז המומס נמוך. בצד הימני יש מים בריכוז נמוך ואוריאה (המומס) בריכוז גבוה. הקרום אינו מאפשר מעבר של המומס, ולכן <b>מים יעברו משמאל לימין</b>, על מנת להשוות ריכוזי מים.</p>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 680 300" role="img" aria-label="אוסמוזה: מים עוברים דרך קרום ברררני מהצד הדליל לצד המרוכז, המומס אינו עובר">
+      <defs><marker id="ch1-arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-field"/></marker></defs>
+      <text x="200" y="30" text-anchor="middle" direction="rtl" class="t-b">ריכוז מים גבוה</text>
+      <text x="200" y="50" text-anchor="middle" direction="rtl" class="t-sm">ריכוז מומס נמוך</text>
+      <text x="480" y="30" text-anchor="middle" direction="rtl" class="t-b">ריכוז מומס גבוה</text>
+      <text x="480" y="50" text-anchor="middle" direction="rtl" class="t-sm">ריכוז מים נמוך</text>
+      <rect x="62" y="100" width="556" height="118" class="f-soft"/>
+      <path d="M60,70 L60,220 L620,220 L620,70" class="ln" fill="none"/>
+      <line x1="340" y1="96" x2="340" y2="218" class="ln-dash"/>
+      <circle cx="90" cy="122" r="5" class="f-field-soft"/><circle cx="130" cy="122" r="5" class="f-field-soft"/><circle cx="170" cy="122" r="5" class="f-field-soft"/><circle cx="210" cy="122" r="5" class="f-field-soft"/><circle cx="250" cy="122" r="5" class="f-field-soft"/><circle cx="290" cy="122" r="5" class="f-field-soft"/>
+      <circle cx="90" cy="162" r="5" class="f-field-soft"/><circle cx="130" cy="162" r="5" class="f-field-soft"/><circle cx="170" cy="162" r="5" class="f-field-soft"/><circle cx="210" cy="162" r="5" class="f-field-soft"/><circle cx="250" cy="162" r="5" class="f-field-soft"/><circle cx="290" cy="162" r="5" class="f-field-soft"/>
+      <circle cx="90" cy="198" r="5" class="f-field-soft"/><circle cx="130" cy="198" r="5" class="f-field-soft"/><circle cx="170" cy="198" r="5" class="f-field-soft"/><circle cx="210" cy="198" r="5" class="f-field-soft"/><circle cx="250" cy="198" r="5" class="f-field-soft"/><circle cx="290" cy="198" r="5" class="f-field-soft"/>
+      <circle cx="420" cy="120" r="10" class="f-alarm"/><circle cx="520" cy="122" r="10" class="f-alarm"/><circle cx="590" cy="160" r="10" class="f-alarm"/>
+      <circle cx="465" cy="168" r="10" class="f-alarm"/><circle cx="395" cy="196" r="10" class="f-alarm"/><circle cx="545" cy="198" r="10" class="f-alarm"/>
+      <circle cx="470" cy="122" r="5" class="f-field-soft"/><circle cx="420" cy="162" r="5" class="f-field-soft"/><circle cx="520" cy="165" r="5" class="f-field-soft"/><circle cx="590" cy="118" r="5" class="f-field-soft"/><circle cx="470" cy="202" r="5" class="f-field-soft"/>
+      <line x1="300" y1="142" x2="385" y2="142" class="s-field" marker-end="url(#ch1-arr3)"/>
+      <text x="340" y="88" text-anchor="middle" direction="rtl" class="t-field">מים עוברים</text>
+      <text x="340" y="245" text-anchor="middle" direction="rtl" class="t-b">קרום ברררני (חדיר למחצה)</text>
+      <text x="340" y="272" text-anchor="middle" direction="rtl" class="t-sm">המומס (אדום) אינו עובר את הקרום, ולכן המים עוברים אל הצד המרוכז</text>
+    </svg></div>
+      <figcaption><b>אוסמוזה.</b> משמאל: הרבה מים, מעט מומס. מימין: מומס (אדום, למשל אוריאה) בריכוז גבוה. הקרום מעביר מים בלבד, ולכן המים זורמים משמאל לימין, אל הצד המרוכז, עד לאיזון הריכוזים.</figcaption></figure>
+
+    <div class="compare">
+      <div><h5>דיפוזיה (פעפוע)</h5><ul>
+        <li><b>מה זז:</b> החומר (המומס).</li>
+        <li><b>כיוון:</b> מריכוז גבוה לריכוז נמוך של החומר.</li>
+        <li><b>קרום:</b> לא נדרש.</li>
+        <li><b>דוגמה:</b> יוד המתפזר במים.</li>
+      </ul></div>
+      <div><h5>אוסמוזה</h5><ul>
+        <li><b>מה זז:</b> הממס (מים) בלבד.</li>
+        <li><b>כיוון:</b> מריכוז מומסים נמוך (הרבה מים) אל ריכוז מומסים גבוה (מעט מים).</li>
+        <li><b>קרום:</b> קרום ברררני, חדיר לממס בלבד.</li>
+        <li><b>דוגמה:</b> מים העוברים אל צד עם אוריאה בריכוז גבוה.</li>
+      </ul></div>
+    </div>
+
+    <div class="callout must"><span class="tag">חובה לזכור</span>
+      <p>שני התהליכים שואפים לאותה מטרה: <b>שוויון ריכוזים</b>. בדיפוזיה <b>המומס</b> נע מגבוה לנמוך; באוסמוזה <b>המים</b> נעים אל הצד שבו ריכוז המומסים גבוה ("המים הולכים אחרי המומס").</p>
+    </div>
+
+    <h4>למה זה חשוב לפרמדיק</h4>
+    <p>דפנות התאים וכלי הדם מתנהגים כקרומים שעוברים דרכם מים. כאן מתחברים שני חלקי הפרק: <b>הנתרן הוא המרכיב העיקרי בלחץ האוסמוטי החוץ־תאי ומושך אליו מים</b>. לכן, כשריכוז המומסים מחוץ לתאים משתנה, מים עוברים פנימה או החוצה מהתאים באוסמוזה. זה ההיגיון שעומד מאחורי השאלה אילו נוזלים נותנים למטופל, ואיך התייבשות או עודף נוזלים משפיעים על התאים. החמצן עצמו עובר מהריאות לדם בדיפוזיה, מריכוז גבוה לנמוך.</p>
+    <div class="callout redflag"><span class="tag">דגל אדום</span>
+      <p>טעות נפוצה במבחן: לחשוב שבאוסמוזה <span class="alarm-t">המומס</span> עובר. באוסמוזה הקרום <b>אינו</b> מעביר את המומס; רק המים זזים, ותמיד לכיוון הצד המרוכז יותר.</p>
+    </div>
+
+    <div class="recap"><span class="tag">בשורה התחתונה</span><ol>
+      <li>אטום: יחידת היסוד של החומר. בגרעין פרוטונים (+) ונויטרונים (ללא מטען), וסביבו אלקטרונים (−).</li>
+      <li>יסוד: אטומים מסוג אחד. מולקולה: שני יסודות או יותר בקשר כימי (<span class="en">O₂</span>, <span class="en">H₂O</span>, סוכר, <span class="en">DNA</span>).</li>
+      <li>99% מהגוף בנוי מ־4 יסודות: <span class="en">H</span> מימן, <span class="en">C</span> פחמן, <span class="en">O</span> חמצן, <span class="en">N</span> חנקן.</li>
+      <li>בטבלה המחזורית לכל יסוד סימן באנגלית ומספר השווה למספר הפרוטונים.</li>
+      <li>יון = אטום בעל מטען. קטיון חיובי (יותר פרוטונים), אניון שלילי (יותר אלקטרונים).</li>
+      <li>תרכובת: קשר כימי, הרכב קבוע ותכונות חדשות (<span class="en">NaCl</span>). תערובת: בלי קשר כימי, כל חומר שומר על תכונותיו.</li>
+      <li>תמיסה = מומס + ממס; מים הם הממס העיקרי בגוף. אלקטרוליטים (<span class="en">Na</span>, <span class="en">K</span>, <span class="en">Ca</span>) הם יונים חופשיים שמוליכים חשמל.</li>
+      <li>קטיונים: <span class="en">Na⁺</span> (לחץ אוסמוטי חוץ־תאי, מושך מים), <span class="en">K⁺</span> (שריר הלב רגיש במיוחד), <span class="en">Ca²⁺</span> (עצמות, סף גירוי, טונוס), <span class="en">Mg²⁺</span> (אנזימים, לב).</li>
+      <li>אניונים: <span class="en">HCO₃⁻</span> בופר שמנטרל חומציות; <span class="en">Cl⁻</span> מאזן חומצה־בסיס ונוזלים.</li>
+      <li>דיפוזיה: המומס נע מגבוה לנמוך. אוסמוזה: מים עוברים דרך קרום ברררני אל הצד בעל ריכוז המומסים הגבוה.</li>
+    </ol></div>
+    <p class="exam-link"><a href="exam.html#ch1">תרגלו את הפרק במבחן ←</a></p>
+
+  </div>
+</section>
+</main>
+<footer class="end">מדעי יסוד · סיכום לימודי לקורס פרמדיקים של מד"א, מבוסס על חומרי הקורס. אינו מחליף את חומרי הלימוד הרשמיים.</footer>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a, .strip a'));
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section.chapter'));
+  if (!('IntersectionObserver' in window) || !secs.length) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id); });
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  secs.forEach(function (s) { io.observe(s); });
+})();
+</script>
+</body>
+</html>
