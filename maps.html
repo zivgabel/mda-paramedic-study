@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="חלק ג׳ · מפות אנטומיות">
+<title>מפות אנטומיות · מדעי יסוד</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&family=Miriam+Libre:wght@400;700&family=Suez+One&display=swap">
+<style>
+/* Layout: one reading column (~68ch) with wide breakouts for tables and figures; a colour-tape rail
+   (one colour zone per chapter) runs down the inline-end edge as navigation, and becomes a thin
+   sticky strip on phones. Highlight system: lime marker = must know, magenta = red flag, slate
+   chart-paper in Miriam Libre = hospital-level knowledge, teal = what the paramedic does in the field. */
+:root {
+  --paper: #F6F8FA;
+  --card: #FFFFFF;
+  --ink: #142030;
+  --ink-2: #4B5969;
+  --ink-3: #7A8796;
+  --rule: #D8DFE7;
+  --hl: #E4FF3F;
+  --hl-ink: #182000;
+  --alarm: #D90F64;
+  --alarm-bg: #FFE6F0;
+  --field: #0A7A72;
+  --field-bg: #E1F3F1;
+  --hosp: #56688A;
+  --hosp-bg: #EEF1F7;
+  --hosp-grid: rgba(86,104,138,.10);
+  --z-grey: #8E959C;
+  --z-pink: #F08DBA;
+  --z-red: #E0312C;
+  --z-purple: #8A4FBF;
+  --z-yellow: #F2C200;
+  --z-white: #E6EAEE;
+  --z-blue: #2C78DD;
+  --z-orange: #F0832A;
+  --z-green: #2BA14D;
+  --zone: var(--z-grey);
+
+  --f-display: "Suez One", "Frank Ruhl Libre", serif;
+  --f-body: "Frank Ruhl Libre", "David", "Times New Roman", serif;
+  --f-ui: "IBM Plex Sans Hebrew", "Segoe UI", Arial, sans-serif;
+  --f-hosp: "Miriam Libre", "IBM Plex Sans Hebrew", Arial, sans-serif;
+
+  --t-xs: .78rem; --t-sm: .9rem; --t-base: 1.1rem; --t-md: 1.3rem; --t-lg: 1.65rem; --t-xl: 2.3rem; --t-xxl: clamp(2.6rem, 7vw, 4.6rem);
+  --col: 44rem;
+  --wide: 62rem;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0D131A; --card: #141C26; --ink: #E5ECF4; --ink-2: #A6B3C3; --ink-3: #7D8B9C; --rule: #283443;
+  --alarm: #FF4C93; --alarm-bg: #3A1126; --field: #45CFC2; --field-bg: #0E2A29;
+  --hosp: #9DACCB; --hosp-bg: #18202E; --hosp-grid: rgba(157,172,203,.08);
+  --z-white: #D9DFE6; --z-grey: #9AA2AA; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #0D131A; --card: #141C26; --ink: #E5ECF4; --ink-2: #A6B3C3; --ink-3: #7D8B9C; --rule: #283443;
+  --alarm: #FF4C93; --alarm-bg: #3A1126; --field: #45CFC2; --field-bg: #0E2A29;
+  --hosp: #9DACCB; --hosp-bg: #18202E; --hosp-grid: rgba(157,172,203,.08);
+  --z-white: #D9DFE6; --z-grey: #9AA2AA; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 1.5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--f-body); font-size: var(--t-base); line-height: 1.75;
+  direction: rtl; text-align: start;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+[data-zone="grey"]{--zone:var(--z-grey)} [data-zone="pink"]{--zone:var(--z-pink)} [data-zone="red"]{--zone:var(--z-red)}
+[data-zone="purple"]{--zone:var(--z-purple)} [data-zone="yellow"]{--zone:var(--z-yellow)} [data-zone="white"]{--zone:var(--z-white)}
+[data-zone="blue"]{--zone:var(--z-blue)} [data-zone="orange"]{--zone:var(--z-orange)} [data-zone="green"]{--zone:var(--z-green)}
+
+.page { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+@media (min-width: 1100px) { .page { padding-left: max(96px, env(safe-area-inset-left, 0px)); } }
+.flow { max-width: var(--col); margin-inline: auto; }
+.flow > * + * { margin-block-start: 1em; }
+.flow > .wide, .flow > figure, .flow > .tbl-wrap, .flow > .compare, .flow > .doses {
+  --bw: min(var(--wide), calc(100vw - 200px));
+  width: var(--bw); max-width: none; margin-inline: calc((100% - var(--bw)) / 2);
+}
+@media (max-width: 1000px) { .flow > .wide, .flow > figure, .flow > .tbl-wrap, .flow > .compare, .flow > .doses { width: 100%; margin-inline: 0; } }
+
+a { color: inherit; text-decoration-color: var(--zone); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--field); outline-offset: 2px; border-radius: 4px; }
+h2, h3, h4 { text-wrap: balance; line-height: 1.25; }
+h3 { font-family: var(--f-ui); font-weight: 700; font-size: var(--t-lg); margin-block-start: 2.4em; letter-spacing: -.01em; }
+h3::before { content: ""; display: inline-block; width: .55em; height: .55em; background: var(--zone); border-radius: 2px; margin-inline-end: .45em; vertical-align: .12em; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
+h4 { font-family: var(--f-ui); font-weight: 600; font-size: var(--t-md); margin-block-start: 1.8em; color: var(--ink); }
+p, li { text-wrap: pretty; }
+ul, ol { padding-inline-start: 1.3em; }
+li + li { margin-block-start: .3em; }
+li::marker { color: var(--ink-3); }
+strong, b { font-weight: 700; }
+abbr, .en { font-family: var(--f-ui); font-size: .92em; direction: ltr; unicode-bidi: isolate; }
+.num { font-family: var(--f-ui); font-variant-numeric: tabular-nums; font-weight: 600; unicode-bidi: isolate; }
+
+/* ---------- highlight system ---------- */
+mark { background: linear-gradient(transparent 12%, var(--hl) 12%, var(--hl) 88%, transparent 88%); color: var(--hl-ink); padding-inline: .15em; border-radius: 2px; font-weight: 600; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.alarm-t { color: var(--alarm); font-weight: 700; }
+
+.callout { border-radius: var(--r); padding: 1rem 1.15rem 1.05rem; position: relative; }
+.callout > .tag { display: inline-flex; align-items: center; gap: .4em; font-family: var(--f-ui); font-size: var(--t-xs); font-weight: 700; letter-spacing: .06em; padding: .2em .65em; border-radius: 99px; margin-block-end: .5rem; }
+.callout > :last-child { margin-block-end: 0; }
+.callout p { margin: .35em 0; }
+.callout ul, .callout ol { margin: .35em 0; }
+.tag svg { width: 1.05em; height: 1.05em; }
+
+.must { background: var(--hl); color: var(--hl-ink); }
+.must > .tag { background: var(--hl-ink); color: var(--hl); }
+.must mark { background: var(--hl-ink); color: var(--hl); }
+
+.redflag { background: var(--alarm-bg); border: 2px solid var(--alarm); }
+.redflag > .tag { background: var(--alarm); color: #fff; }
+
+.field { background: var(--field-bg); border-inline-start: 5px solid var(--field); border-radius: 4px var(--r) var(--r) 4px; }
+.field > .tag { background: var(--field); color: var(--card); }
+
+.hosp, .hosp-i { font-family: var(--f-hosp); color: var(--hosp); }
+.hosp { font-size: .9rem; line-height: 1.7; background-color: var(--hosp-bg);
+  background-image: linear-gradient(var(--hosp-grid) 1px, transparent 1px), linear-gradient(90deg, var(--hosp-grid) 1px, transparent 1px);
+  background-size: 14px 14px; border: 1px dashed var(--hosp); border-radius: 6px; }
+.hosp > .tag { background: transparent; color: var(--hosp); border: 1px solid var(--hosp); font-family: var(--f-hosp); }
+.hosp-i { font-size: .92em; background: var(--hosp-bg); padding: .05em .4em; border-radius: 4px; border: 1px dashed var(--hosp); }
+
+.note-src { background: transparent; border: 1px solid var(--rule); font-family: var(--f-ui); font-size: var(--t-sm); color: var(--ink-2); }
+.note-src > .tag { background: var(--ink-2); color: var(--paper); }
+
+.recap { background: var(--card); border: 1px solid var(--rule); border-top: 6px solid var(--zone); border-radius: var(--r); padding: 1.1rem 1.3rem; }
+.recap > .tag { background: var(--ink); color: var(--paper); }
+.exam-link { margin-block: 1.4rem 0; font-family: var(--f-ui); font-weight: 700; }
+.exam-link a { color: var(--ink); text-decoration: none; padding: .45rem 1rem; border-radius: 99px; box-shadow: inset 0 0 0 1.5px var(--ink-3); display: inline-block; }
+.exam-link a:hover { background: var(--ink); color: var(--paper); box-shadow: none; }
+.recap ol, .recap ul { font-family: var(--f-ui); font-size: .98rem; }
+
+/* ---------- check-yourself question at the end of each topic; the answer opens on click ---------- */
+.check { --chk: #5B45C2; background: color-mix(in srgb, var(--chk) 7%, var(--card)); border: 1px solid color-mix(in srgb, var(--chk) 35%, var(--rule)); border-inline-start: 5px solid var(--chk); border-radius: 4px var(--r) var(--r) 4px; margin-block: 2rem 1rem; }
+:root[data-theme="dark"] .check { --chk: #A996FF; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .check { --chk: #A996FF; } }
+.check > .tag { background: var(--chk); color: var(--card); }
+.check .q { font-weight: 600; }
+.check details { margin-block-start: .6rem; }
+.check summary { display: inline-flex; align-items: center; gap: .4em; cursor: pointer; list-style: none; font-family: var(--f-ui); font-size: var(--t-sm); font-weight: 600; color: var(--chk); padding: .3em .9em; border-radius: 99px; box-shadow: inset 0 0 0 1.5px var(--chk); user-select: none; }
+.check summary::-webkit-details-marker { display: none; }
+.check summary::after { content: "הצג תשובה"; }
+.check details[open] summary::after { content: "הסתר תשובה"; }
+.check summary:hover, .check details[open] summary { background: var(--chk); color: var(--card); }
+.check summary:focus-visible { outline: 2px solid var(--chk); outline-offset: 2px; }
+.check .a { margin-block-start: .7rem; padding-block-start: .6rem; border-block-start: 1px dashed color-mix(in srgb, var(--chk) 45%, var(--rule)); }
+.check .a > :first-child { margin-block-start: 0; }
+
+/* ---------- steps (real sequences only) ---------- */
+ol.steps { list-style: none; padding: 0; counter-reset: s; display: grid; gap: .55rem; font-family: var(--f-ui); font-size: 1rem; line-height: 1.6; }
+ol.steps > li { counter-increment: s; display: grid; grid-template-columns: 2rem 1fr; gap: .7rem; align-items: start; margin: 0; }
+ol.steps > li::before { content: counter(s); width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center; background: var(--field); color: var(--card); font-weight: 700; font-variant-numeric: tabular-nums; }
+ol.steps > li > * { min-width: 0; }
+
+/* ---------- definitions ---------- */
+dl.kv { display: grid; grid-template-columns: minmax(7rem, max-content) 1fr; gap: .45rem 1.1rem; margin: 0; }
+dl.kv dt { font-family: var(--f-ui); font-weight: 700; }
+dl.kv dd { margin: 0; min-width: 0; }
+@media (max-width: 520px) { dl.kv { grid-template-columns: 1fr; } dl.kv dd { margin-block-end: .5rem; } }
+
+/* ---------- tables ---------- */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: var(--r); background: var(--card); }
+table.data { border-collapse: collapse; width: 100%; font-family: var(--f-ui); font-size: .95rem; line-height: 1.5; font-variant-numeric: tabular-nums; }
+table.data caption { caption-side: top; text-align: start; padding: .8rem 1rem .4rem; font-weight: 700; font-size: var(--t-sm); color: var(--ink-2); letter-spacing: .02em; }
+table.data th, table.data td { padding: .6rem .9rem; text-align: start; vertical-align: top; border-block-end: 1px solid var(--rule); }
+table.data thead th { background: color-mix(in srgb, var(--zone) 18%, var(--card)); font-weight: 700; white-space: nowrap; }
+table.data tbody th { font-weight: 600; background: color-mix(in srgb, var(--ink) 3%, var(--card)); }
+table.data tbody tr:last-child > * { border-block-end: 0; }
+table.data td.hl { background: var(--hl); color: var(--hl-ink); font-weight: 700; }
+table.data td.hosp-c { font-family: var(--f-hosp); color: var(--hosp); font-size: .88rem; }
+
+/* ---------- compare ---------- */
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
+.compare > div { min-width: 0; background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); padding: 1rem 1.15rem; }
+.compare > div > h5 { margin: 0 0 .5rem; font-family: var(--f-ui); font-size: var(--t-md); font-weight: 700; padding-block-end: .45rem; border-block-end: 3px solid var(--zone); }
+.compare ul { margin: 0; font-size: 1rem; }
+
+/* ---------- dose cards ---------- */
+.doses { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1rem; }
+.dose { min-width: 0; background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; display: flex; flex-direction: column; }
+.dose > header { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; padding: .7rem 1rem; background: color-mix(in srgb, var(--zone) 14%, var(--card)); border-block-end: 1px solid var(--rule); }
+.dose > header h5 { margin: 0; font-family: var(--f-ui); font-size: 1.1rem; font-weight: 700; }
+.dose > header .ind { font-family: var(--f-ui); font-size: var(--t-xs); color: var(--ink-2); text-align: end; }
+.dose .big { font-family: var(--f-ui); font-variant-numeric: tabular-nums; font-size: 1.5rem; font-weight: 700; padding: .7rem 1rem .1rem; line-height: 1.3; }
+.dose .big small { font-size: .9rem; font-weight: 500; color: var(--ink-2); }
+.dose dl { margin: 0; padding: .4rem 1rem .9rem; display: grid; grid-template-columns: max-content 1fr; gap: .25rem .8rem; font-family: var(--f-ui); font-size: .92rem; line-height: 1.45; }
+.dose dt { color: var(--ink-3); }
+.dose dd { margin: 0; min-width: 0; }
+.dose .calc { margin-top: auto; border-block-start: 1px dashed var(--rule); padding: .6rem 1rem; font-family: var(--f-ui); font-size: .9rem; background: color-mix(in srgb, var(--ink) 3%, var(--card)); }
+.dose .calc::before { content: "דוגמה · "; font-weight: 700; color: var(--field); }
+
+/* ---------- mnemonic ---------- */
+.mnemonic { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; list-style: none; font-family: var(--f-ui); }
+.mnemonic li { margin: 0; flex: 1 1 9rem; min-width: 0; background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); padding: .6rem .8rem; font-size: .92rem; line-height: 1.45; }
+.mnemonic li b { display: block; font-family: var(--f-display); font-weight: 400; font-size: 1.7rem; line-height: 1; color: var(--ink); margin-block-end: .25rem; }
+
+/* ---------- figures / svg ---------- */
+figure { margin-block: 1.6rem; background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); padding: 1rem; }
+figure > .svg-box { overflow-x: auto; }
+figure svg { display: block; width: 100%; height: auto; max-width: 100%; margin-inline: auto; }
+figure.narrow svg { max-width: 30rem; }
+figcaption { font-family: var(--f-ui); font-size: var(--t-sm); color: var(--ink-2); margin-block-start: .7rem; line-height: 1.55; }
+figcaption b { color: var(--ink); }
+svg text { font-family: var(--f-ui); fill: var(--ink); font-size: 14px; }
+svg .t-sm { font-size: 12px; fill: var(--ink-2); }
+svg .t-b { font-weight: 700; }
+svg .t-alarm { fill: var(--alarm); font-weight: 700; }
+svg .t-field { fill: var(--field); font-weight: 700; }
+svg .t-hosp { font-family: var(--f-hosp); fill: var(--hosp); }
+svg .ln { stroke: var(--ink); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+svg .ln-soft { stroke: var(--ink-3); stroke-width: 1.5; fill: none; stroke-linecap: round; }
+svg .ln-dash { stroke: var(--ink-3); stroke-width: 1.5; fill: none; stroke-dasharray: 5 5; }
+svg .f-card { fill: var(--card); stroke: var(--rule); stroke-width: 1.5; }
+svg .f-soft { fill: color-mix(in srgb, var(--ink) 7%, var(--card)); }
+svg .f-zone { fill: var(--zone); }
+svg .f-zone-soft { fill: color-mix(in srgb, var(--zone) 25%, var(--card)); }
+svg .f-hl { fill: var(--hl); }
+svg .f-alarm { fill: var(--alarm); }
+svg .f-alarm-soft { fill: var(--alarm-bg); stroke: var(--alarm); stroke-width: 1.5; }
+svg .f-field { fill: var(--field); }
+svg .f-field-soft { fill: var(--field-bg); stroke: var(--field); stroke-width: 1.5; }
+svg .f-hosp-soft { fill: var(--hosp-bg); stroke: var(--hosp); stroke-width: 1.2; stroke-dasharray: 4 3; }
+svg .s-alarm { stroke: var(--alarm); stroke-width: 2.5; fill: none; }
+svg .s-field { stroke: var(--field); stroke-width: 2.5; fill: none; }
+svg .s-zone { stroke: var(--zone); stroke-width: 3; fill: none; }
+svg .f-blood-o { fill: #D7263D; } svg .f-blood-d { fill: #5B5BD6; }
+svg .f-skin { fill: color-mix(in srgb, #E8B897 70%, var(--card)); }
+
+/* ---------- chapter frame ---------- */
+.chapter { padding-block: 4rem 2rem; border-block-start: 1px solid var(--rule); }
+.ch-head { max-width: var(--col); margin-inline: auto; margin-block-end: 2rem; }
+.ch-zone { display: flex; align-items: center; gap: .7rem; font-family: var(--f-ui); font-size: var(--t-xs); font-weight: 700; letter-spacing: .1em; color: var(--ink-2); }
+.ch-zone::before { content: ""; width: 3.2rem; height: .9rem; background: var(--zone); border-radius: 3px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+.ch-head h2 { font-family: var(--f-display); font-weight: 400; font-size: var(--t-xl); margin: .5rem 0 .6rem; letter-spacing: -.005em; }
+.ch-lede { font-size: 1.22rem; color: var(--ink-2); margin: 0; line-height: 1.6; }
+.ch-src { margin-block-start: .9rem; font-family: var(--f-ui); font-size: var(--t-xs); color: var(--ink-3); }
+
+/* ---------- hero ---------- */
+.hero { padding-block: 3.5rem 2.5rem; }
+.hero-in { max-width: var(--wide); margin-inline: auto; }
+.eyebrow { font-family: var(--f-ui); font-size: var(--t-xs); letter-spacing: .14em; font-weight: 700; color: var(--ink-2); }
+.hero h1 { font-family: var(--f-display); font-weight: 400; font-size: var(--t-xxl); line-height: 1.02; margin: .6rem 0 1rem; letter-spacing: -.01em; }
+.hero h1 .w { display: block; color: var(--ink-2); font-size: .42em; line-height: 1.3; margin-block-start: .5rem; font-family: var(--f-body); font-weight: 500; }
+.tape { display: grid; grid-template-columns: repeat(var(--n, 9), minmax(0, 1fr)); border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 1px var(--rule); margin-block: 2rem 1.2rem; }
+.tape a { display: flex; flex-direction: column; justify-content: space-between; gap: .9rem; padding: .7rem .6rem .75rem; background: var(--zone); color: #10161E; text-decoration: none; min-height: 8.5rem; min-width: 0; font-family: var(--f-ui); position: relative; transition: filter .15s; }
+.tape a:hover { filter: brightness(1.06) saturate(1.1); }
+.tape a[data-zone="purple"], .tape a[data-zone="red"], .tape a[data-zone="blue"], .tape a[data-zone="green"], .tape a[data-zone="grey"] { color: #fff; }
+.tape a::after { content: ""; position: absolute; inset: 0 auto auto 0; width: 100%; height: 9px; background: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 10px); opacity: .45; }
+.tape .n { font-family: var(--f-display); font-size: 1.9rem; line-height: 1; margin-block-start: .5rem; }
+.tape .l { font-size: .82rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+@media (max-width: 860px) { .tape { grid-template-columns: repeat(3, 1fr); } .tape a { min-height: 6rem; } }
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: .8rem; font-family: var(--f-ui); font-size: .92rem; line-height: 1.5; }
+.legend > div { min-width: 0; display: flex; flex-direction: column; gap: .35rem; }
+.legend .sw { font-weight: 700; }
+.legend .callout { padding: .7rem .85rem; }
+.hero-note { font-family: var(--f-ui); font-size: var(--t-sm); color: var(--ink-3); margin-block-start: 1.4rem; max-width: 52rem; }
+
+/* ---------- rail nav ---------- */
+.rail { display: none; }
+@media (min-width: 1100px) {
+  .rail { display: flex; flex-direction: column; position: fixed; left: max(24px, env(safe-area-inset-left, 0px)); top: 50%; transform: translateY(-50%); z-index: 5; border-radius: 5px; overflow: visible; box-shadow: 0 0 0 1px var(--rule); }
+  .rail a { width: 34px; height: 46px; background: var(--zone); display: grid; place-items: center; font-family: var(--f-ui); font-size: .78rem; font-weight: 700; color: rgba(16,22,30,.75); text-decoration: none; position: relative; transition: width .18s; }
+  .rail a:first-child { border-radius: 5px 5px 0 0; } .rail a:last-child { border-radius: 0 0 5px 5px; }
+  .rail a.on { width: 50px; box-shadow: 0 0 0 2px var(--ink); z-index: 1; color: #10161E; }
+  .rail a .lbl { position: absolute; left: calc(100% + 10px); white-space: nowrap; background: var(--ink); color: var(--paper); padding: .25rem .6rem; border-radius: 5px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .15s; }
+  .rail a:hover .lbl, .rail a:focus-visible .lbl { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .rail a, .tape a { transition: none; } }
+.strip { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 6; display: grid; grid-template-columns: repeat(var(--n, 9), minmax(0, 1fr)); height: 7px; }
+.strip a { background: var(--zone); opacity: .55; }
+.strip a.on { opacity: 1; }
+@media (min-width: 1100px) { .strip { display: none; } }
+
+/* ---------- volume bar (multi-page course guide) ---------- */
+.vols { display: flex; flex-wrap: wrap; gap: .35rem .5rem; align-items: center; max-width: var(--wide); margin: 0 auto; padding: 1rem 0 0; font-family: var(--f-ui); font-size: var(--t-xs); }
+.vols a { color: var(--ink-2); text-decoration: none; padding: .25rem .65rem; border-radius: 99px; box-shadow: inset 0 0 0 1px var(--rule); white-space: nowrap; }
+.vols a:hover { color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink-3); }
+.vols a.home { font-weight: 700; color: var(--ink); }
+.vols a.on, .vols a.home.on { background: var(--ink); color: var(--paper); box-shadow: none; }
+.vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1rem; margin-block: 2rem; }
+.vcard { display: flex; flex-direction: column; background: var(--card); border-radius: 8px; box-shadow: 0 0 0 1px var(--rule); overflow: hidden; color: var(--ink); text-decoration: none; transition: box-shadow .15s; }
+.vcard:hover { box-shadow: 0 0 0 2px var(--ink-3); }
+.vcard .bar { display: grid; grid-auto-flow: column; height: 10px; }
+.vcard .bar span { background: var(--zone); }
+.vcard .in { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: .4rem; }
+.vcard .k { font-family: var(--f-ui); font-size: var(--t-xs); font-weight: 700; letter-spacing: .08em; color: var(--ink-3); }
+.vcard h2 { font-family: var(--f-display); font-weight: 400; font-size: 1.6rem; line-height: 1.15; margin: 0; }
+.vcard ol { margin: .3rem 0 0; padding-inline-start: 1.2rem; font-family: var(--f-ui); font-size: .9rem; line-height: 1.5; color: var(--ink-2); }
+@media (prefers-reduced-motion: reduce) { .vcard { transition: none; } }
+
+footer.end { padding-block: 3rem 4rem; text-align: center; font-family: var(--f-ui); font-size: var(--t-sm); color: var(--ink-3); border-block-start: 1px solid var(--rule); }
+body{margin:0}
+</style>
+<script data-goatcounter="https://zivgabel.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<link rel="stylesheet" href="notes.css">
+</head>
+<body>
+<nav class="strip" aria-hidden="true" style="--n:1"><a href="#ch9" data-zone="white" tabindex="-1"></a></nav>
+<nav class="rail" aria-label="פרקים"><a href="#ch9" data-zone="white">1<span class="lbl">מפות אנטומיות: שלד, שרירים, עורקים, ורידים ותא</span></a></nav>
+
+<div class="page">
+<nav class="vols" aria-label="חלקי הסיכום"><a class="home" href="index.html">דף הבית</a><a href="sci1.html">כימיה, דם, נשימה ועצבים</a><a href="sci2.html">שלד, בטן, כליות ומונחים</a><a class="on" href="maps.html">מפות אנטומיות</a><a class="home" href="exam.html">מבחן תרגול ←</a></nav>
+<header class="hero">
+  <div class="hero-in">
+    <div class="eyebrow">קורס פרמדיקים מד"א · חלק ג׳ · מפות אנטומיות</div>
+    <h1>מפות אנטומיות<span class="w">1 פרקים · מבוסס על חומרי הקורס</span></h1>
+    <nav class="tape" aria-label="תוכן העניינים" style="--n:1"><a href="#ch9" data-zone="white"><span class="n">1</span><span class="l">מפות אנטומיות: שלד, שרירים, עורקים, ורידים ותא</span></a></nav>
+    <div class="legend" aria-label="מקרא">
+      <div><span class="sw">מרקר = חובה לדעת</span><div class="callout must" style="padding:.55rem .8rem">ערך, סף או מינון <mark>שנשאלים במבחן</mark></div></div>
+      <div><span class="sw">ורוד = דגל אדום</span><div class="callout redflag" style="padding:.55rem .8rem">סימן סכנה שמחייב פעולה מיידית</div></div>
+      <div><span class="sw">טורקיז = מה עושים בשטח</span><div class="callout field" style="padding:.55rem .8rem">פעולות הפרמדיק, לפי הסדר</div></div>
+      <div><span class="sw">נייר מילימטרי = בית חולים</span><div class="callout hosp" style="padding:.55rem .8rem">בירור וטיפול בבית החולים, לידיעה כללית</div></div>
+    </div>
+    <p class="hero-note">הסיכום מבוסס על חוברת "מדעי יסוד 2024" ועל "מפות אנטומיות לקורס פרמדיקים" של בית הספר לפרמדיקים של מד"א. כשהחומר סותר את עצמו או נראה שגוי, זה מסומן במסגרת "שימו לב למקור".</p>
+  </div>
+</header>
+
+<main>
+<section class="chapter" id="ch9" data-zone="white">
+  <header class="ch-head">
+    <div class="ch-zone">חלק ג׳ · מפות אנטומיות · פרק 1</div>
+    <h2>מפות אנטומיות: שלד, שרירים, עורקים, ורידים ותא</h2>
+    <p class="ch-lede">כל שם שמסומן על שבע מפות הקורס, באנגלית כפי שמופיע במפה ובעברית, עם המיקום שלו ומה הוא גובל בו. אלה המילים שבהן מתארים מנגנון פציעה, מקום שבר, נקודת דופק או אתר לעירוי, ולכן צריך להכיר אותן בעל פה.</p>
+    <div class="ch-src">מקור: "מפות אנטומיות לקורס פרמדיקים" (מקור: מוסבי, מהדורה 4), עמ' 2–8</div>
+  </header>
+  <div class="flow">
+
+    <h3>איך לקרוא את המפות</h3>
+    <p>כל המפות מצוירות ב<b>מנח האנטומי</b>: אדם עומד ופניו אל הצופה, הידיים לצד הגוף וכפות הידיים פונות קדימה. ליד חלק מהמפות יש שושנת כיוונים:</p>
+    <dl class="kv">
+      <dt><span class="en">S</span> · <span class="en">Superior</span></dt><dd>עליון, לכיוון הראש.</dd>
+      <dt><span class="en">I</span> · <span class="en">Inferior</span></dt><dd>תחתון, לכיוון הרגליים.</dd>
+      <dt><span class="en">R</span> · <span class="en">Right</span></dt><dd>ימין <b>של המטופל</b>. במבט מלפנים הוא בצד שמאל של הדף.</dd>
+      <dt><span class="en">L</span> · <span class="en">Left</span></dt><dd>שמאל של המטופל, בצד ימין של הדף.</dd>
+    </dl>
+    <div class="callout must"><span class="tag">חובה לזכור</span>
+      <p>"ימין" ו"שמאל" תמיד מתייחסים <mark>לגוף המטופל</mark>, לא לצד שלך. מטופל ששוכב מולך: הצד הימני שלו נמצא מול היד השמאלית שלך.</p>
+    </div>
+    <p>בטבלאות שבהמשך, מקף (—) בעמודה העברית פירושו שאין שם עברי מקובל, ומשתמשים בשם האנגלי כפי שמופיע במפה.</p>
+
+    <h3>הגולגולת (מבט צד ומבט מלפנים)</h3>
+    <p>עמוד 2 מציג את הגולגולת פעמיים: <b>A</b> במבט מהצד (הפנים פונות ימינה) ו-<b>B</b> במבט מלפנים. מחלקים את העצמות לשתי קבוצות: <b>עצמות הגולגולת (המוח)</b>, שיוצרות את "הקופסה" שמגינה על המוח, ו<b>עצמות הפנים</b>, שבונות את הפנים, ארובות העיניים, האף והלסתות.</p>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 640 400" role="img" aria-label="תרשים פשוט של הגולגולת במבט צד: עצם המצח, הקודקוד, העורף והרקה, התפר הכלילי, ועצמות הפנים: הלחי, הלסת העליונה והלסת התחתונה">
+      <ellipse cx="290" cy="170" rx="200" ry="135" class="f-soft"/>
+      <ellipse cx="290" cy="170" rx="200" ry="135" fill="none" class="ln"/>
+      <path d="M370,46 Q362,120 350,190" fill="none" class="s-alarm"/>
+      <path d="M165,65 Q160,150 172,238" fill="none" class="ln-dash"/>
+      <ellipse cx="262" cy="222" rx="85" ry="42" class="f-zone-soft"/>
+      <rect x="395" y="190" width="70" height="40" rx="10" class="f-card"/>
+      <rect x="395" y="236" width="122" height="50" rx="12" class="f-card"/>
+      <path d="M330,300 L330,350 Q330,372 352,372 L498,372 Q520,372 520,350 L520,296 Z" class="f-card"/>
+      <text x="268" y="105" direction="rtl" text-anchor="middle" class="t-b">קודקוד</text>
+      <text x="268" y="125" direction="ltr" text-anchor="middle" class="t-sm">Parietal</text>
+      <text x="430" y="115" direction="rtl" text-anchor="middle" class="t-b">מצח</text>
+      <text x="430" y="135" direction="ltr" text-anchor="middle" class="t-sm">Frontal</text>
+      <text x="126" y="165" direction="rtl" text-anchor="middle" class="t-b">עורף</text>
+      <text x="126" y="185" direction="ltr" text-anchor="middle" class="t-sm">Occipital</text>
+      <text x="262" y="220" direction="rtl" text-anchor="middle" class="t-b">רקה</text>
+      <text x="262" y="240" direction="ltr" text-anchor="middle" class="t-sm">Temporal</text>
+      <text x="430" y="215" direction="rtl" text-anchor="middle">לחי</text>
+      <text x="456" y="266" direction="rtl" text-anchor="middle">לסת עליונה</text>
+      <text x="425" y="345" direction="rtl" text-anchor="middle">לסת תחתונה</text>
+      <line x1="440" y1="32" x2="374" y2="48" class="ln-soft"/>
+      <text x="510" y="30" direction="rtl" text-anchor="middle" class="t-alarm">התפר הכלילי</text>
+      <text x="80" y="370" direction="rtl" text-anchor="middle" class="t-sm">אחור</text>
+      <text x="590" y="370" direction="rtl" text-anchor="middle" class="t-sm">פנים</text>
+    </svg></div>
+      <figcaption><b>מפת הגולגולת, סכמטית.</b> המצח מקדימה, הקודקוד למעלה, העורף מאחור, והרקה בצד למטה. התפר הכלילי <span class="en">(Coronal suture)</span> מפריד בין עצם המצח לעצמות הקודקוד. הקו המקווקו מסמן את הגבול בין הקודקוד לעורף (במפה הוא לא נקרא בשם). עצם היתד, עצם המסננת, עצם הדמעות ועצם האף קטנות מדי לתרשים, והן מופיעות בטבלה.</figcaption></figure>
+
+    <div class="tbl-wrap"><table class="data"><caption>עצמות הגולגולת (המוח) ותפר, עמ' 2</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / גבולות</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Frontal bone</span></th><td>עצם המצח</td><td>יוצרת את המצח ואת הגג של ארובות העיניים. בולטת בשתי המפות (A ו-B).</td></tr>
+        <tr><th><span class="en">Parietal bone</span></th><td>עצם הקודקוד</td><td>חלק עליון-צדי של הגולגולת, מאחורי עצם המצח. במבט מלפנים רואים רק את שוליה בצד.</td></tr>
+        <tr><th><span class="en">Coronal suture</span></th><td>התפר הכלילי</td><td>הקו שבין עצם המצח לעצם הקודקוד, בראש הגולגולת.</td></tr>
+        <tr><th><span class="en">Occipital bone</span></th><td>עצם העורף</td><td>החלק האחורי-תחתון של הגולגולת, מאחורי הקודקוד והרקה.</td></tr>
+        <tr><th><span class="en">Temporal bone</span></th><td>עצם הרקה</td><td>בצד הגולגולת, מתחת לקודקוד ומעל הלסת התחתונה. בה נמצאים תעלת השמע וזיז הפטמה.</td></tr>
+        <tr><th><span class="en">Mastoid process of temporal bone</span></th><td>זיז הפטמה של עצם הרקה</td><td>בליטה של עצם הרקה <b>מאחורי האוזן ומתחתיה</b>.</td></tr>
+        <tr><th><span class="en">External auditory canal</span></th><td>תעלת השמע החיצונית</td><td>הפתח בעצם הרקה, מעט לפני זיז הפטמה ומאחורי מפרק הלסת.</td></tr>
+        <tr><th><span class="en">Sphenoid bone</span></th><td>עצם היתד</td><td>בצד, בין עצם המצח לעצם הרקה (צהובה במפה). מלפנים נראית בדופן האחורית-צדית של ארובת העין.</td></tr>
+        <tr><th><span class="en">Ethmoid bone</span></th><td>עצם המסננת</td><td>בדופן הפנימית של ארובת העין, בין העיניים ומאחורי עצמות האף.</td></tr>
+      </tbody></table></div>
+
+    <div class="tbl-wrap"><table class="data"><caption>עצמות הפנים וסימני דרך, עמ' 2</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / גבולות</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Nasal bone</span></th><td>עצם האף</td><td>גשר האף, מתחת לעצם המצח ובין שתי ארובות העיניים.</td></tr>
+        <tr><th><span class="en">Lacrimal bone</span></th><td>עצם הדמעות</td><td>עצם קטנה בדופן הפנימית-קדמית של ארובת העין, ליד עצם האף.</td></tr>
+        <tr><th><span class="en">Zygomatic bone</span></th><td>עצם הלחי</td><td>עצם הלחי הבולטת, מתחת לארובת העין ובצדה. גובלת בלסת העליונה.</td></tr>
+        <tr><th><span class="en">Maxilla</span></th><td>הלסת העליונה</td><td>נושאת את השיניים העליונות. יוצרת את רצפת ארובת העין ואת דפנות חלל האף.</td></tr>
+        <tr><th><span class="en">Mandible</span></th><td>הלסת התחתונה</td><td>נושאת את השיניים התחתונות ויוצרת את הסנטר. העצם היחידה בגולגולת שזזה (מפרק הלסת).</td></tr>
+        <tr><th><span class="en">Mental foramen</span></th><td>נקב הסנטר</td><td>נקב קטן בחזית הלסת התחתונה, מתחת לשיניים. מופיע בשתי המפות, אחד בכל צד.</td></tr>
+        <tr><th><span class="en">Vomer</span></th><td>עצם המחרשה</td><td>החלק התחתון של מחיצת האף, באמצע חלל האף (מבט B).</td></tr>
+        <tr><th><span class="en">Middle concha</span></th><td>הקונכית האמצעית</td><td>מדף עצם בדופן הצדית של חלל האף (מבט B). היא חלק מעצם המסננת.</td></tr>
+        <tr><th><span class="en">Inferior concha</span></th><td>הקונכית התחתונה</td><td>מדף נמוך יותר בדופן חלל האף, מתחת לקונכית האמצעית (מבט B).</td></tr>
+      </tbody></table></div>
+    <p>סה"כ בעמוד 2 יש <span class="num">18</span> שמות שונים. שני קווי הובלה במבט A הם בלי שם (חותכים במפה), ולכן לא נכללו.</p>
+    <div class="callout redflag"><span class="tag">דגל אדום</span>
+      <p>אחרי חבלת ראש, <span class="alarm-t">שטף דם מעל זיז הפטמה</span> (מאחורי האוזן), או דם/נוזל צלול מתעלת השמע או מהאף, מרמזים על שבר בבסיס הגולגולת. עצם הרקה דקה יחסית, ומכה בצד הראש היא מנגנון מסוכן.</p>
+    </div>
+    <p><b>למה זה חשוב לפרמדיק:</b> בתיעוד ובדיווח לבית החולים מציינים איפה הפגיעה לפי שם העצם ("חבלה אזור עצם הרקה משמאל"). עצם הלחי, הלסת העליונה והלסת התחתונה הן האזור שנפגע בחבלות פנים, ושבר בהן יכול לסכן את נתיב האוויר.</p>
+
+    <h3>בית החזה: צלעות ועצם החזה</h3>
+    <p>בחלק העליון של עמוד 3 מוצג בית החזה מלפנים. <b>12 זוגות צלעות</b> מחוברות מאחור לעמוד השדרה. מלפנים הן נבדלות זו מזו לפי הדרך שבה הן מתחברות לעצם החזה, ובמפה הן ממוספרות <span class="num">1</span>–<span class="num">12</span>.</p>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 760 420" role="img" aria-label="תרשים צלעות: צלעות 1 עד 7 מחוברות ישירות לעצם החזה בסחוס, צלעות 8 עד 10 מחוברות לסחוס של צלע 7, צלעות 11 ו-12 צפות">
+      <rect x="600" y="30" width="24" height="372" rx="6" class="f-soft"/>
+      <text x="612" y="20" direction="rtl" text-anchor="middle" class="t-sm">עמוד השדרה</text>
+      <rect x="150" y="30" width="40" height="60" rx="6" class="f-card"/>
+      <rect x="150" y="90" width="40" height="145" rx="6" class="f-card"/>
+      <polygon points="155,235 185,235 170,265" class="f-card"/>
+      <text x="75" y="64" direction="rtl" text-anchor="middle" class="t-sm">ידית</text>
+      <text x="75" y="166" direction="rtl" text-anchor="middle" class="t-sm">גוף</text>
+      <text x="75" y="254" direction="rtl" text-anchor="middle" class="t-sm">זיז החרב</text>
+      <text x="170" y="295" direction="rtl" text-anchor="middle" class="t-b">עצם החזה</text>
+      <text x="230" y="22" direction="rtl" text-anchor="middle" class="t-sm">סחוס צלעי</text>
+      <rect x="270" y="40" width="330" height="14" rx="7" class="f-field-soft"/>
+      <rect x="270" y="70" width="330" height="14" rx="7" class="f-field-soft"/>
+      <rect x="270" y="100" width="330" height="14" rx="7" class="f-field-soft"/>
+      <rect x="270" y="130" width="330" height="14" rx="7" class="f-field-soft"/>
+      <rect x="270" y="160" width="330" height="14" rx="7" class="f-field-soft"/>
+      <rect x="270" y="190" width="330" height="14" rx="7" class="f-field-soft"/>
+      <rect x="270" y="220" width="330" height="14" rx="7" class="f-field-soft"/>
+      <rect x="190" y="40" width="80" height="14" class="f-soft"/>
+      <rect x="190" y="70" width="80" height="14" class="f-soft"/>
+      <rect x="190" y="100" width="80" height="14" class="f-soft"/>
+      <rect x="190" y="130" width="80" height="14" class="f-soft"/>
+      <rect x="190" y="160" width="80" height="14" class="f-soft"/>
+      <rect x="190" y="190" width="80" height="14" class="f-soft"/>
+      <rect x="190" y="220" width="80" height="14" class="f-soft"/>
+      <rect x="290" y="250" width="310" height="14" rx="7" class="f-hl"/>
+      <rect x="290" y="280" width="310" height="14" rx="7" class="f-hl"/>
+      <rect x="290" y="310" width="310" height="14" rx="7" class="f-hl"/>
+      <line x1="290" y1="257" x2="218" y2="234" class="ln-soft"/>
+      <line x1="290" y1="287" x2="224" y2="234" class="ln-soft"/>
+      <line x1="290" y1="317" x2="230" y2="234" class="ln-soft"/>
+      <rect x="420" y="340" width="180" height="14" rx="7" class="f-alarm-soft"/>
+      <rect x="420" y="370" width="180" height="14" rx="7" class="f-alarm-soft"/>
+      <text x="580" y="52" direction="ltr" text-anchor="middle" class="t-sm">1</text>
+      <text x="580" y="82" direction="ltr" text-anchor="middle" class="t-sm">2</text>
+      <text x="580" y="112" direction="ltr" text-anchor="middle" class="t-sm">3</text>
+      <text x="580" y="142" direction="ltr" text-anchor="middle" class="t-sm">4</text>
+      <text x="580" y="172" direction="ltr" text-anchor="middle" class="t-sm">5</text>
+      <text x="580" y="202" direction="ltr" text-anchor="middle" class="t-sm">6</text>
+      <text x="580" y="232" direction="ltr" text-anchor="middle" class="t-sm">7</text>
+      <text x="580" y="262" direction="ltr" text-anchor="middle" class="t-sm">8</text>
+      <text x="580" y="292" direction="ltr" text-anchor="middle" class="t-sm">9</text>
+      <text x="580" y="322" direction="ltr" text-anchor="middle" class="t-sm">10</text>
+      <text x="580" y="352" direction="ltr" text-anchor="middle" class="t-sm">11</text>
+      <text x="580" y="382" direction="ltr" text-anchor="middle" class="t-sm">12</text>
+      <path d="M635,40 H645 V234 H635" fill="none" class="ln"/>
+      <path d="M635,250 H645 V324 H635" fill="none" class="ln"/>
+      <path d="M635,340 H645 V384 H635" fill="none" class="ln"/>
+      <text x="700" y="132" direction="rtl" text-anchor="middle" class="t-field">אמיתיות</text>
+      <text x="700" y="152" direction="ltr" text-anchor="middle" class="t-sm">1–7</text>
+      <text x="700" y="282" direction="rtl" text-anchor="middle" class="t-b">כוזבות</text>
+      <text x="700" y="302" direction="ltr" text-anchor="middle" class="t-sm">8–10</text>
+      <text x="700" y="357" direction="rtl" text-anchor="middle" class="t-alarm">צפות</text>
+      <text x="700" y="377" direction="ltr" text-anchor="middle" class="t-sm">11–12</text>
+    </svg></div>
+      <figcaption><b>שלוש קבוצות צלעות (צד אחד).</b> צלעות 1–7 (ירוק) מחוברות לעצם החזה ישירות, כל אחת בסחוס משלה. צלעות 8–10 (צהוב) מגיעות לעצם החזה רק בעקיפין: הסחוס שלהן מצטרף לסחוס של הצלע שמעליהן. צלעות 11–12 (ורוד) קצרות ונגמרות בקצה חופשי, בלי חיבור קדמי. ברוב הספרים 11–12 נחשבות גם הן כוזבות; ראו את ההערה למטה.</figcaption></figure>
+
+    <div class="tbl-wrap"><table class="data"><caption>בית החזה, עמ' 3 (חלק עליון)</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / גבולות</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Clavicle</span></th><td>עצם הבריח</td><td>עצם אופקית מעל הצלע הראשונה, מחוברת לידית עצם החזה ונמשכת אל הכתף.</td></tr>
+        <tr><th><span class="en">Sternum</span></th><td>עצם החזה</td><td>העצם השטוחה במרכז החזה מלפנים. במפה מסומנת בסוגר שכולל שלושה חלקים:</td></tr>
+        <tr><th><span class="en">Manubrium</span></th><td>ידית עצם החזה</td><td>החלק העליון והרחב. מתחבר לעצמות הבריח ולצלע הראשונה.</td></tr>
+        <tr><th><span class="en">Body</span></th><td>גוף עצם החזה</td><td>החלק האמצעי והארוך, מתחת לידית. אליו מתחברים הסחוסים של רוב הצלעות האמיתיות.</td></tr>
+        <tr><th><span class="en">Xiphoid process</span></th><td>זיז החרב</td><td>הקצה התחתון והמחודד של עצם החזה, מתחת לגוף.</td></tr>
+        <tr><th><span class="en">Costal cartilage</span></th><td>סחוס הצלעות</td><td>הסחוס (בכחול במפה) שמחבר את קצה הצלע לעצם החזה. בצלעות התחתונות הוא ארוך ומשופע.</td></tr>
+        <tr><th><span class="en">Costosternal articulation</span></th><td>מפרק צלע-חזה</td><td>נקודת המפגש בין סחוס הצלע לעצם החזה. במפה מסומן ליד צלע 1.</td></tr>
+        <tr><th><span class="en">True ribs</span></th><td>צלעות אמיתיות</td><td class="hl">צלעות 1–7 (הסוגר במפה). כל אחת מחוברת לעצם החזה בסחוס משלה.</td></tr>
+        <tr><th><span class="en">False ribs</span></th><td>צלעות כוזבות</td><td class="hl">מצלע 8 ומטה (הסוגר התחתון במפה). לא מחוברות לעצם החזה ישירות.</td></tr>
+        <tr><th><span class="en">Floating ribs</span></th><td>צלעות צפות</td><td class="hl">צלעות 11–12. אין להן חיבור קדמי, הקצה שלהן חופשי.</td></tr>
+      </tbody></table></div>
+    <div class="callout note-src"><span class="tag">שימו לב למקור</span>
+      <p>בעמ' 3 הסוגר של <span class="en">False ribs</span> מתחיל מצלע 8 ונמשך עד אזור צלע 10. צלעות 11–12 מסומנות בנפרד כ-<span class="en">Floating ribs</span>. בספרי אנטומיה מקובל שהצלעות הכוזבות הן 8–12, והצפות (11–12) הן תת-קבוצה שלהן. ליד עמוד השדרה מופיעים גם סימוני חוליות בעיגול שחור, שלא ניתן לקרוא בבירור, ולכן לא נכללו.</p>
+    </div>
+    <div class="callout field"><span class="tag">בשטח</span>
+      <p>עצם החזה היא נקודת הייחוס של עיסויי החזה: הלחיצות על <b>החצי התחתון של עצם החזה</b>, ולא על זיז החרב. זיז החרב קטן ושביר, ומתחתיו נמצא הכבד. בחבלת חזה, מיששים לאורך הצלעות ומחפשים רגישות, קרפיטציות וקטע שזז בניגוד לשאר בית החזה.</p>
+    </div>
+
+    <h3>האגן</h3>
+    <p>בחלק התחתון של עמוד 3 מוצג האגן מלפנים. האגן הוא טבעת: עצם העצה מאחור, ומכל צד עצם ירכה (<span class="en">Coxa</span>) שבנויה משלושה חלקים: <b>כסל, חיק ושת</b>. שני צדי האגן נפגשים מלפנים בחיבור החיק.</p>
+    <div class="tbl-wrap"><table class="data"><caption>האגן, עמ' 3 (חלק תחתון)</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / גבולות</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Sacrum</span></th><td>עצם העצה</td><td>במרכז האגן מאחור, בין שתי עצמות הכסל. ממשיכה את עמוד השדרה כלפי מטה.</td></tr>
+        <tr><th><span class="en">Sacral promontory</span></th><td>—</td><td>השפה הקדמית-עליונה הבולטת של עצם העצה.</td></tr>
+        <tr><th><span class="en">Ilium</span></th><td>עצם הכסל</td><td>"הכנף" הגדולה והרחבה בכל צד, החלק העליון של עצם הירכה.</td></tr>
+        <tr><th><span class="en">Anterior superior iliac spine</span></th><td>הקוץ הכסלי העליון הקדמי</td><td>הבליטה הקדמית בשפת עצם הכסל. אפשר למשש אותה מתחת לעור בחזית האגן.</td></tr>
+        <tr><th><span class="en">Pubis</span></th><td>עצם החיק</td><td>החלק הקדמי-תחתון של עצם הירכה, משני צדי קו האמצע.</td></tr>
+        <tr><th><span class="en">Symphysis pubis</span></th><td>חיבור החיק (סימפיזה)</td><td>המפרק בקו האמצע מלפנים, שבו נפגשות שתי עצמות החיק.</td></tr>
+        <tr><th><span class="en">Ischium</span></th><td>עצם השת</td><td>החלק האחורי-תחתון של עצם הירכה, מתחת לנקב החוסם.</td></tr>
+        <tr><th><span class="en">Obturator foramen</span></th><td>הנקב החוסם</td><td>הפתח הגדול בכל צד, שמוקף בעצם החיק ובעצם השת.</td></tr>
+      </tbody></table></div>
+    <p>קו ההובלה העליון במפת האגן הוא בלי שם, ולכן לא נכלל.</p>
+    <div class="callout redflag"><span class="tag">דגל אדום</span>
+      <p>האגן הוא טבעת. לכן שבר באגן הוא לרוב יותר משבר אחד, ובתוך הטבעת עוברים כלי דם גדולים (ענפי הכסל, בפרקי העורקים והוורידים בהמשך). <span class="alarm-t">שבר אגן יכול לגרום לדימום פנימי מסיבי בלי שום סימן חיצוני.</span> לא "מנדנדים" אגן כדי לבדוק אם יש בו שבר.</p>
+    </div>
+
+    <h3>השלד כולו: צירי מול נספח</h3>
+    <p>עמוד 4 מציג את השלד כולו מלפנים (A) ומאחור (B). מעל המפה יש שלוש כותרות: <b><span class="en">Axial skeleton</span></b> משמאל ומימין, ו<b><span class="en">Appendicular skeleton</span></b> באמצע. השמות בעמודות הצד שייכים לשלד הצירי, והשמות בעמודה האמצעית שייכים לשלד הנספח.</p>
+    <dl class="kv">
+      <dt>שלד צירי <span class="en">(Axial)</span></dt><dd>"הציר" של הגוף: גולגולת, עמוד השדרה ובית החזה. מגן על המוח, חוט השדרה, הלב והריאות.</dd>
+      <dt>שלד נספח <span class="en">(Appendicular)</span></dt><dd>מה ש"נספח" לציר: הגפיים העליונות והתחתונות והחגורות שמחברות אותן לציר (חגורת הכתפיים וחגורת האגן). אחראי בעיקר על התנועה.</dd>
+    </dl>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 640 450" role="img" aria-label="דמות שלד פשוטה: הגולגולת, עמוד השדרה ובית החזה צבועים כשלד צירי; הגפיים, עצמות הבריח והאגן צבועים כשלד נספח">
+      <rect x="150" y="106" width="140" height="10" rx="5" class="f-field-soft"/>
+      <rect x="138" y="120" width="14" height="170" rx="7" class="f-field-soft"/>
+      <rect x="288" y="120" width="14" height="170" rx="7" class="f-field-soft"/>
+      <rect x="134" y="294" width="22" height="26" rx="6" class="f-field-soft"/>
+      <rect x="284" y="294" width="22" height="26" rx="6" class="f-field-soft"/>
+      <ellipse cx="196" cy="300" rx="24" ry="18" class="f-field-soft"/>
+      <ellipse cx="244" cy="300" rx="24" ry="18" class="f-field-soft"/>
+      <rect x="190" y="322" width="14" height="96" rx="7" class="f-field-soft"/>
+      <rect x="236" y="322" width="14" height="96" rx="7" class="f-field-soft"/>
+      <rect x="176" y="420" width="30" height="10" rx="4" class="f-field-soft"/>
+      <rect x="234" y="420" width="30" height="10" rx="4" class="f-field-soft"/>
+      <circle cx="220" cy="60" r="34" class="f-zone"/>
+      <rect x="170" y="122" width="100" height="90" rx="30" class="f-zone"/>
+      <rect x="212" y="96" width="16" height="196" rx="5" class="f-zone"/>
+      <rect x="212" y="96" width="16" height="196" rx="5" fill="none" class="ln-soft"/>
+      <polygon points="206,292 234,292 220,318" class="f-zone"/>
+      <rect x="590" y="110" width="24" height="24" rx="4" class="f-zone"/>
+      <text x="580" y="128" direction="rtl" text-anchor="start" class="t-b">שלד צירי (Axial)</text>
+      <text x="580" y="152" direction="rtl" text-anchor="start" class="t-sm">גולגולת, לסת תחתונה, עמוד השדרה,</text>
+      <text x="580" y="170" direction="rtl" text-anchor="start" class="t-sm">עצם החזה, צלעות, עצם העצה</text>
+      <rect x="590" y="230" width="24" height="24" rx="4" class="f-field-soft"/>
+      <text x="580" y="248" direction="rtl" text-anchor="start" class="t-b">שלד נספח (Appendicular)</text>
+      <text x="580" y="272" direction="rtl" text-anchor="start" class="t-sm">בריח ושכמה, עצמות הגפה העליונה,</text>
+      <text x="580" y="290" direction="rtl" text-anchor="start" class="t-sm">עצם הירכה (האגן), עצמות הגפה התחתונה</text>
+    </svg></div>
+      <figcaption><b>שני חלקי השלד.</b> הצירי (אפור) הוא הקו המרכזי: גולגולת, עמוד שדרה ובית חזה. הנספח (ירוק) הוא כל מה שתלוי עליו: חגורת הכתפיים (בריח, שכמה), הידיים, חגורת האגן (עצם הירכה) והרגליים. בתרשים עצם העצה צבועה כצירית, כמקובל באנטומיה; ראו את ההערה למקור.</figcaption></figure>
+
+    <div class="tbl-wrap"><table class="data"><caption>שלד צירי <span class="en">(Axial skeleton)</span>, עמ' 4</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / גבולות</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Skull</span></th><td>הגולגולת</td><td>בראש השלד. מסומנת גם במבט קדמי וגם במבט אחורי.</td></tr>
+        <tr><th><span class="en">Mandible</span></th><td>הלסת התחתונה</td><td>החלק התחתון של הגולגולת, מעל הצוואר.</td></tr>
+        <tr><th><span class="en">Sternum</span></th><td>עצם החזה</td><td>במרכז בית החזה מלפנים (מבט A).</td></tr>
+        <tr><th><span class="en">Ribs</span></th><td>הצלעות</td><td>מקיפות את בית החזה, מעמוד השדרה מאחור ועד עצם החזה מלפנים (A ו-B).</td></tr>
+        <tr><th><span class="en">Vertebral column</span></th><td>עמוד השדרה</td><td>מבסיס הגולגולת ועד האגן. במבט B רואים אותו לכל אורכו.</td></tr>
+      </tbody></table></div>
+
+    <div class="tbl-wrap"><table class="data"><caption>שלד נספח <span class="en">(Appendicular skeleton)</span>, עמ' 4, מלמעלה למטה</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / גבולות</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Clavicle</span></th><td>עצם הבריח</td><td>מעצם החזה אל הכתף, בבסיס הצוואר.</td></tr>
+        <tr><th><span class="en">Scapula</span></th><td>עצם השכמה</td><td>עצם שטוחה בגב העליון, מעל הצלעות (בולטת במבט B).</td></tr>
+        <tr><th><span class="en">Humerus</span></th><td>עצם הזרוע</td><td>העצם הארוכה בין הכתף למרפק.</td></tr>
+        <tr><th><span class="en">Ulna</span></th><td>עצם הגומד</td><td>אחת משתי עצמות האמה, בצד הזרת.</td></tr>
+        <tr><th><span class="en">Radius</span></th><td>עצם החישור</td><td>העצם השנייה של האמה, בצד האגודל.</td></tr>
+        <tr><th><span class="en">Carpals</span></th><td>עצמות שורש כף היד</td><td>עצמות קטנות בין האמה לכף היד.</td></tr>
+        <tr><th><span class="en">Metacarpals</span></th><td>עצמות המסרק של כף היד</td><td>עצמות כף היד, בין שורש כף היד לאצבעות.</td></tr>
+        <tr><th><span class="en">Phalanges</span></th><td>גלילי האצבעות</td><td>עצמות האצבעות. השם מסומן במפה גם ביד וגם ברגל.</td></tr>
+        <tr><th><span class="en">Coxa</span></th><td>עצם הירכה (עצם האגן)</td><td>העצם הרחבה בכל צד של האגן. אליה מתחבר הירך.</td></tr>
+        <tr><th><span class="en">Sacrum</span></th><td>עצם העצה</td><td>במרכז האגן, בתחתית עמוד השדרה (מסומנת בעמודה האמצעית, ראו הערה).</td></tr>
+        <tr><th><span class="en">Femur</span></th><td>עצם הירך</td><td>העצם הארוכה ביותר בגוף, מהאגן ועד הברך.</td></tr>
+        <tr><th><span class="en">Patella</span></th><td>פיקת הברך</td><td>עצם קטנה בחזית הברך.</td></tr>
+        <tr><th><span class="en">Tibia</span></th><td>עצם השוק</td><td>העצם העבה של השוק, בצד הפנימי.</td></tr>
+        <tr><th><span class="en">Fibula</span></th><td>עצם השוקית</td><td>העצם הדקה של השוק, בצד החיצוני.</td></tr>
+        <tr><th><span class="en">Tarsals</span></th><td>עצמות שורש כף הרגל</td><td>עצמות הקרסול והעקב.</td></tr>
+        <tr><th><span class="en">Metatarsals</span></th><td>עצמות המסרק של כף הרגל</td><td>בין שורש כף הרגל לאצבעות.</td></tr>
+      </tbody></table></div>
+    <div class="callout note-src"><span class="tag">שימו לב למקור</span>
+      <p>בעמ' 4 <span class="en">Sacrum</span> מסומנת בעמודה האמצעית, שמתחת לכותרת <span class="en">Appendicular skeleton</span>. באנטומיה מקובל שעצם העצה היא חלק מעמוד השדרה, כלומר מהשלד <b>הצירי</b>. כנראה זה רק עניין של מקום בדף. אם תישאלו, עצם העצה היא צירית.</p>
+    </div>
+    <div class="callout field"><span class="tag">בשטח</span>
+      <p>שבר בעצם ארוכה (עצם הירך, עצם הזרוע, השוק) מתארים לפי שם העצם והצד. שבר בעצם הירך יכול לגרום לאיבוד דם משמעותי לתוך הירך. השלד הצירי מגן על איברים חיוניים, ולכן פגיעה בגולגולת, בעמוד השדרה או בבית החזה מחייבת לחשוב על האיבר שמתחת.</p>
+    </div>
+
+    <h3>השרירים: מבט קדמי ואחורי</h3>
+    <p>עמוד 5 מציג את שרירי השטח מלפנים (A) ומאחור (B). חלק מהשמות מופיעים בשני המבטים (למשל <span class="en">Trapezius</span>, <span class="en">Deltoid</span>, <span class="en">Gastrocnemius</span>), כי השריר עוטף את הגוף ונראה משני הצדדים.</p>
+
+    <div class="tbl-wrap"><table class="data"><caption>שרירים במבט קדמי (A), עמ' 5, מלמעלה למטה</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / גבולות</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Facial muscles</span></th><td>שרירי הפנים</td><td>שרירים דקים סביב העיניים, האף והפה.</td></tr>
+        <tr><th><span class="en">Sternocleidomastoid</span></th><td>—</td><td>רצועת שריר אלכסונית בצד הצוואר, מאחורי האוזן ועד עצם החזה ועצם הבריח.</td></tr>
+        <tr><th><span class="en">Trapezius</span></th><td>שריר הטרפז</td><td>בין הצוואר לכתף מלמעלה; ממשיך לגב העליון.</td></tr>
+        <tr><th><span class="en">Pectoralis major</span></th><td>שריר החזה הגדול</td><td>על החזה העליון, מעצם החזה ועצם הבריח ועד הזרוע.</td></tr>
+        <tr><th><span class="en">Deltoid</span></th><td>השריר הדלתאי</td><td>עוטף את הכתף.</td></tr>
+        <tr><th><span class="en">Serratus anterior</span></th><td>השריר המשונן הקדמי</td><td>בצד בית החזה, על הצלעות, מתחת לבית השחי.</td></tr>
+        <tr><th><span class="en">Biceps brachii</span></th><td>השריר הדו-ראשי של הזרוע</td><td>בחזית הזרוע, בין הכתף למרפק.</td></tr>
+        <tr><th><span class="en">Rectus abdominis</span></th><td>שריר הבטן הישר</td><td>שני טורים אנכיים במרכז הבטן, משני צדי הקו הלבן.</td></tr>
+        <tr><th><span class="en">Linea alba</span></th><td>הקו הלבן</td><td>פס גידי בקו האמצע של הבטן, בין שני שרירי הבטן הישרים.</td></tr>
+        <tr><th><span class="en">External abdominal oblique</span></th><td>שריר הבטן האלכסוני החיצוני</td><td>בצדי הבטן, לצד שריר הבטן הישר.</td></tr>
+        <tr><th><span class="en">Flexors of wrist and fingers</span></th><td>כופפי שורש כף היד והאצבעות</td><td>בצד הקדמי (צד כף היד) של האמה.</td></tr>
+        <tr><th><span class="en">Extensors of wrist and fingers</span></th><td>פושטי שורש כף היד והאצבעות</td><td>בצד האחורי (גב היד) של האמה.</td></tr>
+        <tr><th><span class="en">Adductors of thigh</span></th><td>מקרבי הירך</td><td>בצד הפנימי של הירך העליונה.</td></tr>
+        <tr><th><span class="en">Sartorius</span></th><td>שריר החייט</td><td>רצועה ארוכה שחוצה את הירך באלכסון, מצד האגן אל הצד הפנימי של הברך.</td></tr>
+        <tr><th><span class="en">Rectus femoris</span></th><td>השריר הישר של הירך</td><td>במרכז חזית הירך. אחד מראשי השריר הארבע-ראשי <span class="en">(Quadriceps)</span>.</td></tr>
+        <tr><th><span class="en">Vastus lateralis</span></th><td>—</td><td>בצד החיצוני של חזית הירך. ראש של השריר הארבע-ראשי.</td></tr>
+        <tr><th><span class="en">Vastus medialis</span></th><td>—</td><td>בצד הפנימי של חזית הירך, מעל הברך. ראש של השריר הארבע-ראשי.</td></tr>
+        <tr><th><span class="en">Patella</span></th><td>פיקת הברך</td><td>בחזית הברך, בתוך הגיד של שרירי הירך הקדמיים.</td></tr>
+        <tr><th><span class="en">Patellar tendon</span></th><td>גיד הפיקה</td><td>מתחת לפיקה, מחבר אותה לעצם השוק.</td></tr>
+        <tr><th><span class="en">Tibialis anterior</span></th><td>שריר השוק הקדמי</td><td>בחזית השוק, לצד עצם השוק.</td></tr>
+        <tr><th><span class="en">Extensor digitorum longus</span></th><td>פושט האצבעות הארוך</td><td>בחזית-צד השוק, לצד שריר השוק הקדמי.</td></tr>
+        <tr><th><span class="en">Gastrocnemius</span></th><td>שריר התאומים</td><td>"שריר הסובך" בחלק האחורי-עליון של השוק (נראה גם מלפנים מהצד).</td></tr>
+        <tr><th><span class="en">Soleus</span></th><td>—</td><td>בשוק, מתחת לשריר התאומים ולצדו.</td></tr>
+        <tr><th><span class="en">Superior extensor retinaculum</span></th><td>—</td><td>רצועה רוחבית בחזית הקרסול, שמחזיקה את גידי הפושטים צמודים.</td></tr>
+      </tbody></table></div>
+
+    <div class="tbl-wrap"><table class="data"><caption>שרירים במבט אחורי (B), עמ' 5, מלמעלה למטה</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / גבולות</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Sternocleidomastoid</span></th><td>—</td><td>בצד הצוואר, נראה גם מאחור, מתחת לאוזן.</td></tr>
+        <tr><th><span class="en">Seventh cervical vertebra</span></th><td>החוליה הצווארית השביעית (<span class="en">C7</span>)</td><td>הבליטה בבסיס הצוואר מאחור, בקו האמצע. סימן דרך ולא שריר.</td></tr>
+        <tr><th><span class="en">Trapezius</span></th><td>שריר הטרפז</td><td>שריר גדול בצורת יהלום בגב העליון, מהצוואר ועד הכתפיים ואמצע הגב.</td></tr>
+        <tr><th><span class="en">Deltoid</span></th><td>השריר הדלתאי</td><td>עוטף את הכתף מאחור.</td></tr>
+        <tr><th><span class="en">Infraspinatus</span></th><td>השריר התת-קוצי</td><td>על עצם השכמה, מתחת לטרפז.</td></tr>
+        <tr><th><span class="en">Triceps brachii</span></th><td>השריר התלת-ראשי של הזרוע</td><td>בגב הזרוע, בין הכתף למרפק.</td></tr>
+        <tr><th><span class="en">Latissimus dorsi</span></th><td>שריר הגב הרחב</td><td>שריר רחב בגב התחתון-אמצעי, עד צד בית החזה.</td></tr>
+        <tr><th><span class="en">Extensors of the wrist and fingers</span></th><td>פושטי שורש כף היד והאצבעות</td><td>בגב האמה.</td></tr>
+        <tr><th><span class="en">External abdominal oblique</span></th><td>שריר הבטן האלכסוני החיצוני</td><td>בצד הגו, נראה גם מאחור מתחת לשריר הגב הרחב.</td></tr>
+        <tr><th><span class="en">Gluteus maximus</span></th><td>שריר העכוז הגדול</td><td>יוצר את הישבן.</td></tr>
+        <tr><th><span class="en">Hamstring group</span></th><td>שרירי הירך האחוריים</td><td>קבוצה בגב הירך (סוגר במפה) שכוללת את שני השרירים הבאים:</td></tr>
+        <tr><th><span class="en">Semitendinosus</span></th><td>—</td><td>בגב הירך, בצד הפנימי.</td></tr>
+        <tr><th><span class="en">Biceps femoris</span></th><td>השריר הדו-ראשי של הירך</td><td>בגב הירך, בצד החיצוני.</td></tr>
+        <tr><th><span class="en">Adductor magnus</span></th><td>המקרב הגדול</td><td>בצד הפנימי של גב הירך, מתחת לישבן.</td></tr>
+        <tr><th><span class="en">Iliotibial tract</span></th><td>—</td><td>רצועה גידית ארוכה בצד החיצוני של הירך, מהאגן ועד הברך.</td></tr>
+        <tr><th><span class="en">Gastrocnemius</span></th><td>שריר התאומים</td><td>שני ה"ראשים" הבולטים בגב השוק העליון, מתחת לברך.</td></tr>
+        <tr><th><span class="en">Soleus</span></th><td>—</td><td>מתחת לשריר התאומים, בחלק התחתון של גב השוק.</td></tr>
+        <tr><th><span class="en">Calcaneal (Achilles) tendon</span></th><td>גיד אכילס (גיד העקב)</td><td>בגב הקרסול, מחבר את שרירי הסובך לעקב.</td></tr>
+      </tbody></table></div>
+    <p>כמה קווי הובלה במפה (בכתף, בבית השחי ובשוק) הם בלי שם, ולכן לא נכללו.</p>
+    <div class="callout field"><span class="tag">בשטח</span>
+      <p>השריר הדלתאי ושריר הירך הקדמי-חיצוני (<span class="en">Vastus lateralis</span>) הם אתרים מוכרים להזרקה לתוך השריר (IM). בשימוש בשרירי עזר לנשימה רואים את ה-<span class="en">Sternocleidomastoid</span> בולט בצוואר ואת שרירי הבטן עובדים בנשיפה. זה סימן למצוקה נשימתית.</p>
+    </div>
+
+    <h3>העורקים</h3>
+    <p>עמוד 6 מציג את מערכת העורקים (באדום). כדאי לקרוא אותה כמו עץ: מתחילים בלב, עוברים בקשת אבי העורקים, ומשם הדם יוצא לראש, לידיים, לבטן ולרגליים. בכל ענף, שם העורק משתנה כשהוא עובר אזור, אבל זה אותו צינור שממשיך.</p>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 800 420" role="img" aria-label="עץ העורקים מקשת אבי העורקים: עורק התרדמה המשותף מתפצל לפנימי ולחיצוני, והחיצוני נותן את עורק הפנים והעורק העורפי. עורק תת-הבריח ממשיך לבית השחי, לעורק הזרוע, ומתפצל לחישור ולגומד ומשם לעורקי האצבעות">
+      <defs><marker id="ch9-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" class="f-alarm"/></marker></defs>
+      <rect x="300" y="20" width="200" height="40" rx="10" class="f-alarm-soft"/>
+      <text x="400" y="45" direction="rtl" text-anchor="middle" class="t-b">קשת אבי העורקים</text>
+      <path d="M400,60 V80 H200 V98" class="s-alarm" marker-end="url(#ch9-arr)"/>
+      <path d="M400,80 H600 V100" class="s-alarm" marker-end="url(#ch9-arr)"/>
+      <rect x="115" y="102" width="170" height="36" rx="8" class="f-card"/>
+      <text x="200" y="125" direction="rtl" text-anchor="middle">תרדמה משותף</text>
+      <rect x="525" y="102" width="150" height="36" rx="8" class="f-card"/>
+      <text x="600" y="125" direction="rtl" text-anchor="middle">תת-הבריח</text>
+      <path d="M200,138 V158 H110 V178" class="s-alarm" marker-end="url(#ch9-arr)"/>
+      <path d="M200,158 H290 V178" class="s-alarm" marker-end="url(#ch9-arr)"/>
+      <rect x="35" y="182" width="150" height="36" rx="8" class="f-card"/>
+      <text x="110" y="205" direction="rtl" text-anchor="middle">תרדמה פנימי</text>
+      <rect x="215" y="182" width="150" height="36" rx="8" class="f-card"/>
+      <text x="290" y="205" direction="rtl" text-anchor="middle">תרדמה חיצוני</text>
+      <text x="110" y="248" direction="rtl" text-anchor="middle" class="t-sm">אל המוח</text>
+      <path d="M290,218 V238 H240 V258" class="s-alarm" marker-end="url(#ch9-arr)"/>
+      <path d="M290,238 H350 V258" class="s-alarm" marker-end="url(#ch9-arr)"/>
+      <rect x="185" y="262" width="110" height="36" rx="8" class="f-card"/>
+      <text x="240" y="285" direction="rtl" text-anchor="middle">עורק הפנים</text>
+      <rect x="305" y="262" width="100" height="36" rx="8" class="f-card"/>
+      <text x="355" y="285" direction="rtl" text-anchor="middle">עורפי</text>
+      <path d="M600,138 V158" class="s-alarm" marker-end="url(#ch9-arr)"/>
+      <rect x="535" y="162" width="130" height="36" rx="8" class="f-card"/>
+      <text x="600" y="185" direction="rtl" text-anchor="middle">בית השחי</text>
+      <path d="M600,198 V218" class="s-alarm" marker-end="url(#ch9-arr)"/>
+      <rect x="535" y="222" width="130" height="36" rx="8" class="f-field-soft"/>
+      <text x="600" y="245" direction="rtl" text-anchor="middle">עורק הזרוע</text>
+      <path d="M600,258 V275 H520 V290" class="s-alarm" marker-end="url(#ch9-arr)"/>
+      <path d="M600,275 H680 V290" class="s-alarm" marker-end="url(#ch9-arr)"/>
+      <rect x="460" y="294" width="120" height="36" rx="8" class="f-field-soft"/>
+      <text x="520" y="317" direction="rtl" text-anchor="middle">חישור</text>
+      <rect x="620" y="294" width="120" height="36" rx="8" class="f-card"/>
+      <text x="680" y="317" direction="rtl" text-anchor="middle">גומד</text>
+      <path d="M520,330 V348 H596" class="s-alarm"/>
+      <path d="M680,330 V348 H604" class="s-alarm"/>
+      <path d="M600,348 V360" class="s-alarm" marker-end="url(#ch9-arr)"/>
+      <rect x="530" y="364" width="140" height="36" rx="8" class="f-card"/>
+      <text x="600" y="387" direction="rtl" text-anchor="middle">עורקי האצבעות</text>
+    </svg></div>
+      <figcaption><b>מהקשת אל הראש והיד.</b> בצד ימין, עורק התרדמה המשותף ועורק תת-הבריח יוצאים מהגזע הזרועי-ראשי <span class="en">(Brachiocephalic)</span>. בצד שמאל הם יוצאים ישר מהקשת. בירוק מסומנים עורקי היד שבהם ממששים דופק (עורק הזרוע ועורק החישור).</figcaption></figure>
+
+    <div class="tbl-wrap"><table class="data"><caption>עורקים: הלב, הקשת, הראש והצוואר, עמ' 6</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / רצף</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Right coronary</span></th><td>העורק הכלילי הימני</td><td>על פני הלב, בצד ימין. מספק דם לשריר הלב.</td></tr>
+        <tr><th><span class="en">Left coronary</span></th><td>העורק הכלילי השמאלי</td><td>על פני הלב, בצד שמאל.</td></tr>
+        <tr><th><span class="en">Pulmonary</span></th><td>עורק הריאה</td><td>יוצא מהלב אל הריאות (מסומן בכחול בתוך הריאות).</td></tr>
+        <tr><th><span class="en">Arch of aorta</span></th><td>קשת אבי העורקים</td><td>הקשת שיוצאת מהלב למעלה ומתעקלת שמאלה ולמטה. ממנה יוצאים שלושת הענפים הבאים.</td></tr>
+        <tr><th><span class="en">Brachiocephalic</span></th><td>הגזע הזרועי-ראשי</td><td>הענף הראשון של הקשת, בצד ימין. ממנו יוצא עורק התרדמה המשותף הימני.</td></tr>
+        <tr><th><span class="en">Right common carotid</span></th><td>עורק התרדמה המשותף הימני</td><td>עולה בצד ימין של הצוואר, מהגזע הזרועי-ראשי.</td></tr>
+        <tr><th><span class="en">Left common carotid</span></th><td>עורק התרדמה המשותף השמאלי</td><td>יוצא ישר מהקשת ועולה בצד שמאל של הצוואר.</td></tr>
+        <tr><th><span class="en">Left subclavian</span></th><td>עורק תת-הבריח השמאלי</td><td>יוצא מהקשת ופונה לצד שמאל, מתחת לעצם הבריח, אל היד.</td></tr>
+        <tr><th><span class="en">Internal carotid</span></th><td>עורק התרדמה הפנימי</td><td>המשך של עורק התרדמה המשותף בצוואר העליון, נכנס לגולגולת.</td></tr>
+        <tr><th><span class="en">External carotid</span></th><td>עורק התרדמה החיצוני</td><td>הענף השני של עורק התרדמה המשותף. ממנו יוצאים עורקי הפנים והקרקפת.</td></tr>
+        <tr><th><span class="en">Facial</span></th><td>עורק הפנים</td><td>על הפנים, ליד הלסת התחתונה ועד האף.</td></tr>
+        <tr><th><span class="en">Occipital</span></th><td>העורק העורפי</td><td>מאחורי האוזן, עולה אל העורף.</td></tr>
+      </tbody></table></div>
+
+    <div class="tbl-wrap"><table class="data"><caption>עורקים: הגו והבטן, עמ' 6, מלמעלה למטה</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / רצף</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Aorta</span></th><td>אבי העורקים</td><td>המשך הקשת כלפי מטה, מאחורי הלב, דרך החזה.</td></tr>
+        <tr><th><span class="en">Celiac</span></th><td>הגזע הצליאקי</td><td>הענף הראשון של אבי העורקים בבטן העליונה, ממש מתחת לסרעפת.</td></tr>
+        <tr><th><span class="en">Splenic</span></th><td>עורק הטחול</td><td>יוצא לצד שמאל, אל הטחול.</td></tr>
+        <tr><th><span class="en">Superior mesenteric</span></th><td>העורק המזנטרי העליון</td><td>יוצא מאבי העורקים מתחת לגזע הצליאקי, אל המעיים.</td></tr>
+        <tr><th><span class="en">Renal</span></th><td>עורק הכליה</td><td>יוצא לצדדים, אל הכליות.</td></tr>
+        <tr><th><span class="en">Abdominal aorta</span></th><td>אבי העורקים הבטני</td><td>החלק של אבי העורקים בבטן, במרכז הגוף לפני עמוד השדרה.</td></tr>
+        <tr><th><span class="en">Inferior mesenteric</span></th><td>העורק המזנטרי התחתון</td><td>ענף נמוך של אבי העורקים הבטני, אל המעי הגס.</td></tr>
+        <tr><th><span class="en">Common iliac</span></th><td>עורק הכסל המשותף</td><td>אבי העורקים מתפצל בבטן התחתונה לשני עורקי כסל משותפים, אחד לכל רגל.</td></tr>
+        <tr><th><span class="en">Internal iliac (hypogastric)</span></th><td>עורק הכסל הפנימי</td><td>ענף של עורק הכסל המשותף, אל תוך האגן.</td></tr>
+        <tr><th><span class="en">External iliac</span></th><td>עורק הכסל החיצוני</td><td>הענף השני של עורק הכסל המשותף, ממשיך אל הרגל.</td></tr>
+      </tbody></table></div>
+
+    <div class="tbl-wrap"><table class="data"><caption>עורקים: הגפה העליונה, עמ' 6, מהכתף לאצבעות</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / רצף</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Axillary</span></th><td>עורק בית השחי</td><td>המשך של עורק תת-הבריח, בבית השחי.</td></tr>
+        <tr><th><span class="en">Brachial</span></th><td>עורק הזרוע</td><td>המשך של עורק בית השחי, לאורך הצד הפנימי של הזרוע ועד המרפק.</td></tr>
+        <tr><th><span class="en">Radial</span></th><td>עורק החישור</td><td>מהמרפק לאורך האמה, בצד האגודל, ועד שורש כף היד.</td></tr>
+        <tr><th><span class="en">Ulnar</span></th><td>עורק הגומד</td><td>מהמרפק לאורך האמה, בצד הזרת.</td></tr>
+        <tr><th><span class="en">Digital</span></th><td>עורקי האצבעות</td><td>באצבעות, בהמשך לעורקי כף היד.</td></tr>
+      </tbody></table></div>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 800 590" role="img" aria-label="מסלול אבי העורקים מהחזה לבטן, ענפי הבטן, התפצלות לעורקי הכסל, ומשם עורק הירך, עורק הברך, עורקי השוק ועורק גב כף הרגל">
+      <defs><marker id="ch9-arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" class="f-alarm"/></marker></defs>
+      <rect x="310" y="12" width="180" height="36" rx="8" class="f-alarm-soft"/>
+      <text x="400" y="35" direction="rtl" text-anchor="middle" class="t-b">אבי העורקים בחזה</text>
+      <path d="M400,48 V78" class="s-alarm" marker-end="url(#ch9-arr2)"/>
+      <rect x="310" y="82" width="180" height="36" rx="8" class="f-alarm-soft"/>
+      <text x="400" y="105" direction="rtl" text-anchor="middle" class="t-b">אבי העורקים הבטני</text>
+      <path d="M490,100 H566" class="s-alarm" marker-end="url(#ch9-arr2)"/>
+      <rect x="570" y="60" width="210" height="170" rx="10" class="f-card"/>
+      <text x="675" y="85" direction="rtl" text-anchor="middle" class="t-b">ענפים לאיברי הבטן</text>
+      <text x="675" y="115" direction="rtl" text-anchor="middle">צליאקי (ממנו: הטחול)</text>
+      <text x="675" y="145" direction="rtl" text-anchor="middle">מזנטרי עליון</text>
+      <text x="675" y="175" direction="rtl" text-anchor="middle">כליה (לשני הצדדים)</text>
+      <text x="675" y="205" direction="rtl" text-anchor="middle">מזנטרי תחתון</text>
+      <path d="M400,118 V158" class="s-alarm" marker-end="url(#ch9-arr2)"/>
+      <rect x="310" y="162" width="180" height="36" rx="8" class="f-card"/>
+      <text x="400" y="185" direction="rtl" text-anchor="middle">כסל משותף</text>
+      <path d="M400,198 V225 H250 V248" class="s-alarm" marker-end="url(#ch9-arr2)"/>
+      <path d="M400,225 H550 V248" class="s-alarm" marker-end="url(#ch9-arr2)"/>
+      <rect x="165" y="252" width="170" height="36" rx="8" class="f-card"/>
+      <text x="250" y="275" direction="rtl" text-anchor="middle">כסל פנימי</text>
+      <text x="250" y="310" direction="rtl" text-anchor="middle" class="t-sm">אל האגן</text>
+      <rect x="465" y="252" width="170" height="36" rx="8" class="f-card"/>
+      <text x="550" y="275" direction="rtl" text-anchor="middle">כסל חיצוני</text>
+      <path d="M550,288 V318" class="s-alarm" marker-end="url(#ch9-arr2)"/>
+      <rect x="465" y="322" width="170" height="36" rx="8" class="f-field-soft"/>
+      <text x="550" y="345" direction="rtl" text-anchor="middle">עורק הירך</text>
+      <path d="M465,340 H379" class="s-alarm" marker-end="url(#ch9-arr2)"/>
+      <rect x="225" y="322" width="150" height="36" rx="8" class="f-card"/>
+      <text x="300" y="345" direction="rtl" text-anchor="middle">ירך עמוק</text>
+      <path d="M550,358 V388" class="s-alarm" marker-end="url(#ch9-arr2)"/>
+      <rect x="465" y="392" width="170" height="36" rx="8" class="f-field-soft"/>
+      <text x="550" y="415" direction="rtl" text-anchor="middle">עורק הברך</text>
+      <path d="M550,428 V445 H450 V458" class="s-alarm" marker-end="url(#ch9-arr2)"/>
+      <path d="M550,445 H660 V458" class="s-alarm" marker-end="url(#ch9-arr2)"/>
+      <rect x="375" y="462" width="150" height="36" rx="8" class="f-card"/>
+      <text x="450" y="485" direction="rtl" text-anchor="middle">שוק קדמי</text>
+      <rect x="585" y="462" width="150" height="36" rx="8" class="f-field-soft"/>
+      <text x="660" y="485" direction="rtl" text-anchor="middle">שוק אחורי</text>
+      <path d="M450,498 V528" class="s-alarm" marker-end="url(#ch9-arr2)"/>
+      <rect x="365" y="532" width="170" height="36" rx="8" class="f-field-soft"/>
+      <text x="450" y="555" direction="rtl" text-anchor="middle">גב כף הרגל</text>
+    </svg></div>
+      <figcaption><b>מאבי העורקים אל כף הרגל.</b> אבי העורקים יורד דרך החזה והבטן, נותן ענפים לאיברי הבטן, ומתפצל לשני עורקי כסל משותפים. הכסל החיצוני הופך לעורק הירך, אחר כך לעורק הברך <span class="en">(Popliteal)</span>, ומשם לשני עורקי השוק. עורק השוק הקדמי ממשיך לגב כף הרגל ולעורקי המסרק הגביים. בירוק מסומנות נקודות דופק ברגל.</figcaption></figure>
+
+    <div class="tbl-wrap"><table class="data"><caption>עורקים: הגפה התחתונה, עמ' 6, מהמפשעה לכף הרגל</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / רצף</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Femoral</span></th><td>עורק הירך</td><td>המשך של עורק הכסל החיצוני מהמפשעה, לאורך הירך.</td></tr>
+        <tr><th><span class="en">Deep femoral</span></th><td>עורק הירך העמוק</td><td>ענף של עורק הירך בירך העליונה, עמוק יותר בשריר.</td></tr>
+        <tr><th><span class="en">Deep medial circumflex femoral</span></th><td>—</td><td>ענף קטן בירך העליונה-פנימית, שמקיף את צוואר עצם הירך.</td></tr>
+        <tr><th><span class="en">Popliteal</span></th><td>עורק הברך</td><td><b>מאחורי הברך</b>. המשך של עורק הירך.</td></tr>
+        <tr><th><span class="en">Anterior tibial</span></th><td>עורק השוק הקדמי</td><td>ענף של עורק הברך, יורד בחזית השוק.</td></tr>
+        <tr><th><span class="en">Posterior tibial</span></th><td>עורק השוק האחורי</td><td>ענף של עורק הברך, יורד בגב השוק ועד הקרסול הפנימי.</td></tr>
+        <tr><th><span class="en">Dorsal pedis</span></th><td>עורק גב כף הרגל</td><td>על גב כף הרגל, המשך של עורק השוק הקדמי.</td></tr>
+        <tr><th><span class="en">Dorsal metatarsal</span></th><td>—</td><td>עורקים קטנים על גב כף הרגל, בין עצמות המסרק, לכיוון האצבעות.</td></tr>
+      </tbody></table></div>
+    <p>סה"כ בעמוד 6 יש <span class="num">35</span> שמות עורקים. שני קווי הובלה בלי שם (בכף היד ובשוק) לא נכללו.</p>
+    <div class="callout note-src"><span class="tag">שימו לב למקור</span>
+      <p>במפה כתוב <span class="en">Dorsal pedis</span>. השם המקובל בספרות הוא <span class="en">Dorsalis pedis</span>, וזה אותו עורק. דבר נוסף: עורק הריאה <span class="en">(Pulmonary)</span> מופיע במפת העורקים כי הוא יוצא מהלב, אבל הוא נושא דם <b>דל חמצן</b> אל הריאות. זה היוצא מן הכלל לכלל "עורקים נושאים דם מחומצן".</p>
+    </div>
+    <div class="callout must"><span class="tag">חובה לזכור</span>
+      <p>עורק מקבל שם חדש כשהוא עובר אזור: <mark>תת-הבריח ‏←‏ בית השחי ‏←‏ הזרוע ‏←‏ חישור/גומד</mark>, וברגל: <mark>כסל חיצוני ‏←‏ הירך ‏←‏ הברך ‏←‏ שוק קדמי/אחורי</mark>.</p>
+    </div>
+    <div class="callout field"><span class="tag">בשטח</span>
+      <p>נקודות הדופק הן העורקים מהמפה שעוברים קרוב לעור: <b>עורק התרדמה</b> בצוואר, <b>עורק הזרוע</b> בצד הפנימי של הזרוע (מקובל אצל תינוקות), <b>עורק החישור</b> בשורש כף היד, <b>עורק הירך</b> במפשעה, <b>עורק הברך</b> מאחורי הברך, <b>עורק השוק האחורי</b> מאחורי הקרסול הפנימי ו<b>עורק גב כף הרגל</b>. בפגיעה בגפה בודקים דופק מתחת לפגיעה. אם אין דופק, ייתכן שהעורק נפגע או נלחץ.</p>
+    </div>
+
+    <h3>הוורידים</h3>
+    <p>עמוד 7 מציג את מערכת הוורידים (בכחול). הכיוון הפוך לעורקים: <b>הדם זורם מהפריפריה אל הלב</b>. לכן קוראים את המפה מהקצוות פנימה: מהאצבעות, דרך ורידים שמתאחדים לוורידים גדולים יותר, ועד שני הוורידים הנבובים שנכנסים לעלייה הימנית.</p>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 860 460" role="img" aria-label="החזרה הוורידית: מהראש דרך וריד הצוואר, מהיד דרך בית השחי ותת-הבריח, אל הזרועי-ראשי והווריד הנבוב העליון. מהרגל דרך הברך, הירך והכסל אל הווריד הנבוב התחתון. וריד השער מוביל דם מהמעיים לכבד, ומשם ורידי הכבד לווריד הנבוב התחתון. שני הוורידים הנבובים נכנסים לעלייה הימנית">
+      <defs><marker id="ch9-arrv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 Z" class="f-blood-d"/></marker></defs>
+      <rect x="15" y="12" width="150" height="36" rx="8" class="f-card"/>
+      <text x="90" y="35" direction="rtl" text-anchor="middle">סינוסים במוח</text>
+      <rect x="180" y="12" width="120" height="36" rx="8" class="f-card"/>
+      <text x="240" y="35" direction="rtl" text-anchor="middle">וריד הפנים</text>
+      <path d="M90,48 V65 H165 V78" class="ln" marker-end="url(#ch9-arrv)"/>
+      <path d="M240,48 V65 H165" class="ln"/>
+      <rect x="90" y="82" width="150" height="36" rx="8" class="f-card"/>
+      <text x="165" y="105" direction="rtl" text-anchor="middle">צוואר פנימי</text>
+      <rect x="265" y="82" width="130" height="36" rx="8" class="f-field-soft"/>
+      <text x="330" y="105" direction="rtl" text-anchor="middle">צוואר חיצוני</text>
+      <rect x="400" y="12" width="240" height="36" rx="8" class="f-field-soft"/>
+      <text x="520" y="35" direction="ltr" text-anchor="middle" class="t-sm">Cephalic · Basilic · Median cubital</text>
+      <path d="M520,48 V78" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="455" y="82" width="130" height="36" rx="8" class="f-card"/>
+      <text x="520" y="105" direction="rtl" text-anchor="middle">בית השחי</text>
+      <path d="M520,118 V135 H440 V148" class="ln" marker-end="url(#ch9-arrv)"/>
+      <path d="M330,118 V170 H371" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="375" y="152" width="130" height="36" rx="8" class="f-card"/>
+      <text x="440" y="175" direction="rtl" text-anchor="middle">תת-הבריח</text>
+      <path d="M165,118 V240 H221" class="ln" marker-end="url(#ch9-arrv)"/>
+      <path d="M440,188 V240 H379" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="225" y="222" width="150" height="36" rx="8" class="f-card"/>
+      <text x="300" y="245" direction="rtl" text-anchor="middle">זרועי-ראשי</text>
+      <path d="M300,258 V288" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="215" y="292" width="170" height="36" rx="8" class="f-zone-soft"/>
+      <text x="300" y="315" direction="rtl" text-anchor="middle" class="t-b">נבוב עליון</text>
+      <path d="M300,328 V420 H341" class="ln" marker-end="url(#ch9-arrv)"/>
+      <text x="528" y="250" direction="rtl" text-anchor="middle" class="t-sm">מזנטרי עליון ותחתון, טחול</text>
+      <path d="M528,256 V268" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="425" y="272" width="170" height="36" rx="8" class="f-card"/>
+      <text x="510" y="295" direction="rtl" text-anchor="middle">וריד השער</text>
+      <path d="M510,308 V328" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="435" y="332" width="150" height="36" rx="8" class="f-card"/>
+      <text x="510" y="355" direction="rtl" text-anchor="middle">כבד, ורידי הכבד</text>
+      <path d="M585,350 H600 V380 H611" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="655" y="12" width="190" height="36" rx="8" class="f-card"/>
+      <text x="750" y="35" direction="rtl" text-anchor="middle">כף הרגל ושוק</text>
+      <path d="M750,48 V78" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="675" y="82" width="150" height="36" rx="8" class="f-card"/>
+      <text x="750" y="105" direction="rtl" text-anchor="middle">וריד הברך</text>
+      <path d="M750,118 V148" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="675" y="152" width="150" height="36" rx="8" class="f-card"/>
+      <text x="750" y="175" direction="rtl" text-anchor="middle">וריד הירך</text>
+      <path d="M750,188 V218" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="665" y="222" width="170" height="36" rx="8" class="f-card"/>
+      <text x="750" y="245" direction="rtl" text-anchor="middle">כסל חיצוני</text>
+      <path d="M750,258 V288" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="665" y="292" width="170" height="36" rx="8" class="f-card"/>
+      <text x="750" y="315" direction="rtl" text-anchor="middle">כסל משותף</text>
+      <path d="M750,328 V358" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="615" y="362" width="220" height="36" rx="8" class="f-zone-soft"/>
+      <text x="725" y="385" direction="rtl" text-anchor="middle" class="t-b">נבוב תחתון</text>
+      <path d="M700,398 V420 H519" class="ln" marker-end="url(#ch9-arrv)"/>
+      <rect x="345" y="402" width="170" height="40" rx="10" class="f-alarm-soft"/>
+      <text x="430" y="427" direction="rtl" text-anchor="middle" class="t-b">עלייה ימנית</text>
+    </svg></div>
+      <figcaption><b>החזרה הוורידית אל הלב.</b> הראש והיד מתנקזים אל הווריד הנבוב העליון. הרגליים והבטן מתנקזות אל הווריד הנבוב התחתון. דם מהמעיים ומהטחול לא הולך ישר לווריד הנבוב: הוא עובר קודם דרך וריד השער אל הכבד, ורק אחר כך דרך ורידי הכבד. בירוק מסומנים ורידים שטחיים שמשמשים לפתיחת וריד.</figcaption></figure>
+
+    <div class="tbl-wrap"><table class="data"><caption>ורידים: הראש, הצוואר והחזה, עמ' 7, בכיוון הזרימה</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / לאן מתנקז</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Superior sagittal sinus</span></th><td>הסינוס הסגיטלי העליון</td><td>לאורך קו האמצע בראש הגולגולת, בתוך הגולגולת.</td></tr>
+        <tr><th><span class="en">Inferior sagittal sinus</span></th><td>הסינוס הסגיטלי התחתון</td><td>עמוק יותר בתוך הגולגולת, מתחת לסינוס העליון. הסינוסים מתנקזים בסוף לווריד הצוואר הפנימי.</td></tr>
+        <tr><th><span class="en">Facial</span></th><td>וריד הפנים</td><td>על הפנים, יורד אל הצוואר.</td></tr>
+        <tr><th><span class="en">Internal jugular</span></th><td>וריד הצוואר הפנימי</td><td>עמוק בצוואר, לצד עורק התרדמה. מצטרף לווריד תת-הבריח ויוצר את הווריד הזרועי-ראשי.</td></tr>
+        <tr><th><span class="en">External jugular</span></th><td>וריד הצוואר החיצוני</td><td>שטחי בצד הצוואר. מתנקז לווריד תת-הבריח.</td></tr>
+        <tr><th><span class="en">Right subclavian</span></th><td>וריד תת-הבריח הימני</td><td>מתחת לעצם הבריח הימנית.</td></tr>
+        <tr><th><span class="en">Left subclavian</span></th><td>וריד תת-הבריח השמאלי</td><td>מתחת לעצם הבריח השמאלית.</td></tr>
+        <tr><th><span class="en">Right brachiocephalic</span></th><td>הווריד הזרועי-ראשי הימני</td><td>נוצר מאיחוד תת-הבריח והצוואר הפנימי בצד ימין. קצר.</td></tr>
+        <tr><th><span class="en">Left brachiocephalic</span></th><td>הווריד הזרועי-ראשי השמאלי</td><td>אותו דבר בצד שמאל. ארוך יותר, וחוצה לצד ימין.</td></tr>
+        <tr><th><span class="en">Superior vena cava</span></th><td>הווריד הנבוב העליון</td><td>נוצר מאיחוד שני הזרועיים-ראשיים, יורד אל הלב (עלייה ימנית).</td></tr>
+        <tr><th><span class="en">Right pulmonary</span></th><td>וריד הריאה הימני</td><td>מהריאה הימנית אל הלב.</td></tr>
+      </tbody></table></div>
+
+    <div class="tbl-wrap"><table class="data"><caption>ורידים: הגפה העליונה, עמ' 7, מהיד אל הכתף</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / לאן מתנקז</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Digital</span></th><td>ורידי האצבעות</td><td>באצבעות היד (השם מופיע גם בכף הרגל).</td></tr>
+        <tr><th><span class="en">Cephalic</span></th><td>—</td><td>וריד שטחי לאורך <b>הצד החיצוני</b> (צד האגודל) של האמה והזרוע, עד הכתף. מתנקז לבית השחי.</td></tr>
+        <tr><th><span class="en">Basilic</span></th><td>—</td><td>וריד שטחי לאורך <b>הצד הפנימי</b> (צד הזרת) של האמה והזרוע.</td></tr>
+        <tr><th><span class="en">Median basilic</span></th><td>—</td><td>וריד שטחי באמה, מתחבר לווריד ה-<span class="en">Basilic</span> ליד המרפק.</td></tr>
+        <tr><th><span class="en">Median cubital</span></th><td>—</td><td><b>בחזית המרפק</b>, וריד אלכסוני שמחבר בין ה-<span class="en">Cephalic</span> ל-<span class="en">Basilic</span>.</td></tr>
+        <tr><th><span class="en">Axillary</span></th><td>וריד בית השחי</td><td>בבית השחי. ממשיך לווריד תת-הבריח.</td></tr>
+      </tbody></table></div>
+
+    <div class="tbl-wrap"><table class="data"><caption>ורידים: הבטן, עמ' 7</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / לאן מתנקז</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Inferior vena cava</span></th><td>הווריד הנבוב התחתון</td><td>עולה מהבטן לאורך עמוד השדרה, דרך הכבד, אל הלב (עלייה ימנית).</td></tr>
+        <tr><th><span class="en">Hepatic</span></th><td>ורידי הכבד</td><td>יוצאים מהכבד ומתנקזים לווריד הנבוב התחתון.</td></tr>
+        <tr><th><span class="en">Hepatic portal</span></th><td>וריד השער</td><td>מוביל דם מהמעיים ומהטחול <b>אל הכבד</b>.</td></tr>
+        <tr><th><span class="en">Splenic</span></th><td>וריד הטחול</td><td>מהטחול (שמאל עליון) אל מערכת השער.</td></tr>
+        <tr><th><span class="en">Superior mesenteric</span></th><td>הווריד המזנטרי העליון</td><td>מהמעי הדק, אל וריד השער.</td></tr>
+        <tr><th><span class="en">Inferior mesenteric</span></th><td>הווריד המזנטרי התחתון</td><td>מהמעי הגס, אל מערכת השער.</td></tr>
+        <tr><th><span class="en">Gastroepiploic</span></th><td>—</td><td>לאורך הקימור הגדול של הקיבה, מתנקז למערכת השער.</td></tr>
+        <tr><th><span class="en">Common iliac</span></th><td>וריד הכסל המשותף</td><td>מסומן בשני הצדדים. שני ורידי הכסל המשותפים מתאחדים לווריד הנבוב התחתון.</td></tr>
+        <tr><th><span class="en">Internal iliac</span></th><td>וריד הכסל הפנימי</td><td>מהאגן, מצטרף לכסל המשותף.</td></tr>
+        <tr><th><span class="en">External iliac</span></th><td>וריד הכסל החיצוני</td><td>ממשיך את וריד הירך מעל המפשעה, מצטרף לכסל המשותף.</td></tr>
+      </tbody></table></div>
+
+    <div class="tbl-wrap"><table class="data"><caption>ורידים: הגפה התחתונה, עמ' 7, מכף הרגל למעלה</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן במפה / לאן מתנקז</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Digital</span></th><td>ורידי האצבעות</td><td>באצבעות כף הרגל.</td></tr>
+        <tr><th><span class="en">Dorsal venous arch</span></th><td>הקשת הוורידית של גב כף הרגל</td><td>קשת על גב כף הרגל. ממנה יוצאים הוורידים השטחיים של הרגל.</td></tr>
+        <tr><th><span class="en">Anterior tibial</span></th><td>וריד השוק הקדמי</td><td>בחזית השוק, לצד העורק באותו שם.</td></tr>
+        <tr><th><span class="en">Posterior tibial</span></th><td>וריד השוק האחורי</td><td>בגב השוק, לצד העורק באותו שם.</td></tr>
+        <tr><th><span class="en">Fibular (peroneal)</span></th><td>וריד השוקית</td><td>בשוק, לצד עצם השוקית.</td></tr>
+        <tr><th><span class="en">Small saphenous</span></th><td>—</td><td>וריד שטחי בגב השוק, מתנקז לווריד הברך.</td></tr>
+        <tr><th><span class="en">Popliteal</span></th><td>וריד הברך</td><td>מאחורי הברך. ממשיך לווריד הירך.</td></tr>
+        <tr><th><span class="en">Great saphenous</span></th><td>—</td><td>הווריד השטחי הארוך בגוף, לאורך הצד הפנימי של הרגל מכף הרגל ועד המפשעה. מתנקז לווריד הירך.</td></tr>
+        <tr><th><span class="en">Femoral</span></th><td>וריד הירך</td><td>מסומן בשני הצדדים. לאורך הירך, ממשיך לווריד הכסל החיצוני.</td></tr>
+      </tbody></table></div>
+    <p>סה"כ בעמוד 7 יש <span class="num">35</span> שמות ורידים שונים (<span class="en">Digital</span>, <span class="en">Femoral</span> ו-<span class="en">Common iliac</span> מסומנים פעמיים). כמה קווי הובלה בלי שם (בראש ובחזה) לא נכללו.</p>
+    <div class="callout must"><span class="tag">חובה לזכור</span>
+      <p>מתחת לעור, רוב הוורידים הגדולים עוברים לצד עורק בעל אותו שם (בית השחי, תת-הבריח, הירך, הברך, השוק). <mark>היוצא מן הכלל: וריד השער</mark>, שמוביל דם מהמעיים אל הכבד ולא ישר אל הלב.</p>
+    </div>
+    <div class="callout field"><span class="tag">בשטח</span>
+      <p>ורידים שטחיים מהמפה שבהם פותחים וריד: <b><span class="en">Median cubital</span></b> בחזית המרפק (הוריד הקלאסי ללקיחת דם ולעירוי), <b><span class="en">Cephalic</span></b> ו-<b><span class="en">Basilic</span></b> לאורך האמה והזרוע, ורידי גב היד, ו<b>וריד הצוואר החיצוני</b> בצד הצוואר. וריד צוואר חיצוני מלא ובולט אצל מטופל יושב הוא סימן לגודש ורידי.</p>
+    </div>
+
+    <h3>התא</h3>
+    <p>עמוד 8 מציג תא אנושי טיפוסי בחתך. כל רקמה בגוף, משריר הלב ועד הכבד, בנויה מתאים כאלה. למשל, אם אין חמצן, המיטוכונדריה לא יכולה לייצר אנרגיה ביעילות, והתא מתחיל להיפגע.</p>
+    <div class="tbl-wrap"><table class="data"><caption>מבנה התא, עמ' 8</caption>
+      <thead><tr><th>במפה</th><th>בעברית</th><th>היכן בתא / תפקיד כללי</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">Plasma membrane</span></th><td>קרום התא</td><td>המעטפת החיצונית של התא. שולטת במה שנכנס ויוצא.</td></tr>
+        <tr><th><span class="en">Cytosol</span></th><td>ציטוזול (נוזל התא)</td><td>הנוזל שממלא את התא ובו "צפים" האברונים.</td></tr>
+        <tr><th><span class="en">Nucleus</span></th><td>גרעין התא</td><td>מרכז הבקרה של התא, ובו החומר התורשתי (DNA).</td></tr>
+        <tr><th><span class="en">Nuclear envelope</span></th><td>מעטפת הגרעין</td><td>קרום כפול סביב הגרעין, עם נקבוביות.</td></tr>
+        <tr><th><span class="en">Chromatin</span></th><td>כרומטין</td><td>ה-DNA והחלבונים שעוטפים אותו, בתוך הגרעין.</td></tr>
+        <tr><th><span class="en">Nucleolus</span></th><td>גרעינון</td><td>גוף צפוף בתוך הגרעין. כאן נבנים הריבוזומים.</td></tr>
+        <tr><th><span class="en">Ribosomes</span></th><td>ריבוזומים</td><td>הנקודות הקטנות (על הרשתית המחוספסת ובציטוזול). בונים חלבונים.</td></tr>
+        <tr><th><span class="en">Rough endoplasmic reticulum</span></th><td>רשתית תוך-פלזמית מחוספסת</td><td>מערכת קרומים סביב הגרעין, "מחוספסת" בגלל הריבוזומים שעליה. מייצרת חלבונים.</td></tr>
+        <tr><th><span class="en">Smooth endoplasmic reticulum</span></th><td>רשתית תוך-פלזמית חלקה</td><td>צינוריות בלי ריבוזומים. מייצרת שומנים ומשתתפת בפירוק רעלים.</td></tr>
+        <tr><th><span class="en">Golgi apparatus</span></th><td>מערכת גולג'י</td><td>ערימת שקיקים שטוחים. "סניף הדואר" של התא: מעבדת, אורזת ושולחת חלבונים.</td></tr>
+        <tr><th><span class="en">Secretion being released from cell by exocytosis</span></th><td>הפרשה מהתא באקסוציטוזה</td><td>שלפוחית שמתאחה עם קרום התא ומשחררת את תכולתה החוצה.</td></tr>
+        <tr><th><span class="en">Mitochondrion</span></th><td>מיטוכונדריה</td><td>"תחנת הכוח" של התא. מייצרת אנרגיה (ATP) בעזרת חמצן.</td></tr>
+        <tr><th><span class="en">Lysosome</span></th><td>ליזוזום</td><td>שלפוחית עם אנזימי עיכול. מפרקת חומרים ואברונים בלויים.</td></tr>
+        <tr><th><span class="en">Peroxisome</span></th><td>פרוקסיזום</td><td>שלפוחית קטנה שמפרקת חומרים מסוימים, כולל חומרים רעילים.</td></tr>
+        <tr><th><span class="en">Centrioles</span></th><td>צנטריולים</td><td>זוג גלילים קטנים ליד הגרעין. משתתפים בחלוקת התא.</td></tr>
+        <tr><th><span class="en">Centrosome matrix</span></th><td>מטריקס הצנטרוזום</td><td>האזור סביב הצנטריולים, שממנו יוצאים המיקרוטובולים.</td></tr>
+        <tr><th><span class="en">Microtubule</span></th><td>מיקרוטובול</td><td>צינורית חלולה בשלד התא. שומרת על הצורה ומשמשת "מסילה" להובלה בתוך התא.</td></tr>
+        <tr><th><span class="en">Microfilament</span></th><td>מיקרופילמנט</td><td>הסיב הדק ביותר בשלד התא, בעיקר מתחת לקרום.</td></tr>
+        <tr><th><span class="en">Intermediate filaments</span></th><td>סיבי ביניים</td><td>סיבים חזקים בשלד התא שעוזרים לו לעמוד במתיחה.</td></tr>
+        <tr><th><span class="en">Microvilli</span></th><td>מיקרו-סיסים (מיקרווילי)</td><td>שלוחות דמויות אצבעות בקרום התא, שמגדילות את שטח הפנים (למשל לספיגה).</td></tr>
+      </tbody></table></div>
+    <p><b>למה זה חשוב לפרמדיק:</b> הרבה ממה שקורה בשטח מתחיל בתא. בהלם, התאים לא מקבלים מספיק חמצן, המיטוכונדריה עוברת לייצור אנרגיה בלי חמצן (פחות יעיל), ונוצרת חומצה. קרום התא הוא מה שמפריד בין הנוזל שבתוך התא לנוזל שמחוצה לו, וזה הבסיס להבנת מאזן נוזלים ומלחים.</p>
+
+    <div class="recap"><span class="tag">בשורה התחתונה</span><ol>
+      <li>במפות, ימין ושמאל הם של המטופל (R/L). במבט מלפנים, ימין המטופל נמצא בצד שמאל של הדף.</li>
+      <li>עצמות הגולגולת: מצח, קודקוד, עורף, רקה, יתד, מסננת. עצמות הפנים: אף, דמעות, לחי, לסת עליונה, לסת תחתונה, מחרשה וקונכית תחתונה.</li>
+      <li>צלעות 1–7 אמיתיות (סחוס ישיר לעצם החזה), מ-8 ומטה כוזבות, ו-11–12 צפות. עצם החזה בנויה מידית, גוף וזיז החרב.</li>
+      <li>האגן הוא טבעת: עצם העצה מאחור, ובכל צד עצם ירכה (כסל, חיק, שת). שבר אגן יכול לדמם בלי סימן חיצוני.</li>
+      <li>שלד צירי: גולגולת, עמוד שדרה, צלעות, עצם החזה. שלד נספח: חגורות הכתפיים והאגן והגפיים.</li>
+      <li>עורקים: קשת ‏←‏ זרועי-ראשי/תרדמה/תת-הבריח. ביד: בית השחי ‏←‏ הזרוע ‏←‏ חישור וגומד. ברגל: כסל ‏←‏ ירך ‏←‏ ברך ‏←‏ שוק.</li>
+      <li>נקודות דופק: תרדמה, זרוע, חישור, ירך, ברך, שוק אחורי, גב כף הרגל.</li>
+      <li>ורידים זורמים אל הלב: עליון (ראש, ידיים) ותחתון (רגליים, בטן). דם מהמעיים עובר קודם דרך וריד השער אל הכבד.</li>
+      <li>לפתיחת וריד: <span class="en">Median cubital</span> במרפק, <span class="en">Cephalic</span>/<span class="en">Basilic</span> בזרוע, וריד הצוואר החיצוני.</li>
+      <li>בתא: הגרעין מנהל, הריבוזומים בונים חלבון, גולג'י אורז, המיטוכונדריה מייצרת אנרגיה בעזרת חמצן.</li>
+    </ol></div>
+    <p class="exam-link"><a href="exam.html#ch9">תרגלו את הפרק במבחן ←</a></p>
+  </div>
+</section>
+</main>
+<footer class="end">מדעי יסוד · סיכום לימודי לקורס פרמדיקים של מד"א, מבוסס על חומרי הקורס. אינו מחליף את חומרי הלימוד הרשמיים.</footer>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a, .strip a'));
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section.chapter'));
+  if (!('IntersectionObserver' in window) || !secs.length) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id); });
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  secs.forEach(function (s) { io.observe(s); });
+})();
+</script>
+<script src="notes.js"></script>
+</body>
+</html>
