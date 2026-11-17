@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="חלק ב׳ · מדעי יסוד">
+<title>שלד, בטן, כליות ומונחים · מדעי יסוד</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&family=Miriam+Libre:wght@400;700&family=Suez+One&display=swap">
+<style>
+/* Layout: one reading column (~68ch) with wide breakouts for tables and figures; a colour-tape rail
+   (one colour zone per chapter) runs down the inline-end edge as navigation, and becomes a thin
+   sticky strip on phones. Highlight system: lime marker = must know, magenta = red flag, slate
+   chart-paper in Miriam Libre = hospital-level knowledge, teal = what the paramedic does in the field. */
+:root {
+  --paper: #F6F8FA;
+  --card: #FFFFFF;
+  --ink: #142030;
+  --ink-2: #4B5969;
+  --ink-3: #7A8796;
+  --rule: #D8DFE7;
+  --hl: #E4FF3F;
+  --hl-ink: #182000;
+  --alarm: #D90F64;
+  --alarm-bg: #FFE6F0;
+  --field: #0A7A72;
+  --field-bg: #E1F3F1;
+  --hosp: #56688A;
+  --hosp-bg: #EEF1F7;
+  --hosp-grid: rgba(86,104,138,.10);
+  --z-grey: #8E959C;
+  --z-pink: #F08DBA;
+  --z-red: #E0312C;
+  --z-purple: #8A4FBF;
+  --z-yellow: #F2C200;
+  --z-white: #E6EAEE;
+  --z-blue: #2C78DD;
+  --z-orange: #F0832A;
+  --z-green: #2BA14D;
+  --zone: var(--z-grey);
+
+  --f-display: "Suez One", "Frank Ruhl Libre", serif;
+  --f-body: "Frank Ruhl Libre", "David", "Times New Roman", serif;
+  --f-ui: "IBM Plex Sans Hebrew", "Segoe UI", Arial, sans-serif;
+  --f-hosp: "Miriam Libre", "IBM Plex Sans Hebrew", Arial, sans-serif;
+
+  --t-xs: .78rem; --t-sm: .9rem; --t-base: 1.1rem; --t-md: 1.3rem; --t-lg: 1.65rem; --t-xl: 2.3rem; --t-xxl: clamp(2.6rem, 7vw, 4.6rem);
+  --col: 44rem;
+  --wide: 62rem;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #0D131A; --card: #141C26; --ink: #E5ECF4; --ink-2: #A6B3C3; --ink-3: #7D8B9C; --rule: #283443;
+  --alarm: #FF4C93; --alarm-bg: #3A1126; --field: #45CFC2; --field-bg: #0E2A29;
+  --hosp: #9DACCB; --hosp-bg: #18202E; --hosp-grid: rgba(157,172,203,.08);
+  --z-white: #D9DFE6; --z-grey: #9AA2AA; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #0D131A; --card: #141C26; --ink: #E5ECF4; --ink-2: #A6B3C3; --ink-3: #7D8B9C; --rule: #283443;
+  --alarm: #FF4C93; --alarm-bg: #3A1126; --field: #45CFC2; --field-bg: #0E2A29;
+  --hosp: #9DACCB; --hosp-bg: #18202E; --hosp-grid: rgba(157,172,203,.08);
+  --z-white: #D9DFE6; --z-grey: #9AA2AA; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 1.5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  background: var(--paper); color: var(--ink);
+  font-family: var(--f-body); font-size: var(--t-base); line-height: 1.75;
+  direction: rtl; text-align: start;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+[data-zone="grey"]{--zone:var(--z-grey)} [data-zone="pink"]{--zone:var(--z-pink)} [data-zone="red"]{--zone:var(--z-red)}
+[data-zone="purple"]{--zone:var(--z-purple)} [data-zone="yellow"]{--zone:var(--z-yellow)} [data-zone="white"]{--zone:var(--z-white)}
+[data-zone="blue"]{--zone:var(--z-blue)} [data-zone="orange"]{--zone:var(--z-orange)} [data-zone="green"]{--zone:var(--z-green)}
+
+.page { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+@media (min-width: 1100px) { .page { padding-left: max(96px, env(safe-area-inset-left, 0px)); } }
+.flow { max-width: var(--col); margin-inline: auto; }
+.flow > * + * { margin-block-start: 1em; }
+.flow > .wide, .flow > figure, .flow > .tbl-wrap, .flow > .compare, .flow > .doses {
+  --bw: min(var(--wide), calc(100vw - 200px));
+  width: var(--bw); max-width: none; margin-inline: calc((100% - var(--bw)) / 2);
+}
+@media (max-width: 1000px) { .flow > .wide, .flow > figure, .flow > .tbl-wrap, .flow > .compare, .flow > .doses { width: 100%; margin-inline: 0; } }
+
+a { color: inherit; text-decoration-color: var(--zone); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--field); outline-offset: 2px; border-radius: 4px; }
+h2, h3, h4 { text-wrap: balance; line-height: 1.25; }
+h3 { font-family: var(--f-ui); font-weight: 700; font-size: var(--t-lg); margin-block-start: 2.4em; letter-spacing: -.01em; }
+h3::before { content: ""; display: inline-block; width: .55em; height: .55em; background: var(--zone); border-radius: 2px; margin-inline-end: .45em; vertical-align: .12em; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
+h4 { font-family: var(--f-ui); font-weight: 600; font-size: var(--t-md); margin-block-start: 1.8em; color: var(--ink); }
+p, li { text-wrap: pretty; }
+ul, ol { padding-inline-start: 1.3em; }
+li + li { margin-block-start: .3em; }
+li::marker { color: var(--ink-3); }
+strong, b { font-weight: 700; }
+abbr, .en { font-family: var(--f-ui); font-size: .92em; direction: ltr; unicode-bidi: isolate; }
+.num { font-family: var(--f-ui); font-variant-numeric: tabular-nums; font-weight: 600; unicode-bidi: isolate; }
+
+/* ---------- highlight system ---------- */
+mark { background: linear-gradient(transparent 12%, var(--hl) 12%, var(--hl) 88%, transparent 88%); color: var(--hl-ink); padding-inline: .15em; border-radius: 2px; font-weight: 600; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.alarm-t { color: var(--alarm); font-weight: 700; }
+
+.callout { border-radius: var(--r); padding: 1rem 1.15rem 1.05rem; position: relative; }
+.callout > .tag { display: inline-flex; align-items: center; gap: .4em; font-family: var(--f-ui); font-size: var(--t-xs); font-weight: 700; letter-spacing: .06em; padding: .2em .65em; border-radius: 99px; margin-block-end: .5rem; }
+.callout > :last-child { margin-block-end: 0; }
+.callout p { margin: .35em 0; }
+.callout ul, .callout ol { margin: .35em 0; }
+.tag svg { width: 1.05em; height: 1.05em; }
+
+.must { background: var(--hl); color: var(--hl-ink); }
+.must > .tag { background: var(--hl-ink); color: var(--hl); }
+.must mark { background: var(--hl-ink); color: var(--hl); }
+
+.redflag { background: var(--alarm-bg); border: 2px solid var(--alarm); }
+.redflag > .tag { background: var(--alarm); color: #fff; }
+
+.field { background: var(--field-bg); border-inline-start: 5px solid var(--field); border-radius: 4px var(--r) var(--r) 4px; }
+.field > .tag { background: var(--field); color: var(--card); }
+
+.hosp, .hosp-i { font-family: var(--f-hosp); color: var(--hosp); }
+.hosp { font-size: .9rem; line-height: 1.7; background-color: var(--hosp-bg);
+  background-image: linear-gradient(var(--hosp-grid) 1px, transparent 1px), linear-gradient(90deg, var(--hosp-grid) 1px, transparent 1px);
+  background-size: 14px 14px; border: 1px dashed var(--hosp); border-radius: 6px; }
+.hosp > .tag { background: transparent; color: var(--hosp); border: 1px solid var(--hosp); font-family: var(--f-hosp); }
+.hosp-i { font-size: .92em; background: var(--hosp-bg); padding: .05em .4em; border-radius: 4px; border: 1px dashed var(--hosp); }
+
+.note-src { background: transparent; border: 1px solid var(--rule); font-family: var(--f-ui); font-size: var(--t-sm); color: var(--ink-2); }
+.note-src > .tag { background: var(--ink-2); color: var(--paper); }
+
+.recap { background: var(--card); border: 1px solid var(--rule); border-top: 6px solid var(--zone); border-radius: var(--r); padding: 1.1rem 1.3rem; }
+.recap > .tag { background: var(--ink); color: var(--paper); }
+.exam-link { margin-block: 1.4rem 0; font-family: var(--f-ui); font-weight: 700; }
+.exam-link a { color: var(--ink); text-decoration: none; padding: .45rem 1rem; border-radius: 99px; box-shadow: inset 0 0 0 1.5px var(--ink-3); display: inline-block; }
+.exam-link a:hover { background: var(--ink); color: var(--paper); box-shadow: none; }
+.recap ol, .recap ul { font-family: var(--f-ui); font-size: .98rem; }
+
+/* ---------- check-yourself question at the end of each topic; the answer opens on click ---------- */
+.check { --chk: #5B45C2; background: color-mix(in srgb, var(--chk) 7%, var(--card)); border: 1px solid color-mix(in srgb, var(--chk) 35%, var(--rule)); border-inline-start: 5px solid var(--chk); border-radius: 4px var(--r) var(--r) 4px; margin-block: 2rem 1rem; }
+:root[data-theme="dark"] .check { --chk: #A996FF; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .check { --chk: #A996FF; } }
+.check > .tag { background: var(--chk); color: var(--card); }
+.check .q { font-weight: 600; }
+.check details { margin-block-start: .6rem; }
+.check summary { display: inline-flex; align-items: center; gap: .4em; cursor: pointer; list-style: none; font-family: var(--f-ui); font-size: var(--t-sm); font-weight: 600; color: var(--chk); padding: .3em .9em; border-radius: 99px; box-shadow: inset 0 0 0 1.5px var(--chk); user-select: none; }
+.check summary::-webkit-details-marker { display: none; }
+.check summary::after { content: "הצג תשובה"; }
+.check details[open] summary::after { content: "הסתר תשובה"; }
+.check summary:hover, .check details[open] summary { background: var(--chk); color: var(--card); }
+.check summary:focus-visible { outline: 2px solid var(--chk); outline-offset: 2px; }
+.check .a { margin-block-start: .7rem; padding-block-start: .6rem; border-block-start: 1px dashed color-mix(in srgb, var(--chk) 45%, var(--rule)); }
+.check .a > :first-child { margin-block-start: 0; }
+
+/* ---------- steps (real sequences only) ---------- */
+ol.steps { list-style: none; padding: 0; counter-reset: s; display: grid; gap: .55rem; font-family: var(--f-ui); font-size: 1rem; line-height: 1.6; }
+ol.steps > li { counter-increment: s; display: grid; grid-template-columns: 2rem 1fr; gap: .7rem; align-items: start; margin: 0; }
+ol.steps > li::before { content: counter(s); width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center; background: var(--field); color: var(--card); font-weight: 700; font-variant-numeric: tabular-nums; }
+ol.steps > li > * { min-width: 0; }
+
+/* ---------- definitions ---------- */
+dl.kv { display: grid; grid-template-columns: minmax(7rem, max-content) 1fr; gap: .45rem 1.1rem; margin: 0; }
+dl.kv dt { font-family: var(--f-ui); font-weight: 700; }
+dl.kv dd { margin: 0; min-width: 0; }
+@media (max-width: 520px) { dl.kv { grid-template-columns: 1fr; } dl.kv dd { margin-block-end: .5rem; } }
+
+/* ---------- tables ---------- */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: var(--r); background: var(--card); }
+table.data { border-collapse: collapse; width: 100%; font-family: var(--f-ui); font-size: .95rem; line-height: 1.5; font-variant-numeric: tabular-nums; }
+table.data caption { caption-side: top; text-align: start; padding: .8rem 1rem .4rem; font-weight: 700; font-size: var(--t-sm); color: var(--ink-2); letter-spacing: .02em; }
+table.data th, table.data td { padding: .6rem .9rem; text-align: start; vertical-align: top; border-block-end: 1px solid var(--rule); }
+table.data thead th { background: color-mix(in srgb, var(--zone) 18%, var(--card)); font-weight: 700; white-space: nowrap; }
+table.data tbody th { font-weight: 600; background: color-mix(in srgb, var(--ink) 3%, var(--card)); }
+table.data tbody tr:last-child > * { border-block-end: 0; }
+table.data td.hl { background: var(--hl); color: var(--hl-ink); font-weight: 700; }
+table.data td.hosp-c { font-family: var(--f-hosp); color: var(--hosp); font-size: .88rem; }
+
+/* ---------- compare ---------- */
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
+.compare > div { min-width: 0; background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); padding: 1rem 1.15rem; }
+.compare > div > h5 { margin: 0 0 .5rem; font-family: var(--f-ui); font-size: var(--t-md); font-weight: 700; padding-block-end: .45rem; border-block-end: 3px solid var(--zone); }
+.compare ul { margin: 0; font-size: 1rem; }
+
+/* ---------- dose cards ---------- */
+.doses { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1rem; }
+.dose { min-width: 0; background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; display: flex; flex-direction: column; }
+.dose > header { display: flex; align-items: baseline; justify-content: space-between; gap: .6rem; padding: .7rem 1rem; background: color-mix(in srgb, var(--zone) 14%, var(--card)); border-block-end: 1px solid var(--rule); }
+.dose > header h5 { margin: 0; font-family: var(--f-ui); font-size: 1.1rem; font-weight: 700; }
+.dose > header .ind { font-family: var(--f-ui); font-size: var(--t-xs); color: var(--ink-2); text-align: end; }
+.dose .big { font-family: var(--f-ui); font-variant-numeric: tabular-nums; font-size: 1.5rem; font-weight: 700; padding: .7rem 1rem .1rem; line-height: 1.3; }
+.dose .big small { font-size: .9rem; font-weight: 500; color: var(--ink-2); }
+.dose dl { margin: 0; padding: .4rem 1rem .9rem; display: grid; grid-template-columns: max-content 1fr; gap: .25rem .8rem; font-family: var(--f-ui); font-size: .92rem; line-height: 1.45; }
+.dose dt { color: var(--ink-3); }
+.dose dd { margin: 0; min-width: 0; }
+.dose .calc { margin-top: auto; border-block-start: 1px dashed var(--rule); padding: .6rem 1rem; font-family: var(--f-ui); font-size: .9rem; background: color-mix(in srgb, var(--ink) 3%, var(--card)); }
+.dose .calc::before { content: "דוגמה · "; font-weight: 700; color: var(--field); }
+
+/* ---------- mnemonic ---------- */
+.mnemonic { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; list-style: none; font-family: var(--f-ui); }
+.mnemonic li { margin: 0; flex: 1 1 9rem; min-width: 0; background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); padding: .6rem .8rem; font-size: .92rem; line-height: 1.45; }
+.mnemonic li b { display: block; font-family: var(--f-display); font-weight: 400; font-size: 1.7rem; line-height: 1; color: var(--ink); margin-block-end: .25rem; }
+
+/* ---------- figures / svg ---------- */
+figure { margin-block: 1.6rem; background: var(--card); border: 1px solid var(--rule); border-radius: var(--r); padding: 1rem; }
+figure > .svg-box { overflow-x: auto; }
+figure svg { display: block; width: 100%; height: auto; max-width: 100%; margin-inline: auto; }
+figure.narrow svg { max-width: 30rem; }
+figcaption { font-family: var(--f-ui); font-size: var(--t-sm); color: var(--ink-2); margin-block-start: .7rem; line-height: 1.55; }
+figcaption b { color: var(--ink); }
+svg text { font-family: var(--f-ui); fill: var(--ink); font-size: 14px; }
+svg .t-sm { font-size: 12px; fill: var(--ink-2); }
+svg .t-b { font-weight: 700; }
+svg .t-alarm { fill: var(--alarm); font-weight: 700; }
+svg .t-field { fill: var(--field); font-weight: 700; }
+svg .t-hosp { font-family: var(--f-hosp); fill: var(--hosp); }
+svg .ln { stroke: var(--ink); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+svg .ln-soft { stroke: var(--ink-3); stroke-width: 1.5; fill: none; stroke-linecap: round; }
+svg .ln-dash { stroke: var(--ink-3); stroke-width: 1.5; fill: none; stroke-dasharray: 5 5; }
+svg .f-card { fill: var(--card); stroke: var(--rule); stroke-width: 1.5; }
+svg .f-soft { fill: color-mix(in srgb, var(--ink) 7%, var(--card)); }
+svg .f-zone { fill: var(--zone); }
+svg .f-zone-soft { fill: color-mix(in srgb, var(--zone) 25%, var(--card)); }
+svg .f-hl { fill: var(--hl); }
+svg .f-alarm { fill: var(--alarm); }
+svg .f-alarm-soft { fill: var(--alarm-bg); stroke: var(--alarm); stroke-width: 1.5; }
+svg .f-field { fill: var(--field); }
+svg .f-field-soft { fill: var(--field-bg); stroke: var(--field); stroke-width: 1.5; }
+svg .f-hosp-soft { fill: var(--hosp-bg); stroke: var(--hosp); stroke-width: 1.2; stroke-dasharray: 4 3; }
+svg .s-alarm { stroke: var(--alarm); stroke-width: 2.5; fill: none; }
+svg .s-field { stroke: var(--field); stroke-width: 2.5; fill: none; }
+svg .s-zone { stroke: var(--zone); stroke-width: 3; fill: none; }
+svg .f-blood-o { fill: #D7263D; } svg .f-blood-d { fill: #5B5BD6; }
+svg .f-skin { fill: color-mix(in srgb, #E8B897 70%, var(--card)); }
+
+/* ---------- chapter frame ---------- */
+.chapter { padding-block: 4rem 2rem; border-block-start: 1px solid var(--rule); }
+.ch-head { max-width: var(--col); margin-inline: auto; margin-block-end: 2rem; }
+.ch-zone { display: flex; align-items: center; gap: .7rem; font-family: var(--f-ui); font-size: var(--t-xs); font-weight: 700; letter-spacing: .1em; color: var(--ink-2); }
+.ch-zone::before { content: ""; width: 3.2rem; height: .9rem; background: var(--zone); border-radius: 3px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.15); }
+.ch-head h2 { font-family: var(--f-display); font-weight: 400; font-size: var(--t-xl); margin: .5rem 0 .6rem; letter-spacing: -.005em; }
+.ch-lede { font-size: 1.22rem; color: var(--ink-2); margin: 0; line-height: 1.6; }
+.ch-src { margin-block-start: .9rem; font-family: var(--f-ui); font-size: var(--t-xs); color: var(--ink-3); }
+
+/* ---------- hero ---------- */
+.hero { padding-block: 3.5rem 2.5rem; }
+.hero-in { max-width: var(--wide); margin-inline: auto; }
+.eyebrow { font-family: var(--f-ui); font-size: var(--t-xs); letter-spacing: .14em; font-weight: 700; color: var(--ink-2); }
+.hero h1 { font-family: var(--f-display); font-weight: 400; font-size: var(--t-xxl); line-height: 1.02; margin: .6rem 0 1rem; letter-spacing: -.01em; }
+.hero h1 .w { display: block; color: var(--ink-2); font-size: .42em; line-height: 1.3; margin-block-start: .5rem; font-family: var(--f-body); font-weight: 500; }
+.tape { display: grid; grid-template-columns: repeat(var(--n, 9), minmax(0, 1fr)); border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 1px var(--rule); margin-block: 2rem 1.2rem; }
+.tape a { display: flex; flex-direction: column; justify-content: space-between; gap: .9rem; padding: .7rem .6rem .75rem; background: var(--zone); color: #10161E; text-decoration: none; min-height: 8.5rem; min-width: 0; font-family: var(--f-ui); position: relative; transition: filter .15s; }
+.tape a:hover { filter: brightness(1.06) saturate(1.1); }
+.tape a[data-zone="purple"], .tape a[data-zone="red"], .tape a[data-zone="blue"], .tape a[data-zone="green"], .tape a[data-zone="grey"] { color: #fff; }
+.tape a::after { content: ""; position: absolute; inset: 0 auto auto 0; width: 100%; height: 9px; background: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 10px); opacity: .45; }
+.tape .n { font-family: var(--f-display); font-size: 1.9rem; line-height: 1; margin-block-start: .5rem; }
+.tape .l { font-size: .82rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+@media (max-width: 860px) { .tape { grid-template-columns: repeat(3, 1fr); } .tape a { min-height: 6rem; } }
+.legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: .8rem; font-family: var(--f-ui); font-size: .92rem; line-height: 1.5; }
+.legend > div { min-width: 0; display: flex; flex-direction: column; gap: .35rem; }
+.legend .sw { font-weight: 700; }
+.legend .callout { padding: .7rem .85rem; }
+.hero-note { font-family: var(--f-ui); font-size: var(--t-sm); color: var(--ink-3); margin-block-start: 1.4rem; max-width: 52rem; }
+
+/* ---------- rail nav ---------- */
+.rail { display: none; }
+@media (min-width: 1100px) {
+  .rail { display: flex; flex-direction: column; position: fixed; left: max(24px, env(safe-area-inset-left, 0px)); top: 50%; transform: translateY(-50%); z-index: 5; border-radius: 5px; overflow: visible; box-shadow: 0 0 0 1px var(--rule); }
+  .rail a { width: 34px; height: 46px; background: var(--zone); display: grid; place-items: center; font-family: var(--f-ui); font-size: .78rem; font-weight: 700; color: rgba(16,22,30,.75); text-decoration: none; position: relative; transition: width .18s; }
+  .rail a:first-child { border-radius: 5px 5px 0 0; } .rail a:last-child { border-radius: 0 0 5px 5px; }
+  .rail a.on { width: 50px; box-shadow: 0 0 0 2px var(--ink); z-index: 1; color: #10161E; }
+  .rail a .lbl { position: absolute; left: calc(100% + 10px); white-space: nowrap; background: var(--ink); color: var(--paper); padding: .25rem .6rem; border-radius: 5px; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity .15s; }
+  .rail a:hover .lbl, .rail a:focus-visible .lbl { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .rail a, .tape a { transition: none; } }
+.strip { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 6; display: grid; grid-template-columns: repeat(var(--n, 9), minmax(0, 1fr)); height: 7px; }
+.strip a { background: var(--zone); opacity: .55; }
+.strip a.on { opacity: 1; }
+@media (min-width: 1100px) { .strip { display: none; } }
+
+/* ---------- volume bar (multi-page course guide) ---------- */
+.vols { display: flex; flex-wrap: wrap; gap: .35rem .5rem; align-items: center; max-width: var(--wide); margin: 0 auto; padding: 1rem 0 0; font-family: var(--f-ui); font-size: var(--t-xs); }
+.vols a { color: var(--ink-2); text-decoration: none; padding: .25rem .65rem; border-radius: 99px; box-shadow: inset 0 0 0 1px var(--rule); white-space: nowrap; }
+.vols a:hover { color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink-3); }
+.vols a.home { font-weight: 700; color: var(--ink); }
+.vols a.on, .vols a.home.on { background: var(--ink); color: var(--paper); box-shadow: none; }
+.vgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1rem; margin-block: 2rem; }
+.vcard { display: flex; flex-direction: column; background: var(--card); border-radius: 8px; box-shadow: 0 0 0 1px var(--rule); overflow: hidden; color: var(--ink); text-decoration: none; transition: box-shadow .15s; }
+.vcard:hover { box-shadow: 0 0 0 2px var(--ink-3); }
+.vcard .bar { display: grid; grid-auto-flow: column; height: 10px; }
+.vcard .bar span { background: var(--zone); }
+.vcard .in { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: .4rem; }
+.vcard .k { font-family: var(--f-ui); font-size: var(--t-xs); font-weight: 700; letter-spacing: .08em; color: var(--ink-3); }
+.vcard h2 { font-family: var(--f-display); font-weight: 400; font-size: 1.6rem; line-height: 1.15; margin: 0; }
+.vcard ol { margin: .3rem 0 0; padding-inline-start: 1.2rem; font-family: var(--f-ui); font-size: .9rem; line-height: 1.5; color: var(--ink-2); }
+@media (prefers-reduced-motion: reduce) { .vcard { transition: none; } }
+
+footer.end { padding-block: 3rem 4rem; text-align: center; font-family: var(--f-ui); font-size: var(--t-sm); color: var(--ink-3); border-block-start: 1px solid var(--rule); }
+body{margin:0}
+</style>
+<script data-goatcounter="https://zivgabel.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<link rel="stylesheet" href="notes.css">
+</head>
+<body>
+<nav class="strip" aria-hidden="true" style="--n:1"><a href="#ch5" data-zone="orange" tabindex="-1"></a></nav>
+<nav class="rail" aria-label="פרקים"><a href="#ch5" data-zone="orange">1<span class="lbl">מערכת השלד והשריר</span></a></nav>
+
+<div class="page">
+<nav class="vols" aria-label="חלקי הסיכום"><a class="home" href="index.html">דף הבית</a><a href="sci1.html">כימיה, דם, נשימה ועצבים</a><a class="on" href="sci2.html">שלד, בטן, כליות ומונחים</a><a href="maps.html">מפות אנטומיות</a><a class="home" href="exam.html">מבחן תרגול ←</a></nav>
+<header class="hero">
+  <div class="hero-in">
+    <div class="eyebrow">קורס פרמדיקים מד"א · חלק ב׳ · מדעי יסוד</div>
+    <h1>שלד, בטן, כליות ומונחים<span class="w">1 פרקים · מבוסס על חומרי הקורס</span></h1>
+    <nav class="tape" aria-label="תוכן העניינים" style="--n:1"><a href="#ch5" data-zone="orange"><span class="n">1</span><span class="l">מערכת השלד והשריר</span></a></nav>
+    <div class="legend" aria-label="מקרא">
+      <div><span class="sw">מרקר = חובה לדעת</span><div class="callout must" style="padding:.55rem .8rem">ערך, סף או מינון <mark>שנשאלים במבחן</mark></div></div>
+      <div><span class="sw">ורוד = דגל אדום</span><div class="callout redflag" style="padding:.55rem .8rem">סימן סכנה שמחייב פעולה מיידית</div></div>
+      <div><span class="sw">טורקיז = מה עושים בשטח</span><div class="callout field" style="padding:.55rem .8rem">פעולות הפרמדיק, לפי הסדר</div></div>
+      <div><span class="sw">נייר מילימטרי = בית חולים</span><div class="callout hosp" style="padding:.55rem .8rem">בירור וטיפול בבית החולים, לידיעה כללית</div></div>
+    </div>
+    <p class="hero-note">הסיכום מבוסס על חוברת "מדעי יסוד 2024" ועל "מפות אנטומיות לקורס פרמדיקים" של בית הספר לפרמדיקים של מד"א. כשהחומר סותר את עצמו או נראה שגוי, זה מסומן במסגרת "שימו לב למקור".</p>
+  </div>
+</header>
+
+<main>
+<section class="chapter" id="ch5" data-zone="orange">
+  <header class="ch-head">
+    <div class="ch-zone">חלק ב׳ · מדעי יסוד · פרק 1</div>
+    <h2>מערכת השלד והשריר</h2>
+    <p class="ch-lede">מה השלד עושה, איך בנויה עצם ארוכה, מה ההבדל בין מפרק צמוד למפרק חופשי, ואיך שריר מתכווץ ברמת המולקולה: אקטין, מיוזין, סידן ו-ATP. זה הבסיס להבנת שברים, פגיעות מפרקים, עוויתות וקישיון מוות.</p>
+    <div class="ch-src">מקור: מדעי יסוד 2024, עמ' 24–28</div>
+  </header>
+  <div class="flow">
+
+    <h3>תפקידי השלד והתפתחות העצם</h3>
+    <p>השלד הוא לא רק "פיגום". החוברת מונה לו שלושה תפקידים עיקריים, ולצדם כמה תפקידים "שקטים" שקשורים לכימיה של הגוף.</p>
+    <ol>
+      <li><b>תנועה</b> – דרך המפרקים. <mark>מפרק = חיבור בין שתי עצמות.</mark> השרירים מושכים את העצמות, והמפרק הוא נקודת הציר.</li>
+      <li><b>מבנה</b> – השלד נותן לגוף שלד תמיכה שעליו נשען כל השאר.</li>
+      <li><b>צורה ועיצוב חוץ</b> – צורת הגוף החיצונית נקבעת במידה רבה לפי השלד.</li>
+    </ol>
+    <p>ועוד ארבע עובדות שהחוברת מדגישה:</p>
+    <ul>
+      <li>השלד <b>אוגר בתוכו מלחים וחומרי בניין</b> של הגוף (למשל סידן).</li>
+      <li>השלד <b>אחראי על ייצור כדוריות הדם האדומות</b> – בעצמות הארוכות, הגליליות (במח העצם).</li>
+      <li>העצם היא <b>רקמה חיה</b>: תא עצם חי בתוך סיבים חלבוניים (פרוטאינים) ומלחים שונים. זה מה שמאפשר לעצם לגדול ולהתאחות אחרי שבר.</li>
+      <li><b>הורמון גדילה</b> משפיע על גדילת העצם.</li>
+    </ul>
+
+    <h4>התפתחות העצם בעובר ואחרי הלידה</h4>
+    <ol class="steps">
+      <li><div><b>השבוע החמישי בחיי העובר</b> – מתחילים להופיע איברים. העצם היא בין הראשונות שמופיעות, בצורתה <b>הסחוסית</b>.</div></li>
+      <li><div><b>אחרי השבוע השביעי</b> – הסחוס מתחיל לעבור תהליך <b>התגרמות</b> (הפיכה לעצם, יצירת השלד).</div></li>
+      <li><div><b>אחרי הלידה</b> – נוצרים <b>מרכזי גדילה שניוניים</b>, וקצב גדילת העצם <b>תלוי ברמות הסידן</b>.</div></li>
+    </ol>
+    <div class="callout must"><span class="tag">חובה לזכור</span>
+      <p>3 תפקידי השלד: <b>תנועה, מבנה, צורה</b>. השלד גם אוגר מלחים, מייצר כדוריות דם אדומות (עצמות ארוכות) ומושפע מהורמון גדילה. העצם מופיעה בשבוע ה-5 כסחוס, והתגרמות מתחילה אחרי השבוע ה-7.</p>
+    </div>
+
+    <h3>סוגי העצמות</h3>
+    <p>החוברת מחלקת את העצמות ל-<b>3 קבוצות</b> לפי הצורה. הצורה מתאימה לתפקיד: עצם ארוכה היא מנוף לתנועה, עצם שטוחה היא מגן, ועצמות קטנות מאפשרות תנועות עדינות ורב-כיווניות.</p>
+    <div class="tbl-wrap"><table class="data"><caption>שלוש קבוצות העצמות</caption>
+      <thead><tr><th>קבוצה</th><th>דוגמאות</th><th>מאפיינים</th></tr></thead>
+      <tbody>
+        <tr><th>עצמות ארוכות</th><td>עצמות הגפיים</td><td>חלק אמצעי גלילי לאורך – <b>גוף העצם</b> <span class="en">(SHAFT)</span>, ושני חלקים מורחבים בקצוות – <b>ראשי העצם</b> <span class="en">(EPIPHYSIS)</span>. בין שני החלקים נמצא <b>מרכז הגדילה</b>. העצם מצופה בקרום <span class="en">(PERIOSTEUM)</span>. לפי החוברת יש בסך הכול 12.</td></tr>
+        <tr><th>עצמות שטוחות</th><td>חוליות עמוד השדרה, האגן, הגולגולת, הסטרנום והצלעות</td><td>תפקידן העיקרי <b>להגן על איברים פנימיים</b>. נקראות כך כי שטחן ברובו שטוח.</td></tr>
+        <tr><th>עצמות קטנות</th><td>עצמות כפות הידיים והרגליים</td><td>עצמות קטנות בעלות <b>צורה לא אחידה</b>.</td></tr>
+      </tbody></table></div>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 760 270" role="img" aria-label="שלוש קבוצות העצמות: עצם ארוכה, עצם שטוחה ועצמות קטנות">
+      <rect x="10" y="10" width="230" height="250" rx="12" class="f-card"/>
+      <rect x="265" y="10" width="230" height="250" rx="12" class="f-card"/>
+      <rect x="520" y="10" width="230" height="250" rx="12" class="f-card"/>
+      <!-- long bone -->
+      <rect x="621" y="62" width="18" height="110" rx="4" class="f-zone-soft"/>
+      <ellipse cx="630" cy="56" rx="30" ry="20" class="f-zone"/>
+      <ellipse cx="630" cy="178" rx="30" ry="20" class="f-zone"/>
+      <text x="635" y="225" text-anchor="middle" direction="rtl" class="t-b">עצם ארוכה</text>
+      <text x="635" y="246" text-anchor="middle" direction="rtl" class="t-sm">עצמות הגפיים</text>
+      <!-- flat bone -->
+      <path d="M320 70 Q380 40 440 70 L430 170 Q380 190 330 170 Z" class="f-zone-soft"/>
+      <path d="M335 95 Q380 75 425 95" class="ln-soft"/>
+      <text x="380" y="225" text-anchor="middle" direction="rtl" class="t-b">עצם שטוחה</text>
+      <text x="380" y="246" text-anchor="middle" direction="rtl" class="t-sm">הגנה על איברים פנימיים</text>
+      <!-- small bones -->
+      <rect x="70" y="60" width="36" height="30" rx="9" class="f-zone"/>
+      <rect x="112" y="56" width="30" height="36" rx="10" class="f-zone"/>
+      <rect x="148" y="62" width="32" height="28" rx="8" class="f-zone"/>
+      <rect x="76" y="98" width="30" height="34" rx="10" class="f-zone"/>
+      <rect x="112" y="100" width="38" height="28" rx="9" class="f-zone"/>
+      <rect x="156" y="98" width="26" height="32" rx="8" class="f-zone"/>
+      <rect x="88" y="138" width="34" height="30" rx="9" class="f-zone"/>
+      <rect x="128" y="136" width="34" height="34" rx="10" class="f-zone"/>
+      <text x="125" y="225" text-anchor="middle" direction="rtl" class="t-b">עצמות קטנות</text>
+      <text x="125" y="246" text-anchor="middle" direction="rtl" class="t-sm">כפות ידיים ורגליים</text>
+    </svg></div>
+      <figcaption><b>שלוש קבוצות העצמות.</b> ארוכה – גוף גלילי (SHAFT) ושני ראשים מורחבים (EPIPHYSIS); שטוחה – משטח רחב שמגן על איברים (גולגולת, סטרנום, צלעות, חוליות, אגן); קטנה – צורה לא אחידה (כפות ידיים ורגליים).</figcaption></figure>
+
+    <div class="callout note-src"><span class="tag">שימו לב למקור</span>
+      <p>עמ' 24: "עצמות ארוכות (עצמות הגפיים), יש בסך הכול 12". בגפיים יש הרבה יותר מ-12 עצמות ארוכות (כל עצם אצבע, למשל, נחשבת עצם ארוכה). כנראה הכוונה לקבוצה מצומצמת (העצמות הגדולות של הגפיים). אם השאלה במבחן מצטטת את החוברת – התשובה היא 12.</p>
+    </div>
+
+    <h3>מבנה העצם הארוכה (הגלילית)</h3>
+    <p>כדאי לדמיין עצם ארוכה כצינור עבה וחזק, עטוף בשרוול, ומלא בחומר רך. מבחוץ פנימה:</p>
+    <dl class="kv">
+      <dt>קרום העצם <span class="en">(PERIOSTEUM)</span></dt>
+      <dd>הקרום שעוטף את העצם. <b>עשיר בכלי דם ובעצבים</b> שמזינים את העצם. זהו <b>קרום חזק</b>.</dd>
+      <dt>שכבת עצם צפופה</dt>
+      <dd>מתחת לקרום. בנויה בצורת <b>גליל</b> שבמרכזו <b>חלל</b> (תעלת השלד), ובתוכו עוברים כלי דם ועצבים.</dd>
+      <dt>לשד העצם (מח העצם)</dt>
+      <dd>החומר <b>השומני</b> שממלא את החלל.</dd>
+      <dt>רקמת עצם ספוגית</dt>
+      <dd>שכבת העצם הצפופה נעשית <b>דקה יותר ככל שמתקרבים לקצוות</b> העצם הגלילית, ומתחתיה נמצאת <b>רקמת עצם דמוית ספוג</b>.</dd>
+    </dl>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 760 330" role="img" aria-label="חתך אורך סכמטי של עצם ארוכה: ראשי העצם עם עצם ספוגית, גוף העצם עם שכבה צפופה, חלל מח העצם, קרום העצם, כלי דם ומרכזי גדילה">
+      <circle cx="110" cy="190" r="56" class="f-zone-soft"/>
+      <circle cx="650" cy="190" r="56" class="f-zone-soft"/>
+      <circle cx="95" cy="175" r="7" class="ln-soft"/><circle cx="120" cy="165" r="6" class="ln-soft"/><circle cx="88" cy="205" r="6" class="ln-soft"/><circle cx="115" cy="215" r="7" class="ln-soft"/><circle cx="135" cy="192" r="6" class="ln-soft"/>
+      <circle cx="665" cy="175" r="7" class="ln-soft"/><circle cx="640" cy="165" r="6" class="ln-soft"/><circle cx="672" cy="205" r="6" class="ln-soft"/><circle cx="645" cy="215" r="7" class="ln-soft"/><circle cx="625" cy="192" r="6" class="ln-soft"/>
+      <rect x="140" y="154" width="480" height="72" class="f-soft"/>
+      <rect x="160" y="172" width="440" height="36" rx="6" class="f-hl"/>
+      <rect x="140" y="152" width="480" height="76" fill="none" class="s-zone"/>
+      <line x1="160" y1="140" x2="160" y2="240" class="ln-dash"/>
+      <line x1="600" y1="140" x2="600" y2="240" class="ln-dash"/>
+      <path d="M380 112 V188" class="s-alarm"/>
+      <text x="110" y="112" text-anchor="middle" direction="ltr" class="t-b">EPIPHYSIS</text>
+      <text x="650" y="112" text-anchor="middle" direction="ltr" class="t-b">EPIPHYSIS</text>
+      <text x="240" y="112" text-anchor="middle" direction="rtl">מרכז גדילה</text>
+      <line x1="206" y1="118" x2="164" y2="140" class="ln-soft"/>
+      <text x="380" y="100" text-anchor="middle" direction="rtl" class="t-alarm">כלי דם ועצבים</text>
+      <text x="510" y="112" text-anchor="middle" direction="ltr">PERIOSTEUM</text>
+      <line x1="510" y1="118" x2="510" y2="150" class="ln-soft"/>
+      <line x1="300" y1="252" x2="300" y2="222" class="ln-soft"/>
+      <text x="300" y="268" text-anchor="middle" direction="rtl">שכבת עצם צפופה</text>
+      <line x1="480" y1="252" x2="480" y2="195" class="ln-soft"/>
+      <text x="480" y="268" text-anchor="middle" direction="rtl">חלל ובו מח העצם</text>
+      <line x1="110" y1="262" x2="110" y2="225" class="ln-soft"/>
+      <text x="110" y="278" text-anchor="middle" direction="rtl">עצם ספוגית</text>
+      <path d="M160 292 V300 H600 V292" class="ln-soft"/>
+      <text x="380" y="320" text-anchor="middle" direction="rtl" class="t-b">גוף העצם (SHAFT)</text>
+    </svg></div>
+      <figcaption><b>מבנה עצם ארוכה (סכמטי).</b> הקרום (PERIOSTEUM, קו כתום) עוטף את השכבה הצפופה; במרכז הגליל – חלל מח העצם (צהוב); בקצוות (EPIPHYSIS) השכבה הצפופה דקה ומתחתיה עצם ספוגית. בין הגוף לראשים – מרכז הגדילה (קו מקווקו). כלי דם ועצבים חודרים פנימה.</figcaption></figure>
+
+    <div class="callout field"><span class="tag">בשטח</span>
+      <p>הקרום עשיר בעצבים, ולכן שבר כואב מאוד. בתוך העצם הארוכה יש כלי דם ומח עצם, ולכן שבר בעצם ארוכה גדולה יכול לגרום לאובדן דם משמעותי גם בלי פצע פתוח. אצל ילדים מרכז הגדילה עדיין פעיל, ופגיעה באזור הזה חשובה במיוחד.</p>
+    </div>
+
+    <h3>המפרקים <span class="en">(JOINTS)</span></h3>
+    <p><mark>מקום החיבור בין עצם לעצם נקרא מפרק.</mark> מבחינים בין <b>שני סוגים עיקריים</b> של מפרקים, לפי מידת התנועה שהם מאפשרים:</p>
+    <div class="compare">
+      <div><h5>1. מפרקים צמודים</h5><ul>
+        <li>חופש התנועה של העצמות <b>מוגבל מאוד או לא קיים בכלל</b>.</li>
+        <li>דוגמה: <b>התפרים</b> <span class="en">(SUTURES)</span> בעצמות הגולגולת – לא מאפשרים שום תנועה.</li>
+        <li>אצל <b>תינוקות</b> התפרים בגולגולת רחוקים זה מזה, ועם הזמן, <mark>עד גיל שנה</mark>, הרווח נסגר.</li>
+        <li>גם <b>הצלעות</b> מחוברות לעצם החזה (סטרנום) ב<b>רקמת סחוס</b> – מאפשרת תנועה מוגבלת בזמן הנשימה.</li>
+      </ul></div>
+      <div><h5>2. מפרקים חופשיים</h5><ul>
+        <li>מאפשרים <b>חופש תנועה גדול יותר</b> של העצמות.</li>
+        <li>דוגמאות: מפרקי <b>הירך, הברך, המרפק והכתף</b>.</li>
+        <li><b>רוב עצמות הגפיים</b> מחוברות ביניהן במפרקים חופשיים.</li>
+      </ul></div>
+    </div>
+
+    <h4>מבנה המפרק החופשי</h4>
+    <ul>
+      <li>המפרק נוצר על ידי <b>קצוותיהן של שתי עצמות</b> שמתאימות זו לזו <span class="en">(Ball &amp; Socket)</span> – למשל הירך.</li>
+      <li>שטחי המגע בין שני הקצוות מצופים ב<b>סחוס חלק מאוד</b>.</li>
+      <li>העצמות מחוברות זו לזו על ידי קופסית של רקמת חיבור חזקה – <b>קופסית המפרק</b> <span class="en">(JOINT CAPSULE)</span>.</li>
+      <li>השטח הפנימי של הקופסית מצופה ב<b>נוזל סיכה סינובאלי</b>. הנוזל ממלא את חלל הקופסית בשטח המגע בין העצמות. תפקידו: <b>סיכה</b> של שטחי המפרק למניעת חיכוך בזמן התנועה, ו<b>הזנת סחוס המפרק</b>.</li>
+      <li>הקופסית שומרת על הנוזל מ"לברוח".</li>
+      <li>באזורים מסוימים הקופסית מעובה ויוצרת רצועות חזקות <span class="en">(Ligaments)</span>. הרצועות <b>מחזקות את הקשר בין העצמות</b> ו<b>מגבילות את טווח וזווית התנועה</b>. <mark>רצועות אינן גידים</mark>: רצועה מחברת עצם לעצם, גיד מחבר שריר לעצם.</li>
+      <li><b>שלמות</b> הקופסית והרצועות חיונית למנוחה ולתנועות התקינות של עצמות המפרק.</li>
+    </ul>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 800 350" role="img" aria-label="השוואה בין מפרק צמוד (תפר בגולגולת) למפרק חופשי מסוג כדור ומכתש עם סחוס, נוזל סינובאלי, קופסית ורצועות">
+      <text x="180" y="30" text-anchor="middle" direction="rtl" class="t-b">מפרק צמוד</text>
+      <path d="M30 110 H160 L175 125 L160 140 L175 155 L160 170 L175 185 L160 200 L170 210 H30 Z" class="f-zone-soft"/>
+      <path d="M330 110 H168 L183 125 L168 140 L183 155 L168 170 L183 185 L168 200 L178 210 H330 Z" class="f-zone-soft"/>
+      <text x="180" y="88" text-anchor="middle" direction="rtl">תפר (SUTURE)</text>
+      <line x1="180" y1="94" x2="172" y2="112" class="ln-soft"/>
+      <text x="180" y="245" text-anchor="middle" direction="rtl">עצמות הגולגולת</text>
+      <text x="180" y="268" text-anchor="middle" direction="rtl" class="t-sm">כמעט ללא תנועה</text>
+      <text x="180" y="290" text-anchor="middle" direction="rtl" class="t-sm">בתינוק: פתוח עד גיל שנה</text>
+      <line x1="370" y1="20" x2="370" y2="330" class="ln-dash"/>
+      <text x="590" y="26" text-anchor="middle" direction="rtl" class="t-b">מפרק חופשי</text>
+      <rect x="516" y="120" width="148" height="130" rx="28" class="f-field-soft"/>
+      <rect x="510" y="142" width="10" height="88" rx="4" class="f-zone"/>
+      <rect x="660" y="142" width="10" height="88" rx="4" class="f-zone"/>
+      <rect x="575" y="225" width="30" height="88" class="f-card"/>
+      <circle cx="590" cy="190" r="40" class="f-zone-soft"/>
+      <circle cx="590" cy="190" r="34" class="f-card"/>
+      <rect x="575" y="40" width="30" height="62" class="f-card"/>
+      <path d="M528 100 H652 V190 H638 A48 48 0 0 0 542 190 H528 Z" class="f-card"/>
+      <path d="M638 190 A48 48 0 0 0 542 190" class="s-zone"/>
+      <text x="684" y="160" text-anchor="end" direction="rtl">סחוס חלק</text>
+      <line x1="680" y1="156" x2="636" y2="168" class="ln-soft"/>
+      <text x="684" y="205" text-anchor="end" direction="rtl" class="t-field">נוזל סינובאלי</text>
+      <line x1="680" y1="201" x2="634" y2="207" class="ln-soft"/>
+      <text x="684" y="265" text-anchor="end" direction="rtl">רצועה (Ligament)</text>
+      <line x1="680" y1="258" x2="667" y2="228" class="ln-soft"/>
+      <text x="500" y="128" text-anchor="start" direction="rtl" class="t-field">קופסית המפרק</text>
+      <text x="500" y="148" text-anchor="end" direction="ltr" class="t-sm">JOINT CAPSULE</text>
+      <line x1="503" y1="135" x2="518" y2="142" class="ln-soft"/>
+      <text x="590" y="338" text-anchor="middle" direction="rtl" class="t-sm">כדור ומכתש (Ball &amp; Socket) – למשל הירך</text>
+    </svg></div>
+      <figcaption><b>מפרק צמוד מול מפרק חופשי.</b> בתפר הגולגולת שולי העצמות משתלבים כמו שיניים ואין תנועה. במפרק החופשי ראש העצם (כדור) יושב בשקע (מכתש); שטחי המגע מצופים בסחוס חלק, הנוזל הסינובאלי ממלא את הקופסית, והרצועות (מעובי הקופסית) מגבילות את טווח התנועה.</figcaption></figure>
+
+    <div class="callout field"><span class="tag">בשטח</span>
+      <p>אצל תינוק מתחת לגיל שנה הגולגולת עוד לא "סגורה" – התפרים רחוקים זה מזה. הצלעות מחוברות לסטרנום בסחוס, ולכן בית החזה זז בנשימה. כשהקופסית או הרצועות נפגעות (נקע, פריקה), המפרק מאבד יציבות ותנועתו כבר לא תקינה.</p>
+    </div>
+
+    <h3>מערכת השרירים: מבנה כללי</h3>
+    <p><mark>שרירים הם סיבי תאים שהתמחו בשימוש באנרגיה לצורך ייצור תנועה.</mark> מהגדול לקטן:</p>
+    <dl class="kv">
+      <dt>שריר</dt>
+      <dd>מספר סיבים שקשורים יחד ברקמת חיבור (<b>פסיה</b>). השרירים מחוברים לעצמות באמצעות <b>גידים</b> <span class="en">(TENDONS)</span>.</dd>
+      <dt>סיב שריר בודד <span class="en">(MUSCLE FIBER)</span></dt>
+      <dd>מקורו בתא אב – <span class="en">MYOBLAST</span>. התמיינות התאים <b>מסתיימת לקראת הלידה</b>, והם ממשיכים לגדול במהלך ההתבגרות.</dd>
+      <dt>גידים <span class="en">(TENDONS)</span></dt>
+      <dd>רקמת חיבור <b>עשירה בקולגן</b>, שמהווה המשך של סיב השריר. יש גידים ארוכים ויש קצרים. <b>גיד לא חייב להיות צמוד לעצם שאותה הוא מזיז.</b></dd>
+      <dt>אספקת דם</dt>
+      <dd>שריר צריך אספקת דם קבועה, ולכן בתוך רקמת השריר יש כלי דם.</dd>
+    </dl>
+    <p>באיור של החוברת מופיעים גם רכיבי סיב השריר בשמם האנגלי: גרעין <span class="en">(Nucleus)</span>, מיטוכונדריה <span class="en">(Mitochondrion)</span> שמספקת אנרגיה, קרום תא השריר <span class="en">(Sarcolemma)</span> והמיופיבריל <span class="en">(Myofibril)</span>. על המיופיבריל רואים פסים: פס בהיר <span class="en">(Light I band)</span> ופס כהה <span class="en">(Dark A band)</span>.</p>
+
+    <h3>סוגי שרירים</h3>
+    <p>השרירים נחלקים לפי סוג ל<b>שריר משורטט</b> ול<b>שריר חלק</b>.</p>
+    <div class="compare">
+      <div><h5>שריר משורטט</h5><ul>
+        <li>נקרא כך בגלל <b>ה"פסים" שנראים במיקרוסקופ</b>.</li>
+        <li><mark>כולל את שריר הלב.</mark> (וגם את שרירי השלד.)</li>
+        <li>הפסים הם <b>המיופייברים</b> <span class="en">(MYOFIBRILS)</span>: קבוצת סיבי שריר שמרכיבים סיב שריר אחד.</li>
+        <li>סיב השריר בנוי מ<b>סרקומרים</b> – יחידת התפקוד הבסיסית של השריר.</li>
+        <li>הסרקומר בנוי משני חלבונים סיביים עיקריים: <span class="en">ACTIN</span> ו-<span class="en">MYOSIN</span>.</li>
+      </ul></div>
+      <div><h5>שריר חלק</h5><ul>
+        <li>נקרא כך בגלל צורתו החיצונית, <b>שנראית חלקה</b>.</li>
+        <li>תהליך הפעולה <b>זהה</b>, אך הוא <b>איטי יותר</b>.</li>
+        <li>יכול לפעול <b>בפחות אנרגיה ולאורך זמן רב יותר</b>.</li>
+        <li>אלו כל השרירים שמניעים את <b>האיברים הפנימיים</b> (למשל הקיבה ומערכת העיכול).</li>
+        <li>פועלים <b>באופן בלתי-רצוני</b>.</li>
+      </ul></div>
+    </div>
+    <div class="callout must"><span class="tag">חובה לזכור · מגדול לקטן</span>
+      <p><b>שריר</b> ‏←‏ <b>סיבי שריר</b> ‏←‏ <b>מיופיברילות</b> ‏←‏ <b>סרקומרים</b> ‏←‏ <b>אקטין + מיוזין</b>. כל סרקומר בנוי מאקטין ומיוזין.</p>
+    </div>
+
+    <h3>הסרקומר – מבנה ותפקוד</h3>
+    <p>החוברת מציגה את הרמות כך:</p>
+    <div class="tbl-wrap"><table class="data"><caption>מהמיופיבריל לחלבון</caption>
+      <thead><tr><th>רמה</th><th>מה זה</th></tr></thead>
+      <tbody>
+        <tr><th><span class="en">MYOFIBRILS</span></th><td>סיבים קטנטנים שיוצרים יחד את הסיב הגדול. מספר סיבים יחדיו = שריר.</td></tr>
+        <tr><th><span class="en">SARCOMERE</span></th><td class="hl">היחידה התפקודית הקטנה ביותר של השריר. מספר סרקומרים בונים יחד מיופיבריל.</td></tr>
+        <tr><th><span class="en">ACTIN</span> / <span class="en">MYOSIN</span></th><td>החלבונים שמרכיבים את הסרקומר. <b>ACTIN – הסיב הדק יותר</b>; <b>MYOSIN – הסיב העבה יותר</b>.</td></tr>
+      </tbody></table></div>
+    <p>לפי החוברת, <b>מסביב לכל מיוזין יש 10 אקטינים</b>, והאקטינים נקשרים למיוזין.</p>
+
+    <h4>מבנה הסרקומר בשרירים משורטטים</h4>
+    <p>הפסים שרואים במיקרוסקופ נוצרים מסידור קבוע של סיבים דקים (אקטין) ועבים (מיוזין). לכל אזור יש שם:</p>
+    <dl class="kv">
+      <dt><span class="en">Z-LINE / PLATE</span></dt>
+      <dd>נקודת החיבור בין סרקומרים, או בין סרקומר לרקמה. הגבול של כל סרקומר. האקטין מעוגן אליה.</dd>
+      <dt><span class="en">A BAND</span></dt>
+      <dd>מרכז הסרקומר – אקטין <b>השזור</b> במיוזין, היכן שקיימת <b>החפיפה</b> בין שני החלבונים. רוחבו = אורך המיוזין (הפס הכהה).</dd>
+      <dt><span class="en">H ZONE</span></dt>
+      <dd>האזור החשוף של המיוזין – <b>מיוזין ללא אקטין</b>.</dd>
+      <dt><span class="en">I BAND</span></dt>
+      <dd>קצוות הסיבים הדקים – <b>אקטין ללא מיוזין</b> (הפס הבהיר).</dd>
+      <dt><span class="en">M LINE</span></dt>
+      <dd>מופיע באיור החוברת: הקו שבאמצע הסרקומר (מרכז ה-H zone).</dd>
+    </dl>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 800 430" role="img" aria-label="מדרג השריר מהשריר ועד אקטין ומיוזין, וסרקומר במנוחה ובכיווץ: קווי Z מתקרבים, H zone ו-I band מתקצרים, A band לא משתנה">
+      <defs><marker id="ch5-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-zone"/></marker></defs>
+      <rect x="645" y="16" width="130" height="66" rx="10" class="f-zone-soft"/>
+      <text x="710" y="44" text-anchor="middle" direction="rtl" class="t-b">שריר</text>
+      <text x="710" y="66" text-anchor="middle" direction="ltr" class="t-sm">MUSCLE</text>
+      <rect x="490" y="16" width="130" height="66" rx="10" class="f-zone-soft"/>
+      <text x="555" y="44" text-anchor="middle" direction="rtl" class="t-b">סיב שריר</text>
+      <text x="555" y="66" text-anchor="middle" direction="ltr" class="t-sm">MUSCLE FIBER</text>
+      <rect x="335" y="16" width="130" height="66" rx="10" class="f-zone-soft"/>
+      <text x="400" y="44" text-anchor="middle" direction="rtl" class="t-b">מיופיבריל</text>
+      <text x="400" y="66" text-anchor="middle" direction="ltr" class="t-sm">MYOFIBRIL</text>
+      <rect x="180" y="16" width="130" height="66" rx="10" class="f-hl"/>
+      <text x="245" y="44" text-anchor="middle" direction="rtl" class="t-b">סרקומר</text>
+      <text x="245" y="66" text-anchor="middle" direction="ltr" class="t-sm">SARCOMERE</text>
+      <rect x="25" y="16" width="130" height="66" rx="10" class="f-zone-soft"/>
+      <text x="90" y="44" text-anchor="middle" direction="rtl" class="t-b">אקטין + מיוזין</text>
+      <text x="90" y="66" text-anchor="middle" direction="ltr" class="t-sm">ACTIN / MYOSIN</text>
+      <line x1="643" y1="49" x2="624" y2="49" class="ln" marker-end="url(#ch5-arr)"/>
+      <line x1="488" y1="49" x2="469" y2="49" class="ln" marker-end="url(#ch5-arr)"/>
+      <line x1="333" y1="49" x2="314" y2="49" class="ln" marker-end="url(#ch5-arr)"/>
+      <line x1="178" y1="49" x2="159" y2="49" class="ln" marker-end="url(#ch5-arr)"/>
+
+      <!-- relaxed sarcomere -->
+      <text x="45" y="190" text-anchor="middle" direction="rtl" class="t-b">מנוחה</text>
+      <text x="100" y="136" text-anchor="middle" direction="ltr" class="t-b">Z</text>
+      <text x="700" y="136" text-anchor="middle" direction="ltr" class="t-b">Z</text>
+      <line x1="400" y1="152" x2="400" y2="228" class="ln-dash"/>
+      <line x1="100" y1="155" x2="315" y2="155" class="s-field"/>
+      <line x1="100" y1="185" x2="315" y2="185" class="s-field"/>
+      <line x1="100" y1="215" x2="315" y2="215" class="s-field"/>
+      <line x1="700" y1="155" x2="485" y2="155" class="s-field"/>
+      <line x1="700" y1="185" x2="485" y2="185" class="s-field"/>
+      <line x1="700" y1="215" x2="485" y2="215" class="s-field"/>
+      <rect x="250" y="164" width="300" height="12" rx="4" class="f-zone"/>
+      <rect x="250" y="194" width="300" height="12" rx="4" class="f-zone"/>
+      <line x1="100" y1="144" x2="100" y2="228" class="ln"/>
+      <line x1="700" y1="144" x2="700" y2="228" class="ln"/>
+      <path d="M315 148 V142 H485 V148" class="ln-soft"/>
+      <text x="400" y="136" text-anchor="middle" direction="ltr">H zone</text>
+      <path d="M250 236 V242 H550 V236" class="ln-soft"/>
+      <text x="400" y="260" text-anchor="middle" direction="ltr">A band</text>
+      <path d="M100 236 V242 H250 V236" class="ln-soft"/>
+      <text x="175" y="260" text-anchor="middle" direction="ltr">I band</text>
+      <path d="M550 236 V242 H700 V236" class="ln-soft"/>
+      <text x="625" y="260" text-anchor="middle" direction="ltr">I band</text>
+
+      <!-- contracted sarcomere -->
+      <text x="45" y="340" text-anchor="middle" direction="rtl" class="t-b">כיווץ</text>
+      <text x="180" y="290" text-anchor="middle" direction="ltr" class="t-b">Z</text>
+      <text x="620" y="290" text-anchor="middle" direction="ltr" class="t-b">Z</text>
+      <line x1="180" y1="305" x2="395" y2="305" class="s-field"/>
+      <line x1="180" y1="335" x2="395" y2="335" class="s-field"/>
+      <line x1="180" y1="365" x2="395" y2="365" class="s-field"/>
+      <line x1="620" y1="305" x2="405" y2="305" class="s-field"/>
+      <line x1="620" y1="335" x2="405" y2="335" class="s-field"/>
+      <line x1="620" y1="365" x2="405" y2="365" class="s-field"/>
+      <rect x="250" y="314" width="300" height="12" rx="4" class="f-zone"/>
+      <rect x="250" y="344" width="300" height="12" rx="4" class="f-zone"/>
+      <line x1="180" y1="296" x2="180" y2="378" class="ln"/>
+      <line x1="620" y1="296" x2="620" y2="378" class="ln"/>
+      <path d="M250 386 V392 H550 V386" class="ln-soft"/>
+      <text x="400" y="412" text-anchor="middle" direction="ltr">A band</text>
+      <path d="M180 386 V392 H250 V386" class="ln-soft"/>
+      <text x="215" y="412" text-anchor="middle" direction="ltr">I</text>
+      <path d="M550 386 V392 H620 V386" class="ln-soft"/>
+      <text x="585" y="412" text-anchor="middle" direction="ltr">I</text>
+      <text x="725" y="340" text-anchor="middle" direction="rtl" class="t-sm">Z מתקרבים</text>
+    </svg></div>
+      <figcaption><b>מדרג השריר והסרקומר.</b> למעלה: מהשריר ועד החלבונים. למטה: סרקומר במנוחה ובכיווץ. אקטין (קווים ירוקים, דק) מעוגן לקווי Z; מיוזין (מלבנים כתומים, עבה) במרכז, סביב קו M (מקווקו). בכיווץ האקטין מחליק על המיוזין: קווי Z מתקרבים, ה-H zone נעלם וה-I band מתקצר, אבל אורך ה-A band (אורך המיוזין) לא משתנה. החלבונים עצמם לא מתקצרים – רק הסרקומר כולו.</figcaption></figure>
+
+    <div class="callout note-src"><span class="tag">שימו לב למקור</span>
+      <ul>
+        <li>עמ' 26, בתרשים: הסרקומר מתואר כ"סיב שריר יחיד". זה סותר את עמ' 25, שם סיב שריר מורכב ממיופיברילות שבנויות מסרקומרים. הסרקומר הוא <b>היחידה התפקודית הקטנה ביותר</b>, לא סיב שריר שלם.</li>
+        <li>עמ' 25: "מסביב לכל מיוזין יש 10 אקטינים". בספרי פיזיולוגיה מקובלים מתואר בדרך כלל סידור שבו כל סיב מיוזין מוקף ב-6 סיבי אקטין. למבחן – לפי החוברת.</li>
+      </ul>
+    </div>
+
+    <h3>טרופונין וטרופומיוזין – תפקיד הסידן</h3>
+    <p>אם האקטין והמיוזין היו נקשרים כל הזמן, השריר היה תקוע בכיווץ. מה שמונע זאת הוא זוג חלבונים שיושב על סיב האקטין ומשמש כ"מתג" שמופעל על ידי סידן.</p>
+    <h4><span class="en">TROPONIN &amp; TROPOMYOSIN</span></h4>
+    <ul>
+      <li>מולקולות הבנויות <b>מפוליפפטידים</b>.</li>
+      <li>משמשות לאפשר את <b>הקשר הראשון בין האקטין והמיוזין</b>.</li>
+      <li>משמשות <b>לקישור ליוני ה-</b><span class="en">Ca²⁺</span> (סידן).</li>
+    </ul>
+    <dl class="kv">
+      <dt>טרופומיוזין</dt>
+      <dd>שזור בתוך האקטין בצורה כזו שהוא <b>חוסם פיזית את המקום</b> שבו אמור להיקשר ראש המיוזין לאקטין.</dd>
+      <dt>טרופונין</dt>
+      <dd>ממוקם בנקודות מוגדרות על גבי הטרופומיוזין. יש לו <b>מקום מיוחד שבו הוא יכול לקשור אליו סידן</b>. הוא קשור גם לטרופומיוזין וגם לאקטין, ומקבע אותם במצב מנוחה.</dd>
+    </dl>
+    <p><b>במצב מנוחה אין קישור בין אקטין למיוזין</b>: הטרופומיוזין חוסם את אתר החיבור המיועד בין המיוזין לאקטין. כדי לאפשר קשר, צריך <b>לגרום לטרופומיוזין לזוז ולפנות את נקודת החיבור</b> על גבי האקטין שאליה מתחבר ראש המיוזין.</p>
+    <p><mark>תזוזת הטרופומיוזין תלויה בחיבורו של טרופונין ליון הסידן.</mark> ככל שרמת הסידן בתא גבוהה יותר, יותר מקומות קשירה יתפנו, ומספר גדול יותר של סיבים ייקשרו – כלומר כיווץ חזק יותר.</p>
+    <p>שימו לב למנגנון ההגברה: כמות <b>קטנה</b> של סידן שנכנסת מבחוץ (מהפלזמה) גורמת לשחרור כמות <b>גדולה</b> של סידן מהמאגר הפנימי. כך אות חשמלי קטן על קרום התא הופך לכיווץ של כל הסיב.</p>
+    <dl class="kv">
+      <dt>מאגר הסידן</dt>
+      <dd>הסידן נאגר באופן טבעי בתא, ב-<span class="en">SARCOPLASMIC RETICULUM</span>.</dd>
+      <dt>מה משחרר אותו</dt>
+      <dd>הגורם ליציאת הסידן מה-<span class="en">SARCOPLASMIC RETICULUM</span> הוא <b>סידן שנכנס מהפלזמה לתא</b>.</dd>
+    </dl>
+
+    <h3>המנגנון המולקולרי של הכיווץ</h3>
+    <dl class="kv">
+      <dt><span class="en">CONTRACTION</span></dt>
+      <dd>המונח מתייחס <b>לתחילת הפעלת הכוח</b> באתר ספציפי על פני המיוזין, הנקרא <span class="en">CROSS BRIDGE</span> (הגשר הצולב).</dd>
+    </dl>
+    <p>במידה שהכוח שנוצר ב-<span class="en">CROSS BRIDGE</span> <b>גדול מהכוח המנוגד לו</b>, יתקבל "קיצור" של השריר. עם הפעלת הדחף מתחילה <b>תנועת החלקה של סיבי האקטין על המיוזין</b>. התהליך <mark>מקצר את האורך המוחלט של הסרקומר – ולא את אורך תתי-היחידות</mark>. הביטוי הכולל של השריר הוא קיצור לאורכו: כיווץ שריר והפקת תנועה.</p>
+
+    <p>למה דווקא "החלקה"? דמיינו שתי מסרקות ששיניהן משתלבות. השיניים עצמן לא מתקצרות, אבל כשמזיזים את המסרקות זו לעבר זו, האורך הכולל קטן. כך בדיוק: האקטין והמיוזין שומרים על אורכם, ורק החפיפה ביניהם גדלה. זה גם מסביר למה ה-A band (אורך המיוזין) נשאר קבוע בכיווץ, בעוד ה-H zone וה-I band (האזורים שבהם אין חפיפה) מתקצרים.</p>
+
+    <h4>אופן יצירת ה-<span class="en">CROSS BRIDGE</span></h4>
+    <ul>
+      <li>קצה כל סיב מיוזין נגמר ב<b>"ראש" חצי חופשי</b>. כל ראש כזה יכול לקשור <b>ATP מצד אחד, ואקטין מהצד השני</b>.</li>
+      <li>ההחלקה מתבצעת על ידי <b>קישור לאקטין ו"משיכתו" בציר האופקי</b>.</li>
+      <li>לראש המיוזין יכולת תנועה של <mark>45°</mark>. ראש המיוזין מבצע <b>תנועות קצרות מאוד אך פעמים רבות</b>.</li>
+    </ul>
+    <p>במבט קרוב על שני חלבוני הכיווץ:</p>
+    <dl class="kv">
+      <dt><span class="en">MYOSIN</span></dt>
+      <dd>חלבון סיבי בצורת <b>שרשרת סלילית</b>, בעל ראשים רבים – <span class="en">HELIX</span>.</dd>
+      <dt><span class="en">ACTIN</span></dt>
+      <dd>חלבון <b>גלובולרי</b> – גם הוא בצורת סליל (הליקס). לאורך הסליל – יחידות טרופונין רבות.</dd>
+    </dl>
+    <p>למיוזין יש חלבון גלובולרי – <b>ראש המיוזין</b>, שהוא ה-<span class="en">CROSS BRIDGE</span> – ומכיל <b>שני אתרי קישור</b>:</p>
+    <ol>
+      <li>נקודת קישור לאקטין.</li>
+      <li>נקודת קישור ל-<span class="en">ATP</span>.</li>
+    </ol>
+    <p>החלבון הוא <b>ATPase</b>, כלומר מפרק ATP. התהליך הכימי שהוא מבצע: הפיכת ATP ל-ADP ושחרור זרחן חופשי (<span class="en">ADP + Pi</span>). בתהליך הזה משתחררת <b>האנרגיה הנחוצה כדי להזיז את ראש המיוזין</b> וליצור את ה-<span class="en">CROSS BRIDGE</span>.</p>
+
+    <h3>מחזור הגשר הצולב <span class="en">(CROSS BRIDGE CYCLE)</span></h3>
+    <p>מסלול ההחלקה המלא. <mark>חייב קיום מתמיד של מקורות אנרגיה (ATP) וסידן.</mark> קיימים 4 שלבים הקשורים בצורה הדוקה אחד בתוך השני:</p>
+    <ol>
+      <li>קישור ראש הגשר לכיוון האקטין.</li>
+      <li>תזוזת הגשר בצורה אופקית.</li>
+      <li>ניתוק מהאקטין.</li>
+      <li>חזרה למנח שבו יוכל הגשר לבצע תנועה נוספת.</li>
+    </ol>
+    <p>בהמשך החוברת מפרטת כל שלב (עם איורי המחזור):</p>
+    <dl class="kv">
+      <dt>שלב ראשון</dt>
+      <dd>סידן משתחרר מה-<span class="en">SR</span>, נקשר לטרופונין, וגורם להזזת הטרופומיוזין מהאקטין. כך נחשף אתר הקישור של האקטין למיוזין.</dd>
+      <dt>שלב שני</dt>
+      <dd>הראש נטען ב-ATP ומפרק אותה ל-<span class="en">ADP + Pi</span>. האנרגיה שמשתחררת גורמת לראש המיוזין להתחבר לאקטין.</dd>
+      <dt>שלב שלישי</dt>
+      <dd>הקישור משנה במעט את המבנה המרחבי של החלבון בנקודת המפגש, דבר שגורם להזזת האקטין במישור האופקי. (רוב האנרגיה משמשת להזזת המיוזין.)</dd>
+      <dt>שלב רביעי</dt>
+      <dd>הקשר בין האקטין למיוזין <b>חזק</b>, ודורש קישור של <b>מולקולת ATP נוספת</b> שמורידה את המשיכה (האפיניות) בין המיוזין לאקטין. ראש המיוזין משתחרר, וכעת הוא טעון ב-ATP, מוכן לקישור הבא לאקטין על ידי פירוק ה-ATP (אנרגיה פוטנציאלית).</dd>
+    </dl>
+
+    <figure><div class="svg-box"><svg viewBox="0 0 800 400" role="img" aria-label="מחזור הגשר הצולב בארבעה שלבים: סידן חושף את אתר הקישור, פירוק ATP וקישור לאקטין, תנועת משיכה, ATP חדש ניתוק">
+      <defs><marker id="ch5-arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" class="f-field"/></marker></defs>
+      <rect x="275" y="20" width="250" height="72" rx="12" class="f-zone-soft"/>
+      <text x="400" y="47" text-anchor="middle" direction="rtl" class="t-b">1 · סידן</text>
+      <text x="400" y="72" text-anchor="middle" direction="rtl" class="t-sm">נקשר לטרופונין; אתר הקישור נחשף</text>
+      <rect x="530" y="164" width="250" height="72" rx="12" class="f-zone-soft"/>
+      <text x="655" y="191" text-anchor="middle" direction="rtl" class="t-b">2 · טעינה וקישור</text>
+      <text x="655" y="216" text-anchor="middle" direction="rtl" class="t-sm">ATP מתפרק; הראש נקשר לאקטין</text>
+      <rect x="275" y="308" width="250" height="72" rx="12" class="f-zone-soft"/>
+      <text x="400" y="335" text-anchor="middle" direction="rtl" class="t-b">3 · תנועת המשיכה</text>
+      <text x="400" y="360" text-anchor="middle" direction="rtl" class="t-sm">האקטין מוסט במישור האופקי</text>
+      <rect x="20" y="164" width="250" height="72" rx="12" class="f-alarm-soft"/>
+      <text x="145" y="191" text-anchor="middle" direction="rtl" class="t-b">4 · ניתוק</text>
+      <text x="145" y="216" text-anchor="middle" direction="rtl" class="t-sm">ATP חדש נקשר; הראש משתחרר</text>
+      <path d="M530 56 Q650 56 655 158" class="s-field" marker-end="url(#ch5-arr2)"/>
+      <path d="M655 242 Q650 344 531 344" class="s-field" marker-end="url(#ch5-arr2)"/>
+      <path d="M270 344 Q150 344 145 242" class="s-field" marker-end="url(#ch5-arr2)"/>
+      <path d="M145 158 Q150 56 269 56" class="s-field" marker-end="url(#ch5-arr2)"/>
+      <text x="400" y="195" text-anchor="middle" direction="rtl" class="t-b">מחזור הגשר הצולב</text>
+      <text x="400" y="218" text-anchor="middle" direction="ltr" class="t-sm">CROSS BRIDGE CYCLE</text>
+      <text x="400" y="250" text-anchor="middle" direction="rtl" class="t-alarm">אין ATP = אין ניתוק</text>
+    </svg></div>
+      <figcaption><b>מחזור הגשר הצולב (לפי פירוט השלבים בעמ' 27–28).</b> המחזור חוזר שוב ושוב כל עוד יש סידן ו-ATP. כל מחזור משתמש במולקולת ATP אחת לתנועה; ה-ATP הבא נדרש כדי לנתק. בלי ATP הראש נשאר "תקוע" על האקטין (שלב 4 באדום).</figcaption></figure>
+
+    <div class="callout must"><span class="tag">חשוב</span>
+      <p>בשלב הרביעי <b>אין פיצול של ה-ATP</b>. כלומר, כל מחזור קישור של אקטין למיוזין משתמש <mark>במולקולת ATP אחת בלבד</mark>, והמולקולה הבאה משמשת <b>לניתוק</b> המיוזין מהאקטין. לכן, בעת מחסור ב-ATP דווקא נראה <b>קישיון שרירים</b> – למשל קישיון שרירים לאחר המוות.</p>
+    </div>
+    <div class="callout field"><span class="tag">בשטח</span>
+      <p>קישיון מוות הוא התוצאה הישירה של המנגנון הזה: אחרי המוות לא נוצר ATP, ראשי המיוזין נשארים קשורים לאקטין והשרירים "ננעלים". זו הסיבה הפיזיולוגית לנוקשות שנמצא אצל נפטר שמת לפני זמן מה.</p>
+    </div>
+
+    <div class="callout note-src"><span class="tag">שימו לב למקור</span>
+      <ul>
+        <li>עמ' 27, "שלב שני": כתוב "ראש <b>האקטין</b> נטען ב-ATP". לפי כל שאר הטקסט, ראש שנטען ב-ATP ומפרק אותו הוא <b>ראש המיוזין</b> (המיוזין הוא ה-ATPase). כנראה טעות הקלדה.</li>
+        <li>עמ' 27: רשימת 4 השלבים (קישור ‏←‏ תזוזה אופקית ‏←‏ ניתוק ‏←‏ חזרה למנח) לא תואמת אחד לאחד את הפירוט "שלב ראשון–רביעי" (סידן ‏←‏ טעינה וקישור ‏←‏ תזוזה ‏←‏ ניתוק וטעינה). כדאי להכיר את שתי הגרסאות.</li>
+      </ul>
+    </div>
+
+    <h3>גירוי להתכווצות שריר</h3>
+    <p>עכשיו מחברים הכול: מהאות העצבי ועד הקיצור והרפיה. זה הרצף כפי שמופיע בחוברת:</p>
+    <ol class="steps">
+      <li><div><b>גירוי</b> של תא שריר על ידי מפעיל חיצוני (דה-פולריזציה מנוירון, או קישור לנוירוטרנסמיטור).</div></li>
+      <li><div><b>דה-פולריזציה</b> של תא השריר, ובמהלכה <b>כניסה של כמות קטנה של סידן</b> לתוכו.</div></li>
+      <li><div>כתגובה לנוכחות סידן בתא – <b>שחרור כמויות גדולות של סידן</b> ממאגרים שבתוך התא.</div></li>
+      <li><div>התחברות הסידן ל-<span class="en">TROPONIN</span>.</div></li>
+      <li><div>החלקה של ה-<span class="en">TROPOMYOSIN</span> וחשיפת אתרי הקישור על גבי ה-<span class="en">ACTIN</span>.</div></li>
+      <li><div>חיבור מיוזין ("נדרך" על ידי ATP במקביל) לאקטין, וקיצור (כיווץ) של הסרקומר.</div></li>
+      <li><div>כל עוד יש סידן, הכיווץ ימשיך ותא השריר (והשריר כולו) יתקצרו.</div></li>
+      <li><div><b>ניתוק</b> יתרחש עקב קישור ATP או מחסור בסידן.</div></li>
+      <li><div><b>חזרת הסידן</b> למאגרים שבתוך התא – <span class="en">SARCOPLASMIC RETICULUM</span>, שחרור אתר הקישור, וניתוק הקשר של ה-<span class="en">Cross Bridge</span> (אקטין-מיוזין).</div></li>
+      <li><div><b>טעינת ראש המיוזין</b> ב-ATP נוסף.</div></li>
+    </ol>
+    <div class="callout must"><span class="tag">חובה לזכור</span>
+      <p>שני "דלקים" לכיווץ: <b>סידן</b> מפעיל (פותח את האתר על האקטין), <b>ATP</b> נותן אנרגיה לתנועה <b>וגם</b> מאפשר ניתוק. בלי סידן – אין כיווץ. בלי ATP – אין שחרור.</p>
+    </div>
+    <div class="callout field"><span class="tag">בשטח</span>
+      <p>כל השרשרת מתחילה באות עצבי ותלויה בסידן. לכן פגיעה בעצב, בסינפסה או במאזן הסידן מתבטאת בבעיה בכיווץ השריר: חולשה או, להפך, התכווצויות לא רצויות. שריר הלב הוא שריר משורטט ופועל על אותו עיקרון של אקטין-מיוזין וסידן.</p>
+    </div>
+
+    <div class="tbl-wrap"><table class="data"><caption>מי עושה מה בכיווץ – סיכום</caption>
+      <thead><tr><th>רכיב</th><th>תפקיד</th><th>מה קורה בלעדיו</th></tr></thead>
+      <tbody>
+        <tr><th>סידן <span class="en">(Ca²⁺)</span></th><td>נקשר לטרופונין ‏←‏ הטרופומיוזין זז ‏←‏ אתר הקישור באקטין נחשף</td><td>הטרופומיוזין חוסם – אין קישור, אין כיווץ (השריר רפוי)</td></tr>
+        <tr><th><span class="en">ATP</span></th><td>מתפרק בראש המיוזין ונותן אנרגיה לתנועה; מולקולה נוספת מנתקת את הראש מהאקטין</td><td>הראש נשאר קשור – קישיון</td></tr>
+        <tr><th>טרופומיוזין</th><td>"מחסום" שזור באקטין במנוחה</td><td>–</td></tr>
+        <tr><th>טרופונין</th><td>"מנעול" על הטרופומיוזין שמגיב לסידן</td><td>–</td></tr>
+        <tr><th><span class="en">SARCOPLASMIC RETICULUM</span></th><td>מאגר הסידן בתוך התא; משחרר סידן בכיווץ וקולט אותו בחזרה בהרפיה</td><td>–</td></tr>
+      </tbody></table></div>
+
+    <h3>יחידה מוטורית ועקרון האגוניסט-אנטגוניסט</h3>
+    <dl class="kv">
+      <dt>יחידה מוטורית <span class="en">(MOTOR UNIT)</span></dt>
+      <dd>אקסון האחראי על קבוצה של תאי שריר (בחוברת: "סרקומרים").</dd>
+    </dl>
+    <p>גודל היחידה המוטורית <b>משתנה</b>. ביד, למשל, יש <b>יותר אקסונים ופחות תאים על כל אקסון</b>, ולכן גמישות ההפעלה <b>רגישה יותר</b> מאשר ברגל, למשל. יחידה קטנה = שליטה עדינה (כתיבה, תפירה); יחידה גדולה = כוח רב בפחות דיוק.</p>
+
+    <h4>עקרון פעולה של שרירי שלד</h4>
+    <p>שריר יכול רק <b>למשוך</b> (להתכווץ), לא לדחוף. לכן בכל כיווץ רצוי של שריר יש <b>צד אחד שמתכווץ</b> לכיוון הרצוי – <b>אגוניסט</b> – <b>וצד שני שנרפה</b> – <b>אנטגוניסט</b>.</p>
+    <p>דוגמה: כשהזרוע מתכופפת, <b>הדו-ראשי מתכווץ והתלת-ראשי נרפה</b>, ולהפך כשהזרוע מתיישרת.</p>
+
+    <div class="callout note-src"><span class="tag">שימו לב למקור</span>
+      <p>עמ' 28: היחידה המוטורית מוגדרת כ"אקסון האחראי על קבוצה של תאי שריר (סרקומרים)". סרקומר הוא תת-יחידה בתוך סיב שריר, לא תא שריר. ההגדרה המדויקת: נוירון מוטורי אחד וכל סיבי (תאי) השריר שהוא מעצבב.</p>
+    </div>
+
+    <div class="recap"><span class="tag">בשורה התחתונה</span><ol>
+      <li>תפקידי השלד: תנועה, מבנה, צורה; גם אגירת מלחים וייצור כדוריות דם אדומות בעצמות הארוכות.</li>
+      <li>העצם מופיעה בשבוע ה-5 כסחוס, מתגרמת אחרי השבוע ה-7; אחרי הלידה הגדילה תלויה בסידן ובהורמון גדילה.</li>
+      <li>3 סוגי עצמות: ארוכות (SHAFT + EPIPHYSIS, מרכז גדילה ביניהם), שטוחות (הגנה), קטנות (כפות ידיים ורגליים).</li>
+      <li>עצם ארוכה: PERIOSTEUM ‏←‏ עצם צפופה ‏←‏ חלל עם מח עצם; בקצוות עצם ספוגית.</li>
+      <li>מפרקים צמודים (תפרי גולגולת – נסגרים עד גיל שנה; צלעות-סטרנום בסחוס) מול חופשיים (ירך, ברך, מרפק, כתף).</li>
+      <li>מפרק חופשי: סחוס חלק, קופסית, נוזל סינובאלי (סיכה והזנה), רצועות שמגבילות תנועה – רצועות אינן גידים.</li>
+      <li>שריר ‏←‏ סיב ‏←‏ מיופיבריל ‏←‏ סרקומר ‏←‏ אקטין (דק) ומיוזין (עבה). משורטט (כולל לב) מול חלק (איברים פנימיים, בלתי-רצוני).</li>
+      <li>במנוחה טרופומיוזין חוסם את האקטין; סידן נקשר לטרופונין, האתר נחשף והמיוזין נקשר.</li>
+      <li>ראש המיוזין (ATPase) זז 45°; כל מחזור = ATP אחד, וה-ATP הבא נדרש לניתוק ‏←‏ בלי ATP: קישיון מוות.</li>
+      <li>אגוניסט מתכווץ, אנטגוניסט נרפה; יחידה מוטורית קטנה (יד) = שליטה עדינה.</li>
+    </ol></div>
+    <p class="exam-link"><a href="exam.html#ch5">תרגלו את הפרק במבחן ←</a></p>
+  </div>
+</section>
+</main>
+<footer class="end">מדעי יסוד · סיכום לימודי לקורס פרמדיקים של מד"א, מבוסס על חומרי הקורס. אינו מחליף את חומרי הלימוד הרשמיים.</footer>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a, .strip a'));
+  var secs = Array.prototype.slice.call(document.querySelectorAll('section.chapter'));
+  if (!('IntersectionObserver' in window) || !secs.length) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id); });
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  secs.forEach(function (s) { io.observe(s); });
+})();
+</script>
+<script src="notes.js"></script>
+</body>
+</html>
